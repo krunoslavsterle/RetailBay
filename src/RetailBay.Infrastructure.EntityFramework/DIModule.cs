@@ -9,6 +9,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         public static IServiceCollection AddInfrastructureEFDependencies(this IServiceCollection services)
         {
             services.AddScoped<ISystemRepository, SystemRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             return services;
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.WebAdministration.Models;
 
@@ -12,12 +13,15 @@ namespace RetailBay.WebAdministration.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(Tenant tenant)
+        private IProductRepository productRepository;
+        public HomeController(IProductRepository productRepository)
         {
+            this.productRepository = productRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var prducts = await productRepository.GetAllAsync();
             return View();
         }
 

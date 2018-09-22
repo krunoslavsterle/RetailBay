@@ -19,7 +19,7 @@ namespace RetailBay.Infrastructure.EntityFramework
     {
         #region Fields
 
-        private readonly TenantDBContext _context;
+        private readonly DbContext _context;
 
         #endregion Fields
 
@@ -28,10 +28,10 @@ namespace RetailBay.Infrastructure.EntityFramework
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
         /// </summary>
-        /// <param name="tenantDBContext">The tenant database context.</param>
-        public Repository(TenantDBContext tenantDBContext)
+        /// <param name="context">The database context.</param>
+        public Repository(DbContext context)
         {
-            _context = tenantDBContext ?? throw new ArgumentNullException(nameof(tenantDBContext));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         #endregion Constructors
