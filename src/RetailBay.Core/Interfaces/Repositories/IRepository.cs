@@ -16,10 +16,10 @@ namespace RetailBay.Core.Interfaces.Repositories
         /// <summary>
         /// Gets all <see cref="TEntity"/> asynchronous.
         /// </summary>
-        /// <param name="orderBy">The order by.</param>
+        /// <param name="sortingParameters">The sorting parameters..</param>
         /// <param name="includeProperties">The include properties.</param>
         /// <returns>All <see cref="TEntity"/> asynchronous.</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync(ISortingParameters orderBy = null, params string[] includeProperties);
+        Task<IEnumerable<TEntity>> GetAllAsync(ISortingParameters sortingParameters = null, params string[] includeProperties);
 
         /// <summary>
         /// Gets one <see cref="TEntity"/> asynchronous.
@@ -33,20 +33,27 @@ namespace RetailBay.Core.Interfaces.Repositories
         /// Gets the list of <see cref="TEntity"/> asynchronous.
         /// </summary>
         /// <param name="filter">The filter.</param>
-        /// <param name="orderBy">The order by.</param>
+        /// <param name="sortingParameters">The sorting parameters.</param>
         /// <param name="includeProperties">The include properties.</param>
         /// <returns>The list of <see cref="TEntity"/> asynchronous.</returns>
-        Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null, ISortingParameters orderBy = null, params string[] includeProperties);
+        Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null, 
+            ISortingParameters sortingParameters = null, 
+            params string[] includeProperties);
 
         /// <summary>
         /// Gets the list of <see cref="TEntity"/> paged asynchronous.
         /// </summary>
-        /// <param name="pagingParameters">The paging parameters.</param>
         /// <param name="filter">The filter.</param>
-        /// <param name="orderBy">The order by.</param>
+        /// <param name="sortingParameters">The sorting parameters.</param>
+        /// <param name="pagingParameters">The paging parameters.</param>
         /// <param name="includeProperties">The include properties.</param>
         /// <returns>The list of <see cref="TEntity"/> paged asynchronous.</returns>
-        Task<IPagedCollection<TEntity>> GetPagedAsync(IPagingParameters pagingParameters, Expression<Func<TEntity, bool>> filter = null, ISortingParameters orderBy = null, params string[] includeProperties);
+        Task<IPagedCollection<TEntity>> GetPagedAsync(
+            Expression<Func<TEntity, bool>> filter = null, 
+            ISortingParameters sortingParameters = null, 
+            IPagingParameters pagingParameters = null, 
+            params string[] includeProperties);
 
         /// <summary>
         /// Gets the count of <see cref="TEntity"/> asynchronous.
@@ -60,26 +67,26 @@ namespace RetailBay.Core.Interfaces.Repositories
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="save">if set to <c>true</c> [save].</param>
-        void InsertAsync(TEntity entity, bool save = true);
+        Task InsertAsync(TEntity entity, bool save = true);
 
         /// <summary>
         /// Updates the <see cref="TEntity"/> asynchronous.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <param name="save">if set to <c>true</c> [save].</param>
-        void UpdateAsync(TEntity entity, bool save = true);
+        Task UpdateAsync(TEntity entity, bool save = true);
         
         /// <summary>
         /// Deletes the <see cref="TEntity"/> asynchronous.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="save">if set to <c>true</c> [save].</param>
-        void DeleteAsync(object id, bool save = true);
+        Task DeleteAsync(object id, bool save = true);
 
         /// <summary>
         /// Saves the changes asynchronous.
         /// </summary>
         /// <returns></returns>
-        Task SaveAsync();
+        Task<int> SaveAsync();
     }
 }
