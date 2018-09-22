@@ -4,12 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.WebAdministration.Models;
 
 namespace RetailBay.WebAdministration.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController(Tenant tenant)
+        {
+        }
+
         public IActionResult Index()
         {
             return View();

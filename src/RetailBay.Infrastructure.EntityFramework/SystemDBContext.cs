@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities;
+using RetailBay.Core.Entities.SystemDb;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {

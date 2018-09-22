@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RetailBay.Core.Entities
+namespace RetailBay.Core.Entities.SystemDb
 {
     public class Tenant
     {

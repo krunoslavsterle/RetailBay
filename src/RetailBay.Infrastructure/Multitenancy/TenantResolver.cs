@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities;
+using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Interfaces.Repositories;
 using SaasKit.Multitenancy;
 
