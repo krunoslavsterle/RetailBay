@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  retailbay.webadministration:
+    image: ksterle/retailbay.webadministration
+    build:
+      context: .
+      dockerfile: src/RetailBay.WebAdministration/Dockerfile
+    environment:
+      SYSTEM_DB_CONNECTION_STRING: "host=postgres_server;port=5432;database=RetailBaySystem;username=asp_test;password=1234."

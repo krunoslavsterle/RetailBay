@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  retailbay.webadministration:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44379    
+    ports:
+      - "51468:80"
+      - "44379:443"
+    depends_on:
+    - retailbay_postgres_server
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  retailbay_postgres_server:
+    image: postgres:alpine
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "asp_test"
+      POSTGRES_PASSWORD: "1234."
+      POSTGRES_DB: "RetailBaySystem"
+    volumes:      
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
