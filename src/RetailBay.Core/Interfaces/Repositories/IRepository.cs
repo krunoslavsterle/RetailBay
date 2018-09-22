@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
 
 namespace RetailBay.Core.Interfaces.Repositories
@@ -45,7 +46,7 @@ namespace RetailBay.Core.Interfaces.Repositories
         /// <param name="orderBy">The order by.</param>
         /// <param name="includeProperties">The include properties.</param>
         /// <returns>The list of <see cref="TEntity"/> paged asynchronous.</returns>
-        Task<IEnumerable<TEntity>> GetPagedAsync(IPagingParameters pagingParameters, Expression<Func<TEntity, bool>> filter = null, ISortingParameters orderBy = null, params string[] includeProperties);
+        Task<IPagedCollection<TEntity>> GetPagedAsync(IPagingParameters pagingParameters, Expression<Func<TEntity, bool>> filter = null, ISortingParameters orderBy = null, params string[] includeProperties);
 
         /// <summary>
         /// Gets the count of <see cref="TEntity"/> asynchronous.
