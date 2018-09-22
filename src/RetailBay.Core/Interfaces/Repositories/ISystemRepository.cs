@@ -15,6 +15,6 @@ namespace RetailBay.Core.Interfaces.Repositories
         /// <returns>
         /// List of <see cref="Tenant" />.
         /// </returns>
-        Task<IEnumerable<Tenant>> GetAllTenantsAsync();
+        Task<List<Tenant>> GetAllTenantsAsync();
     }
 }

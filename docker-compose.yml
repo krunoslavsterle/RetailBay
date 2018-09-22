@@ -7,4 +7,4 @@ services:
       context: .
       dockerfile: src/RetailBay.WebAdministration/Dockerfile
     environment:
-      SYSTEM_DB_CONNECTION_STRING: "host=postgres_server;port=5432;database=RetailBaySystem;username=asp_test;password=1234."
+      SYSTEM_DB_CONNECTION_STRING: "host=retailbay_postgres_server;port=5432;database=RetailBaySystem;username=asp_test;password=1234."

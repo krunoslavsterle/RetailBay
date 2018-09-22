@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RetailBay.Infrastructure.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using RetailBay.Core.Entities;
+using RetailBay.Infrastructure.Multitenancy;
 
 namespace RetailBay.WebAdministration
 {
@@ -31,6 +35,8 @@ namespace RetailBay.WebAdministration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddInfrastructureEFDependencies();
+            services.AddMultitenancy<Tenant, TenantResolver>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -51,6 +57,7 @@ namespace RetailBay.WebAdministration
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseMultitenancy<Tenant>();
 
             app.UseMvc(routes =>
             {
