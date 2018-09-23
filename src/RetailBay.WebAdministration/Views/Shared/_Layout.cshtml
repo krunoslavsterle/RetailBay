@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject RetailBay.Core.Entities.SystemDb.Tenant Tenant;
+@*@inject UserManager<XCommerce.ApplicationCore.Entities.AppUser> UserManager
+@inject SignInManager<XCommerce.ApplicationCore.Entities.AppUser> SignInManager*@
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - RetailBay.WebAdministration</title>
+    <title>@ViewData["Title"] - XCommerce</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -16,9 +22,10 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
+
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -26,25 +33,70 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">RetailBay.WebAdministration</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">XCommerce @Tenant.Name</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
+
+         @*//   @if (SignInManager.IsSignedIn(User))*@
+            @if (true)
+            {
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Site <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Users</a></li>
+                                <li><a href="#">Reviews</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Catalog <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="Catalog" asp-controller="Products" asp-action="Products">Products</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sales <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Orders</a></li>
+                                <li><a href="#">Shipments</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            @*  @UserManager.GetUserName(User) *@
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello *<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
+
+            <article class="row">
+                <section class="col-lg-1 col-lg-offset-3 col-md-3 col-xs-6">
+                    <div class="esh-identity">
+                        <section class="esh-identity-section">
+                            <div class="esh-identity-item">
+
+
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </article>
         </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
+    <div class="container-fluid body-content" style="padding:0px 40px 0px 40px;">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - RetailBay.WebAdministration</p>
+            <p>&copy; 2018 - XCommerce</p>
         </footer>
     </div>
 

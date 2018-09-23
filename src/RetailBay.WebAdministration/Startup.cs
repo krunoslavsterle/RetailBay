@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
+using RetailBay.Core;
 
 namespace RetailBay.WebAdministration
 {
@@ -30,6 +31,7 @@ namespace RetailBay.WebAdministration
             });
 
             services.AddInfrastructureEFDependencies();
+            services.AddCoreDependencies();
             services.AddMultitenancy<Tenant, TenantResolver>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -55,6 +57,10 @@ namespace RetailBay.WebAdministration
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Products}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

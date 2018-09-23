@@ -1,0 +1,72 @@
+﻿@model ProductsViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Products</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a asp-area="Catalog" asp-controller="Products" asp-action="Create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Product</a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Published</td>
+            <td>Created On</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.IsPublished</td>
+                <td>@product.DateCreated.ToString()</td>
+                <td>
+                    <a href="#">Edit</a> /
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @{
+            var previousPageClass = Model.Products.PageNumber > 1 ? string.Empty : "disabled";
+            var previousPage = Model.Products.PageNumber > 1 ? Model.Products.PageNumber - 1 : 1;
+            var nextPageClass = Model.Products.PageNumber < Model.Products.PageCount ? string.Empty : "disabled";
+            var nextPage = Model.Products.PageNumber < Model.Products.PageCount ? Model.Products.PageNumber + 1 : Model.Products.PageNumber;
+        }
+
+        <li class="@previousPageClass">
+            <a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@previousPage" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        @for (int i = 1; i <= Model.Products.PageCount; i++)
+        {
+            var activeClass = i == Model.Products.PageNumber ? "active" : string.Empty;
+            <li class="@activeClass"><a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@i">@i</a></li>
+        }
+
+        <li class="@nextPageClass">
+            <a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@nextPage" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+
+    </ul>
+</nav>

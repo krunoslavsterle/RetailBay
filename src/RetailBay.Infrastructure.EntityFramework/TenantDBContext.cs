@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework
@@ -7,9 +8,9 @@ namespace RetailBay.Infrastructure.EntityFramework
     public class TenantDBContext : DbContext
     {
         private readonly string _connectionString;
-        public TenantDBContext(string connectionString)
+        public TenantDBContext(Tenant tenant)
         {
-            _connectionString = connectionString;
+            _connectionString = tenant.ConnectionString;
             Database.EnsureCreated();
         }
 

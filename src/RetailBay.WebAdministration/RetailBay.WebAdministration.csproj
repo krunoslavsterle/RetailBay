@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1916590" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1985401" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
   </ItemGroup>
 
@@ -17,6 +18,10 @@
     <ProjectReference Include="..\RetailBay.Core\RetailBay.Core.csproj" />
     <ProjectReference Include="..\RetailBay.Infrastructure.EntityFramework\RetailBay.Infrastructure.EntityFramework.csproj" />
     <ProjectReference Include="..\RetailBay.Infrastructure\RetailBay.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Catalog\Data\" />
   </ItemGroup>
 
 </Project>
