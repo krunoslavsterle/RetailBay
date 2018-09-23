@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using RetailBay.Core.Entities;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
 
@@ -11,7 +12,7 @@ namespace RetailBay.Core.Interfaces.Repositories
     /// Repository contract.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    public interface IRepository<TEntity>
+    public interface IRepository<TEntity> where TEntity: EntityBase
     {
         /// <summary>
         /// Gets all <see cref="TEntity"/> asynchronous.

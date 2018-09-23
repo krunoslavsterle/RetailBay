@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RetailBay.Core.Entities;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
@@ -15,7 +16,7 @@ namespace RetailBay.Infrastructure.EntityFramework
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.IRepository{TEntity}" />
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity: class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
     {
         #region Fields
 
@@ -123,6 +124,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            entity.DateCreated = entity.DateUpdated = DateTime.UtcNow;
             await _context.AddAsync<TEntity>(entity);
             if (save)
                 await SaveAsync();
@@ -135,9 +137,10 @@ namespace RetailBay.Infrastructure.EntityFramework
         /// <param name="save">if set to <c>true</c> [save].</param>
         /// <returns></returns>
         public async Task UpdateAsync(TEntity entity, bool save = true)
-        {
+        {   
             if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            entity.DateUpdated = DateTime.UtcNow;
             _context.Update<TEntity>(entity);
             if (save)
                 await SaveAsync();
