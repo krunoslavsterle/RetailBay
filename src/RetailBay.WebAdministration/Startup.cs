@@ -8,6 +8,9 @@ using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
 using RetailBay.Core;
+using RetailBay.Core.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace RetailBay.WebAdministration
 {
@@ -30,9 +33,26 @@ namespace RetailBay.WebAdministration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.ConfigureApplicationCookie(options =>
+            {   
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                options.LoginPath = "/Account/Signin";
+                options.LogoutPath = "/Account/Signout";
+                options.Cookie = new CookieBuilder
+                {
+                    IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
+                };
+            });
+
             services.AddInfrastructureEFDependencies();
             services.AddCoreDependencies();
             services.AddMultitenancy<Tenant, TenantResolver>();
+
+            // TODO: Need a better way of handling this. We are depending on EF.
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -54,6 +74,7 @@ namespace RetailBay.WebAdministration
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMultitenancy<Tenant>();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

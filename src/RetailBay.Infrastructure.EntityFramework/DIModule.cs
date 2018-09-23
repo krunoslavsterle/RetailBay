@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Infrastructure.EntityFramework.Repositories;
+using RetailBay.Infrastructure.EntityFramework;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace RetailBay.Infrastructure.EntityFramework
 {
@@ -10,6 +13,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         {
             services.AddDbContext<TenantDBContext>(ServiceLifetime.Scoped);
             services.AddDbContext<SystemDBContext>(ServiceLifetime.Scoped);
+            services.AddDbContext<IdentityDBContext>(ServiceLifetime.Scoped);
 
             services.AddScoped<ISystemRepository, SystemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
