@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RetailBay.Core.Entities.Identity;
@@ -36,25 +38,28 @@ namespace RetailBay.Infrastructure.EntityFramework
 
                 // Replace column names            
                 foreach (var property in entity.GetProperties())
-                {
                     property.Relational().ColumnName = property.Name.ToSnakeCase();
-                }
 
                 foreach (var key in entity.GetKeys())
-                {
                     key.Relational().Name = key.Relational().Name.ToSnakeCase();
-                }
 
                 foreach (var key in entity.GetForeignKeys())
-                {
                     key.Relational().Name = key.Relational().Name.ToSnakeCase();
-                }
 
                 foreach (var index in entity.GetIndexes())
-                {
                     index.Relational().Name = index.Relational().Name.ToSnakeCase();
-                }
             }
+        }
+
+        public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        {
+            var defaultUser = new ApplicationUser { UserName = "ksterle", Email = "demouser@microsoft.com" };
+            await userManager.CreateAsync(defaultUser, "Password1.");
+
+            var adminRole = new ApplicationRole { Name = "Administrator" };
+            await roleManager.CreateAsync(adminRole);
+
+            await userManager.AddToRoleAsync(defaultUser, adminRole.Name);
         }
     }
 }

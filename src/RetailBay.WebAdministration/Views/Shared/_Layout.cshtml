@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @inject RetailBay.Core.Entities.SystemDb.Tenant Tenant;
-@*@inject UserManager<XCommerce.ApplicationCore.Entities.AppUser> UserManager
-@inject SignInManager<XCommerce.ApplicationCore.Entities.AppUser> SignInManager*@
+@inject UserManager<RetailBay.Core.Entities.Identity.ApplicationUser> UserManager
+@inject SignInManager<RetailBay.Core.Entities.Identity.ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 <html>
@@ -36,8 +36,7 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">XCommerce @Tenant.Name</a>
             </div>
 
-         @*//   @if (SignInManager.IsSignedIn(User))*@
-            @if (true)
+            @if (SignInManager.IsSignedIn(User))
             {
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -65,8 +64,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            @*  @UserManager.GetUserName(User) *@
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello *<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @UserManager.GetUserName(User)<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Log out</a></li>
                             </ul>

@@ -23,7 +23,7 @@ namespace RetailBay.Core.Services
         /// <param name="productRepository">The product repository.</param>
         public CatalogService(IProductRepository productRepository)
         {
-            _productRepository = productRepository;
+            _productRepository = productRepository;                        
         }
 
         #endregion Constructors

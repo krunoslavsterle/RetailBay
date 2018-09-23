@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
@@ -11,7 +12,7 @@ using static RetailBay.WebAdministration.Areas.Catalog.Models.ProductsViewModel;
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class ProductsController : Controller
     {
         #region Fields

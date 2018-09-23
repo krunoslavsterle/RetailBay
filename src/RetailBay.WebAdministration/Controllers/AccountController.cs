@@ -17,14 +17,18 @@ namespace RetailBay.WebAdministration.Controllers
         #region Fields
 
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         #endregion Fields
 
         #region Constructors
 
-        public AccountController(SignInManager<ApplicationUser> signInManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         #endregion Constructors
@@ -37,6 +41,9 @@ namespace RetailBay.WebAdministration.Controllers
         {
             //ViewData["ReturnUrl"] = returnUrl;
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            //await Infrastructure.EntityFramework.IdentityDBContext.SeedAsync(_userManager, _roleManager);
+
             return View();
         }
 
