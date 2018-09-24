@@ -11,6 +11,7 @@ using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
+using StackExchange.Profiling.Storage;
 
 namespace RetailBay.WebAdministration
 {
@@ -54,6 +55,15 @@ namespace RetailBay.WebAdministration
                 .AddEntityFrameworkStores<IdentityDBContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddMiniProfiler(options =>
+            {
+                // All of this is optional. You can simply call .AddMiniProfiler() for all defaults
+                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
+                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
+                options.TrackConnectionOpenClose = true;
+            })
+            .AddEntityFramework();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -75,6 +85,7 @@ namespace RetailBay.WebAdministration
             app.UseCookiePolicy();
             app.UseMultitenancy<Tenant>();
             app.UseAuthentication();
+            app.UseMiniProfiler();
 
             app.UseMvc(routes =>
             {
