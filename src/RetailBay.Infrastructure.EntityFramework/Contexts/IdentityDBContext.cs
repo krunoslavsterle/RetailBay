@@ -15,8 +15,6 @@ namespace RetailBay.Infrastructure.EntityFramework
         public IdentityDBContext(Tenant tenant) : base(new DbContextOptionsBuilder().UseNpgsql(tenant.ConnectionString).Options)
         {
             _connectionString = tenant.ConnectionString;
-            base.Database.EnsureCreated();
-            var s = base.Database.GenerateCreateScript();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -11,7 +11,6 @@ namespace RetailBay.Infrastructure.EntityFramework
         public TenantDBContext(Tenant tenant)
         {
             _connectionString = tenant.ConnectionString;
-            Database.EnsureCreated();
         }
 
         public DbSet<Product> Products { get; set; }
