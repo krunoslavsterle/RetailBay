@@ -25,10 +25,24 @@ namespace RetailBay.Core.Interfaces
         Task CreateProductAsync(Product product);
 
         /// <summary>
-        /// Deletes the product.
+        /// Edits the product asynchronous.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <returns></returns>
+        Task EditProductAsync(Product product);
+
+        /// <summary>
+        /// Deletes the product asynchronous.
         /// </summary>
         /// <param name="productId">The product identifier.</param>
         /// <returns></returns>
-        Task DeleteProduct(Guid productId);
+        Task DeleteProductAsync(Guid productId);
+
+        /// <summary>
+        /// Gets the product asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        Task<Product> GetProductAsync(Guid id);
     }
 }

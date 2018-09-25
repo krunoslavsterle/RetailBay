@@ -2,7 +2,7 @@
 @using RetailBay.WebAdministration.TagHelpers
 
 @{
-    ViewData["Title"] = "Products"; 
+    ViewData["Title"] = "Products";
 }
 
 <div class="page-header">
@@ -35,10 +35,10 @@
                 <td>@product.Price</td>
                 <td>@product.IsPublished</td>
                 <td>@product.DateCreated.ToString()</td>
-                <td>
-                    <a href="#">Edit</a> /
-                    <form asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" method="post">
-                        <button type="submit">Delete</button>
+                <td>        
+                    <a asp-action="Edit" asp-controller="Products" asp-route-id="@product.Id" class="btn btn-default btn-xs">Edit</a>                   
+                    <form asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" id="form-delete" method="post" class="btn-group">
+                        <button type="button" class="btn btn-danger btn-xs" onclick="submitOnConfirm('form-delete', 'Are you sure?');">Delete</button>
                     </form>
                 </td>
             </tr>

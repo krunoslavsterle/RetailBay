@@ -88,10 +88,53 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     Price = vm.Price
                 };
 
+
                 await _catalogService.CreateProductAsync(product);
             }
 
             return RedirectToAction(nameof(ProductsController.Products));
+        }
+
+        [HttpGet]
+        [Route("products/edit")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var product = await _catalogService.GetProductAsync(id);
+            var vm = new EditProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                IsPublished = product.IsPublished,
+                Price = product.Price
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [Route("products/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditProductViewModel vm)
+        {
+            if (vm == null) throw new ArgumentNullException(nameof(vm));
+
+            if (ModelState.IsValid)
+            {
+                var product = new Product
+                {
+                    Id = vm.Id,
+                    Description = vm.Description,
+                    IsPublished = vm.IsPublished,
+                    Name = vm.Name,
+                    Price = vm.Price
+                };
+
+
+                await _catalogService.EditProductAsync(product);
+            }
+
+            return RedirectToAction(nameof(ProductsController.Edit), new { id = vm.Id });
         }
 
         [HttpPost]
@@ -99,7 +142,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _catalogService.DeleteProduct(id);
+            await _catalogService.DeleteProductAsync(id);
             return RedirectToAction(nameof(ProductsController.Products));
         }
 

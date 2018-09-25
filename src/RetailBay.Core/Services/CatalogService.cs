@@ -59,11 +59,31 @@ namespace RetailBay.Core.Services
         }
 
         /// <summary>
+        /// Edits the product asynchronous.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <returns></returns>
+        public Task EditProductAsync(Product product)
+        {
+            return _productRepository.UpdateAsync(product);
+        }
+
+        /// <summary>
+        /// Gets the product asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public Task<Product> GetProductAsync(Guid id)
+        {
+            return _productRepository.GetOneAsync(p => p.Id == id);
+        }
+
+        /// <summary>
         /// Deletes the product.
         /// </summary>
         /// <param name="productId">The product identifier.</param>
         /// <returns></returns>
-        public Task DeleteProduct(Guid productId)
+        public Task DeleteProductAsync(Guid productId)
         {
             return _productRepository.DeleteAsync(productId);
         }
