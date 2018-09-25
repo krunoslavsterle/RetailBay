@@ -49,6 +49,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             {
                 dtoList.Add(new ProductDTO
                 {
+                    Id = p.Id,
                     Price = p.Price,
                     DateCreated = p.DateCreated,
                     Description = p.Description,
@@ -71,6 +72,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
         [HttpPost]
         [Route("products/create")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductViewModel vm)
         {
             if (vm == null) throw new ArgumentNullException(nameof(vm));
@@ -89,6 +91,15 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 await _catalogService.CreateProductAsync(product);
             }
 
+            return RedirectToAction(nameof(ProductsController.Products));
+        }
+
+        [HttpPost]
+        [Route("products/delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _catalogService.DeleteProduct(id);
             return RedirectToAction(nameof(ProductsController.Products));
         }
 

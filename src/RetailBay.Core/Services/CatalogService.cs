@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
@@ -7,6 +8,10 @@ using RetailBay.Core.SharedKernel.QueryParameters;
 
 namespace RetailBay.Core.Services
 {
+    /// <summary>
+    /// CatalogService implementation.
+    /// </summary>
+    /// <seealso cref="RetailBay.Core.Interfaces.ICatalogService" />
     public class CatalogService : ICatalogService
     {
         #region Fields
@@ -51,6 +56,16 @@ namespace RetailBay.Core.Services
         public Task CreateProductAsync(Product product)
         {
             return _productRepository.InsertAsync(product);
+        }
+
+        /// <summary>
+        /// Deletes the product.
+        /// </summary>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
+        public Task DeleteProduct(Guid productId)
+        {
+            return _productRepository.DeleteAsync(productId);
         }
 
         #endregion Methods

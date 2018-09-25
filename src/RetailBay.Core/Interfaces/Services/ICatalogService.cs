@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
@@ -22,5 +23,12 @@ namespace RetailBay.Core.Interfaces
         /// <param name="product">The product.</param>
         /// <returns></returns>
         Task CreateProductAsync(Product product);
+
+        /// <summary>
+        /// Deletes the product.
+        /// </summary>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
+        Task DeleteProduct(Guid productId);
     }
 }

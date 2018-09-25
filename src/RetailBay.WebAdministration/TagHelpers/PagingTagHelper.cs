@@ -67,13 +67,14 @@ namespace RetailBay.WebAdministration.TagHelpers
             var urlTemplate = urlTemplateBuilder.ToString();
             var startIndex = Math.Max(PageNumber - 5, 1);
             var finishIndex = Math.Min(PageNumber + 5, PageCount);
-            var previousPageClass = PageNumber > 1 ? string.Empty : "disabled";
-            var nextPageClass = PageNumber < PageCount ? string.Empty : "disabled";
+
+            var disablePrevius = PageNumber <= 1;
+            var disableNext = PageNumber >= PageCount;
 
             output.Content.AppendHtml("<ul class=\"pagination\">");
 
             // Previous page link.
-            AddPageLink(output, string.Format(urlTemplate, 1), "&laquo;", previousPageClass);
+            AddPageLink(output, string.Format(urlTemplate, 1), "&laquo;", disablePrevius);
 
             for (var i = startIndex; i <= finishIndex; i++)
             {
@@ -84,14 +85,20 @@ namespace RetailBay.WebAdministration.TagHelpers
             }
 
             // Next page link.
-            AddPageLink(output, string.Format(urlTemplate, PageCount), "&raquo;", nextPageClass);
+            AddPageLink(output, string.Format(urlTemplate, PageCount), "&raquo;", disableNext);
             output.Content.AppendHtml("</ul>");
         }
 
-        private void AddPageLink(TagHelperOutput output, string url, string text, string aClass = "")
+        private void AddPageLink(TagHelperOutput output, string url, string text, bool disable = false)
         {
-            output.Content.AppendHtml($"<li class=\"{aClass}\"><a href=\"");
-            output.Content.AppendHtml(url);
+            if (disable)
+                output.Content.AppendHtml($"<li class=\"disabled\"><a href=\"javascript:void(0)");
+            else
+            {
+                output.Content.AppendHtml($"<li><a href=\"");
+                output.Content.AppendHtml(url);
+            }
+
             output.Content.AppendHtml("\">");
             output.Content.AppendHtml(text);
             output.Content.AppendHtml("</a>");

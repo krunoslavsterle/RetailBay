@@ -15,6 +15,8 @@
         </div>
     </div>
 </div>
+
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -35,7 +37,9 @@
                 <td>@product.DateCreated.ToString()</td>
                 <td>
                     <a href="#">Edit</a> /
-                    <a href="#">Delete</a>
+                    <form asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
