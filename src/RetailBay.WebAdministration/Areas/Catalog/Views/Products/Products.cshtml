@@ -1,7 +1,8 @@
 ﻿@model ProductsViewModel
+@using RetailBay.WebAdministration.TagHelpers
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Products"; 
 }
 
 <div class="page-header">
@@ -41,32 +42,4 @@
     </tbody>
 </table>
 
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        @{
-            var previousPageClass = Model.Products.PageNumber > 1 ? string.Empty : "disabled";
-            var previousPage = Model.Products.PageNumber > 1 ? Model.Products.PageNumber - 1 : 1;
-            var nextPageClass = Model.Products.PageNumber < Model.Products.PageCount ? string.Empty : "disabled";
-            var nextPage = Model.Products.PageNumber < Model.Products.PageCount ? Model.Products.PageNumber + 1 : Model.Products.PageNumber;
-        }
-
-        <li class="@previousPageClass">
-            <a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@previousPage" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-
-        @for (int i = 1; i <= Model.Products.PageCount; i++)
-        {
-            var activeClass = i == Model.Products.PageNumber ? "active" : string.Empty;
-            <li class="@activeClass"><a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@i">@i</a></li>
-        }
-
-        <li class="@nextPageClass">
-            <a asp-action="Products" asp-controller="Products" asp-area="Catalog" asp-route-pageNumber="@nextPage" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-
-    </ul>
-</nav>
+<paging page-count="@Model.Products.PageCount" page-number="@Model.Products.PageNumber"></paging>

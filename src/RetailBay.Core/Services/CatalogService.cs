@@ -33,13 +33,14 @@ namespace RetailBay.Core.Services
         /// <summary>
         /// Gets the products paged asynchronous.
         /// </summary>
+        /// <param name="sortingParameters">The sorting parameters.</param>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
-        public Task<IPagedCollection<Product>> GetProductsPagedAsync(int pageNumber, int pageSize)
+        public Task<IPagedCollection<Product>> GetProductsPagedAsync(ISortingParameters sortingParameters, int pageNumber, int pageSize)
         {
             var pagingParameters = new PagingParameters(pageNumber, pageSize);
-            return _productRepository.GetPagedAsync(null, null, pagingParameters);
+            return _productRepository.GetPagedAsync(null, sortingParameters, pagingParameters);
         }
 
         /// <summary>

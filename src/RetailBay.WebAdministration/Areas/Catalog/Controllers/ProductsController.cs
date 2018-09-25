@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.Collections;
+using RetailBay.Core.SharedKernel.QueryParameters;
 using RetailBay.WebAdministration.Areas.Catalog.Models;
 using static RetailBay.WebAdministration.Areas.Catalog.Models.ProductsViewModel;
 
@@ -34,10 +35,14 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
         [HttpGet]
         [Route("products")]
-        public async Task<IActionResult> Products(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> Products(int pageNumber = 1, int pageSize = 10, string orderBy = "", bool isAscending = true)
         {
-            var vm = new ProductsViewModel();
-            var list = await _catalogService.GetProductsPagedAsync(pageNumber, pageSize);
+            if (string.IsNullOrWhiteSpace(orderBy))
+                orderBy = nameof(Product.DateCreated);
+
+            var sortingParameters = new SortingParameters();
+            sortingParameters.Add(orderBy, isAscending);
+            var list = await _catalogService.GetProductsPagedAsync(sortingParameters, pageNumber, pageSize);
 
             var dtoList = new List<ProductDTO>();
             foreach (var p in list)
@@ -52,6 +57,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 });
             }
 
+            var vm = new ProductsViewModel();
             vm.Products = new PagedCollection<ProductDTO>(dtoList, list.TotalItemCount, list.PageNumber, list.PageSize);
             return View(vm);
         }
