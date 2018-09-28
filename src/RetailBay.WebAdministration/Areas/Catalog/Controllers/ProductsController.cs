@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.Collections;
@@ -19,14 +21,16 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         #region Fields
 
         private readonly ICatalogService _catalogService;
+        private readonly IAppLogger<ProductsController> _logger;
 
         #endregion Fields
 
         #region Constructors
 
-        public ProductsController(ICatalogService catalogService)
+        public ProductsController(ICatalogService catalogService, IAppLogger<ProductsController> logger)
         {
             _catalogService = catalogService;
+            _logger = logger;
         }
 
         #endregion Constructors
@@ -37,9 +41,11 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [Route("products")]
         public async Task<IActionResult> Products(int pageNumber = 1, int pageSize = 10, string orderBy = "", bool isAscending = true)
         {
+            _logger.LogInformation("Request received for [{action}] GET action", nameof(ProductsController.Products));
+
             if (string.IsNullOrWhiteSpace(orderBy))
                 orderBy = nameof(Product.DateCreated);
-
+            
             var sortingParameters = new SortingParameters();
             sortingParameters.Add(orderBy, isAscending);
             var list = await _catalogService.GetProductsPagedAsync(sortingParameters, pageNumber, pageSize);

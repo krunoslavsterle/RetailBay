@@ -24,6 +24,8 @@ namespace RetailBay.Infrastructure.EntityFramework
 
         private void ConfigureTenant(EntityTypeBuilder<Tenant> builder)
         {
+            builder.ToTable("tenant");
+
             builder.Property(ci => ci.Id)
                 .IsRequired();
 

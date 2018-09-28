@@ -13,11 +13,12 @@ namespace RetailBay.Infrastructure.EntityFramework
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        public static ModelBuilder UseSnakeCaseNamingConvention(this ModelBuilder builder)
+        public static ModelBuilder UseSnakeCaseNamingConvention(this ModelBuilder builder, bool skipTableName = true)
         {
             foreach (var entity in builder.Model.GetEntityTypes())
             {
-                entity.Relational().TableName = entity.Relational().TableName.ToSnakeCase();
+                if (!skipTableName)
+                    entity.Relational().TableName = entity.Relational().TableName.ToSnakeCase();
 
                 foreach (var property in entity.GetProperties())
                     property.Relational().ColumnName = property.Name.ToSnakeCase();

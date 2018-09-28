@@ -28,7 +28,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         {
             base.OnModelCreating(builder);
 
-            builder.UseSnakeCaseNamingConvention();
+            builder.UseSnakeCaseNamingConvention(false);
         }
 
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)

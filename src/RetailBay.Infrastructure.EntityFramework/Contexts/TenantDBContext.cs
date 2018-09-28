@@ -30,6 +30,8 @@ namespace RetailBay.Infrastructure.EntityFramework
 
         private void ConfigureProduct(EntityTypeBuilder<Product> builder)
         {
+            builder.ToTable("product");
+
             builder.Property(ci => ci.Id)
                 .IsRequired();
 
