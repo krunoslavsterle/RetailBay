@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RetailBay.Core.Entities;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.Collections;
@@ -61,25 +63,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
             var productCategories = await lkpCategories.GetAllAsync();
 
-            var dtoList = new List<ProductDTO>();
-            foreach (var p in list)
-            {
-                dtoList.Add(new ProductDTO
-                {
-                    Id = p.Id,
-                    ProductCategoryId = p.ProductCategoryId,
-                    Name = p.Name,
-                    Slug = p.Slug,
-                    Price = p.ProductPrice.Price,
-                    IsPublished = p.IsPublished,
-                    DateCreated = p.DateCreated,
-                    Description = p.Description
-                });
-            }
-
             var vm = new ProductsViewModel
             {
-                Products = new PagedCollection<ProductDTO>(dtoList, list.TotalItemCount, list.PageNumber, list.PageSize),
+                Products = new PagedCollection<ProductDTO>(Mapper.Map(list).ToANew<IEnumerable<ProductDTO>>(), list.TotalItemCount, list.PageNumber, list.PageSize),
                 Categories = productCategories.ToDictionary(key => key.Id, value => value.Name)
             };
 
@@ -106,17 +92,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
             if (ModelState.IsValid)
             {
-                var product = new Product
-                {
-                    Id = Guid.NewGuid(),
-                    Description = vm.Description,
-                    IsPublished = vm.IsPublished,
-                    Name = vm.Name,
-                    Slug = vm.Slug,
-                    ProductCategoryId = vm.ProductCategoryId
-                };
+                var newProduct = Mapper.Map(vm).ToANew<Product>();
+                newProduct.Id = Guid.NewGuid();
 
-                product.ProductPrice = new ProductPrice
+                newProduct.ProductPrice = new ProductPrice
                 {
                     Id = Guid.NewGuid(),
                     Price = vm.Price,
@@ -124,7 +103,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     DateUpdated = DateTime.UtcNow
                 };
 
-                await _catalogService.CreateProductAsync(product);
+                await _catalogService.CreateProductAsync(newProduct);
             }
 
             return RedirectToAction(nameof(ProductsController.Products));
@@ -135,15 +114,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var product = await _catalogService.GetProductAsync(id);
-            var vm = new EditProductViewModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                IsPublished = product.IsPublished,
-                //Price = product.Price
-            };
-
+            var vm = Mapper.Map(product).ToANew<EditProductViewModel>();
+            vm.Price = product.ProductPrice.Price;
+           
             return View(vm);
         }
 
@@ -156,17 +129,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
             if (ModelState.IsValid)
             {
-                var product = new Product
-                {
-                    Id = vm.Id,
-                    Description = vm.Description,
-                    IsPublished = vm.IsPublished,
-                    Name = vm.Name,
-                    //Price = vm.Price
-                };
+                var domain = await _catalogService.GetProductAsync(vm.Id);
+                Mapper.Map(vm).Over(domain);
 
-
-                await _catalogService.EditProductAsync(product);
+                await _catalogService.EditProductAsync(domain);
             }
 
             return RedirectToAction(nameof(ProductsController.Edit), new { id = vm.Id });
