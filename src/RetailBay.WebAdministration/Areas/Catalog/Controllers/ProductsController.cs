@@ -112,8 +112,8 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     Description = vm.Description,
                     IsPublished = vm.IsPublished,
                     Name = vm.Name,
+                    Slug = vm.Slug,
                     ProductCategoryId = vm.ProductCategoryId
-                    //Price = vm.Price
                 };
 
                 product.ProductPrice = new ProductPrice

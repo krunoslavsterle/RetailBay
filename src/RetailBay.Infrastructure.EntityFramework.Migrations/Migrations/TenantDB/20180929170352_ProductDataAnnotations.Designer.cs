@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RetailBay.Infrastructure.EntityFramework;
@@ -9,9 +10,10 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    partial class TenantDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180929170352_ProductDataAnnotations")]
+    partial class ProductDataAnnotations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,11 +57,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnName("time_stamp");
 
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid");
-
                     b.HasKey("Id")
                         .HasName("pk_product");
 
@@ -77,8 +74,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 
                     b.Property<string>("Abrv")
                         .IsRequired()
-                        .HasColumnName("abrv")
-                        .HasMaxLength(20);
+                        .HasColumnName("abrv");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnName("date_created");
@@ -91,26 +87,19 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(100);
+                        .HasColumnName("name");
 
                     b.Property<string>("Slug")
                         .IsRequired()
-                        .HasColumnName("slug")
-                        .HasMaxLength(100);
+                        .HasColumnName("slug");
 
                     b.Property<byte[]>("TimeStamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnName("time_stamp");
 
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid");
-
                     b.HasKey("Id")
-                        .HasName("pk_product_category");
+                        .HasName("pk_product_categories");
 
                     b.ToTable("product_category");
                 });
@@ -120,7 +109,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.HasOne("RetailBay.Core.Entities.TenantDB.ProductCategory", "ProductCategory")
                         .WithMany("Products")
                         .HasForeignKey("ProductCategoryId")
-                        .HasConstraintName("fk_product_product_category_product_category_id")
+                        .HasConstraintName("fk_product_product_categories_product_category_id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("RetailBay.Core.Entities.TenantDB.ProductPrice", "ProductPrice", b1 =>
@@ -142,20 +131,15 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                                 .ValueGeneratedOnAddOrUpdate()
                                 .HasColumnName("time_stamp");
 
-                            b1.Property<uint>("xmin")
-                                .IsConcurrencyToken()
-                                .ValueGeneratedOnAddOrUpdate()
-                                .HasColumnType("xid");
-
                             b1.HasKey("Id")
-                                .HasName("pk_product_price");
+                                .HasName("pk_product_prices");
 
                             b1.ToTable("product_price");
 
                             b1.HasOne("RetailBay.Core.Entities.TenantDB.Product", "Product")
                                 .WithOne("ProductPrice")
                                 .HasForeignKey("RetailBay.Core.Entities.TenantDB.ProductPrice", "Id")
-                                .HasConstraintName("fk_product_product_price_product_price_id")
+                                .HasConstraintName("fk_product_product_prices_product_price_id")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

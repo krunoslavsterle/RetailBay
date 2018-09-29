@@ -35,64 +35,17 @@ namespace RetailBay.Infrastructure.EntityFramework
 
         private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
         {
-            builder.ToTable("product_category");
-
-            builder.Property(p => p.Name)
-                .IsRequired();
-
-            builder.Property(p => p.Abrv)
-                .IsRequired();
-
-            builder.Property(p => p.IsDeleted)
-                .IsRequired();
-
-            builder.Property(p => p.Id)                
-                .IsRequired();
-
-            builder.Property(p => p.Slug)
-                .IsRequired();
-
-            builder.Property(p => p.DateCreated)
-                .IsRequired();
-
-            builder.Property(p => p.DateUpdated)
-                .IsRequired();
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
 
         private void ConfigureProductPrice(EntityTypeBuilder<ProductPrice> builder)
         {
-            builder.ToTable("product_price");
-
-            builder.Property(p => p.Price)
-                .IsRequired();
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
 
         private void ConfigureProduct(EntityTypeBuilder<Product> builder)
         {
-            builder.ToTable("product");
-
-            builder.Property(ci => ci.Id)
-                .IsRequired();
-
-            builder.Property(ci => ci.Name)
-                .HasMaxLength(50)
-                .IsRequired(true);
-
-            builder.Property(ci => ci.Description)
-                .IsRequired(true);
-
-            builder.Property(ci => ci.IsPublished)
-                .IsRequired(true);
-
-            builder.Property(ci => ci.DateCreated)
-                .IsRequired(true);
-
-            builder.Property(ci => ci.DateUpdated)
-                .IsRequired(true);
-
-            builder.Property(ci => ci.ProductCategoryId)
-                .IsRequired(true);
-
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
             builder.OwnsOne(p => p.ProductPrice).HasForeignKey(p => p.Id);
 
             builder.HasOne(p => p.ProductCategory)
