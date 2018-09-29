@@ -40,6 +40,9 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.Property(p => p.Name)
                 .IsRequired();
 
+            builder.Property(p => p.Abrv)
+                .IsRequired();
+
             builder.Property(p => p.IsDeleted)
                 .IsRequired();
 
