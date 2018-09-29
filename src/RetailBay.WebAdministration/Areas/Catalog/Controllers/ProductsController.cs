@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.Collections;
@@ -23,7 +21,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         #region Fields
 
         private readonly ICatalogService _catalogService;
-        private readonly ILookupService _lookupService;
+        private readonly ILookupServiceFactory _lookupServiceFactory;
         private readonly IAppLogger<ProductsController> _logger;
 
         #endregion Fields
@@ -36,10 +34,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         /// <param name="catalogService">The catalog service.</param>
         /// <param name="lookupService">The lookup service.</param>
         /// <param name="logger">The logger.</param>
-        public ProductsController(ICatalogService catalogService, ILookupService lookupService, IAppLogger<ProductsController> logger)
+        public ProductsController(ICatalogService catalogService, ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
         {
             _catalogService = catalogService;
-            _lookupService = lookupService;
+            _lookupServiceFactory = lookupServiceFactory;
             _logger = logger;
         }
 
@@ -59,7 +57,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             var sortingParameters = new SortingParameters();
             sortingParameters.Add(orderBy, isAscending);
             var list = await _catalogService.GetProductsPagedAsync(sortingParameters, pageNumber, pageSize);
-            var productCategories = await _lookupService.GetProductCategories();
+
+            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
+            var productCategories = await lkpCategories.GetAllAsync();
 
             var dtoList = new List<ProductDTO>();
             foreach (var p in list)
@@ -90,7 +90,8 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [Route("products/create")]
         public async Task<IActionResult> Create()
         {
-            var productCategories = await _lookupService.GetProductCategories();
+            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
+            var productCategories = await lkpCategories.GetAllAsync();
 
             ViewBag.ProductCategories = new SelectList(productCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name));
             return View();

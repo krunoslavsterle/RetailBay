@@ -14,7 +14,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.UseSnakeCaseNamingConvention();
+            builder.UseSnakeCaseNamingConvention(true);
             builder.Entity<Tenant>(ConfigureTenant);
         }
 

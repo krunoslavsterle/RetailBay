@@ -12,7 +12,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
 
             //SeedIdentityDB();
             //SeedProductCategoryTable();
-            //SeedingProductTable();
+            SeedingProductTable();
             Console.Read();
         }
 
@@ -26,6 +26,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
             var category = new ProductCategory
             {
                 Id = Guid.NewGuid(),
+                Abrv = "GNR",
                 Name = "General",
                 Slug = "general",
                 DateCreated = DateTime.UtcNow,

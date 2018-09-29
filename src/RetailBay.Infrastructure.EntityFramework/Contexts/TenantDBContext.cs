@@ -26,7 +26,7 @@ namespace RetailBay.Infrastructure.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.UseSnakeCaseNamingConvention();
+            builder.UseSnakeCaseNamingConvention(true);
 
             builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductPrice>(ConfigureProductPrice);
