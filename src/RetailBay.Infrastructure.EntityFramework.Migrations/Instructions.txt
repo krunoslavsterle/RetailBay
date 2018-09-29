@@ -1,0 +1,31 @@
+﻿- User Package Manager Console to execute Powershell commands
+- StartUp project needs to be set to the .Migrations
+
+Work-flow (https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/): 
+	1. Add migration (Add-Migration)
+	2. Apply migration (Update-Database)
+	
+
+Initial Migration
+	- [Add-Migration InitialSystemCreate -Context SystemDBContext]
+	- [Add-Migration InitialTenantCreate -Context TenantDBContext]
+
+
+Commands (https://ef.readthedocs.io/en/staging/miscellaneous/cli/powershell.html):
+
+	Add-Migration (Adds a new migration.)
+	
+	Drop-Database (Drops the database.)
+
+	Get-DbContext (Gets information about a DbContext type.)
+
+	Remove-Migration (Removes the last migration.)
+
+	Scaffold-DbContext (Scaffolds a DbContext and entity types for a database.)
+
+	Script-Migration (Generates a SQL script from migrations.)
+
+	Update-Database
+
+
+

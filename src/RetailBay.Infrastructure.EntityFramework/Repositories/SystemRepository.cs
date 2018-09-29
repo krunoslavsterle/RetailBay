@@ -8,7 +8,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
 {
     public class SystemRepository : ISystemRepository
     {
-        private SystemDBContext _systemDBContext = new SystemDBContext();
+        private readonly SystemDBContext _systemDBContext;
         public SystemRepository(SystemDBContext context)
         {
             _systemDBContext = context;

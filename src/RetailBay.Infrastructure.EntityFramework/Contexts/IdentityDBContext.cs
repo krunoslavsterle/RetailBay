@@ -5,22 +5,22 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
-using RetailBay.Core.SharedKernel.Extensions;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {
     public class IdentityDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         private readonly string _connectionString;
-        public IdentityDBContext(Tenant tenant) : base(new DbContextOptionsBuilder().UseNpgsql(tenant.ConnectionString).Options)
+        public IdentityDBContext(Tenant tenant) : 
+            base(new DbContextOptionsBuilder().UseNpgsql(tenant.ConnectionString).Options)
         {
             _connectionString = tenant.ConnectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_connectionString);
-
+            optionsBuilder.UseNpgsql(_connectionString, options => options.MigrationsAssembly("RetailBay.Infrastructure.EntityFramework.Migrations"));
+            
             base.OnConfiguring(optionsBuilder);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RetailBay.Core.Entities.SystemDb;
 
@@ -7,15 +6,12 @@ namespace RetailBay.Infrastructure.EntityFramework
 {
     public class SystemDBContext : DbContext
     {
-        public DbSet<Tenant> Tenants { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SystemDBContext(DbContextOptions<SystemDBContext> options) : base(options)
         {
-            optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("SYSTEM_DB_CONNECTION_STRING"));
-
-            base.OnConfiguring(optionsBuilder);
         }
 
+        public DbSet<Tenant> Tenants { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.UseSnakeCaseNamingConvention();

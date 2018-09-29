@@ -56,7 +56,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 dtoList.Add(new ProductDTO
                 {
                     Id = p.Id,
-                    Price = p.Price,
+                    Price = p.ProductPrice.Price,
                     DateCreated = p.DateCreated,
                     Description = p.Description,
                     IsPublished = p.IsPublished,
@@ -91,7 +91,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     Description = vm.Description,
                     IsPublished = vm.IsPublished,
                     Name = vm.Name,
-                    Price = vm.Price
+                    //Price = vm.Price
                 };
 
 
@@ -112,7 +112,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 IsPublished = product.IsPublished,
-                Price = product.Price
+                //Price = product.Price
             };
 
             return View(vm);
@@ -133,7 +133,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     Description = vm.Description,
                     IsPublished = vm.IsPublished,
                     Name = vm.Name,
-                    Price = vm.Price
+                    //Price = vm.Price
                 };
 
 

@@ -5,15 +5,17 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C33B78F-0E22-441D-9F40-B018377F6D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.Core", "src\RetailBay.Core\RetailBay.Core.csproj", "{25F37E54-63C1-49A5-988F-840A665770D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.Core", "src\RetailBay.Core\RetailBay.Core.csproj", "{25F37E54-63C1-49A5-988F-840A665770D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.Infrastructure", "src\RetailBay.Infrastructure\RetailBay.Infrastructure.csproj", "{75A61776-CEB0-4637-B69C-5C4BC87E591E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.Infrastructure", "src\RetailBay.Infrastructure\RetailBay.Infrastructure.csproj", "{75A61776-CEB0-4637-B69C-5C4BC87E591E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.Infrastructure.EntityFramework", "src\RetailBay.Infrastructure.EntityFramework\RetailBay.Infrastructure.EntityFramework.csproj", "{33AF0899-B913-43D5-88D1-08570AA2D8D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.Infrastructure.EntityFramework", "src\RetailBay.Infrastructure.EntityFramework\RetailBay.Infrastructure.EntityFramework.csproj", "{33AF0899-B913-43D5-88D1-08570AA2D8D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.WebAdministration", "src\RetailBay.WebAdministration\RetailBay.WebAdministration.csproj", "{37F54B87-0710-4877-9980-49133EFA97AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.WebAdministration", "src\RetailBay.WebAdministration\RetailBay.WebAdministration.csproj", "{37F54B87-0710-4877-9980-49133EFA97AB}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{550F4124-91E7-4191-9391-4562117F03D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.Infrastructure.EntityFramework.Migrations", "src\RetailBay.Infrastructure.EntityFramework.Migrations\RetailBay.Infrastructure.EntityFramework.Migrations.csproj", "{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{550F4124-91E7-4191-9391-4562117F03D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{550F4124-91E7-4191-9391-4562117F03D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{550F4124-91E7-4191-9391-4562117F03D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{75A61776-CEB0-4637-B69C-5C4BC87E591E} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 		{33AF0899-B913-43D5-88D1-08570AA2D8D5} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 		{37F54B87-0710-4877-9980-49133EFA97AB} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
+		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6A48B96-D9BF-4590-B74B-DAB16A2DE899}
