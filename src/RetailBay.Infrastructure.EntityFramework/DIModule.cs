@@ -21,6 +21,7 @@ namespace RetailBay.Infrastructure.EntityFramework
 
             services.AddScoped<ISystemRepository, SystemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 
             return services;
         }

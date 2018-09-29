@@ -10,6 +10,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.IProductRepository" />
     public class ProductRepository : Repository<Product>, IProductRepository
     {
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductRepository"/> class.
         /// </summary>
@@ -17,5 +19,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         public ProductRepository(TenantDBContext context) : base(context)
         {
         }
+
+        #endregion Constructors
     }
 }

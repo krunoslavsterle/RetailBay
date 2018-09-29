@@ -21,7 +21,9 @@
     <thead>
         <tr>
             <td>Name</td>
+            <td>Slug</td>
             <td>Price</td>
+            <td>Category</td>
             <td>Published</td>
             <td>Created On</td>
             <td>Actions</td>
@@ -32,7 +34,9 @@
         {
             <tr>
                 <td>@product.Name</td>
+                <td>@product.Slug</td>
                 <td>@product.Price</td>
+                <td>@Model.Categories[product.ProductCategoryId]</td>
                 <td>@product.IsPublished</td>
                 <td>@product.DateCreated.ToString()</td>
                 <td>        

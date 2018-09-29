@@ -1,4 +1,6 @@
-﻿namespace RetailBay.WebAdministration.Areas.Catalog.Models
+﻿using System;
+
+namespace RetailBay.WebAdministration.Areas.Catalog.Models
 {
     public class CreateProductViewModel
     {
@@ -6,5 +8,6 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
         public bool IsPublished { get; set; }
+        public Guid ProductCategoryId { get; set; }
     }
 }

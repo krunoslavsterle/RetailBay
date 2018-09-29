@@ -9,6 +9,7 @@ namespace RetailBay.Core
         public static IServiceCollection AddCoreDependencies(this IServiceCollection services)
         {
             services.AddScoped<ICatalogService, CatalogService>();
+            services.AddScoped<ILookupService, LookupService>();
 
             return services;
         }

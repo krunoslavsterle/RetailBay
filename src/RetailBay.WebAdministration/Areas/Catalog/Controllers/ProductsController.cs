@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
@@ -21,15 +23,23 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         #region Fields
 
         private readonly ICatalogService _catalogService;
+        private readonly ILookupService _lookupService;
         private readonly IAppLogger<ProductsController> _logger;
 
         #endregion Fields
 
         #region Constructors
 
-        public ProductsController(ICatalogService catalogService, IAppLogger<ProductsController> logger)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductsController"/> class.
+        /// </summary>
+        /// <param name="catalogService">The catalog service.</param>
+        /// <param name="lookupService">The lookup service.</param>
+        /// <param name="logger">The logger.</param>
+        public ProductsController(ICatalogService catalogService, ILookupService lookupService, IAppLogger<ProductsController> logger)
         {
             _catalogService = catalogService;
+            _lookupService = lookupService;
             _logger = logger;
         }
 
@@ -49,6 +59,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             var sortingParameters = new SortingParameters();
             sortingParameters.Add(orderBy, isAscending);
             var list = await _catalogService.GetProductsPagedAsync(sortingParameters, pageNumber, pageSize);
+            var productCategories = await _lookupService.GetProductCategories();
 
             var dtoList = new List<ProductDTO>();
             foreach (var p in list)
@@ -56,24 +67,33 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 dtoList.Add(new ProductDTO
                 {
                     Id = p.Id,
+                    ProductCategoryId = p.ProductCategoryId,
+                    Name = p.Name,
+                    Slug = p.Slug,
                     Price = p.ProductPrice.Price,
-                    DateCreated = p.DateCreated,
-                    Description = p.Description,
                     IsPublished = p.IsPublished,
-                    Name = p.Name
+                    DateCreated = p.DateCreated,
+                    Description = p.Description
                 });
             }
 
-            var vm = new ProductsViewModel();
-            vm.Products = new PagedCollection<ProductDTO>(dtoList, list.TotalItemCount, list.PageNumber, list.PageSize);
+            var vm = new ProductsViewModel
+            {
+                Products = new PagedCollection<ProductDTO>(dtoList, list.TotalItemCount, list.PageNumber, list.PageSize),
+                Categories = productCategories.ToDictionary(key => key.Id, value => value.Name)
+            };
+
             return View(vm);
         }
 
         [HttpGet]
         [Route("products/create")]
-        public Task<IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
-            return Task.FromResult<IActionResult>(View());
+            var productCategories = await _lookupService.GetProductCategories();
+
+            ViewBag.ProductCategories = new SelectList(productCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name));
+            return View();
         }
 
         [HttpPost]
@@ -91,9 +111,17 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                     Description = vm.Description,
                     IsPublished = vm.IsPublished,
                     Name = vm.Name,
+                    ProductCategoryId = vm.ProductCategoryId
                     //Price = vm.Price
                 };
 
+                product.ProductPrice = new ProductPrice
+                {
+                    Id = Guid.NewGuid(),
+                    Price = vm.Price,
+                    DateCreated = DateTime.UtcNow,
+                    DateUpdated = DateTime.UtcNow
+                };
 
                 await _catalogService.CreateProductAsync(product);
             }
