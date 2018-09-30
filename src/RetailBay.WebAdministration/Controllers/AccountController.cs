@@ -8,6 +8,7 @@ using RetailBay.WebAdministration.Models;
 
 namespace RetailBay.WebAdministration.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         #region Fields
@@ -20,6 +21,12 @@ namespace RetailBay.WebAdministration.Controllers
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="signInManager">The sign in manager.</param>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="roleManager">The role manager.</param>
         public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _signInManager = signInManager;
@@ -58,6 +65,14 @@ namespace RetailBay.WebAdministration.Controllers
                 return RedirectToAction("Index", "Home");
 
             return null;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(AccountController.Login));
         }
 
         #endregion Actions
