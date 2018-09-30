@@ -89,9 +89,11 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            return _lookupRepository.DeleteAsync(id);
+            var lkp = await GetOneById(id);
+            lkp.IsDeleted = true;
+            await _lookupRepository.UpdateAsync(lkp);
         }
 
         #endregion Methods
