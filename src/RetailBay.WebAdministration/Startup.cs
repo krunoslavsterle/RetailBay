@@ -33,6 +33,7 @@ namespace RetailBay.WebAdministration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // This is needed for pager tag helper.
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IUrlHelper>(x => {
                 var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
@@ -40,34 +41,25 @@ namespace RetailBay.WebAdministration
                 return factory.GetUrlHelper(actionContext);
             });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddDefaultTokenProviders();
+            
             services.ConfigureApplicationCookie(options =>
             {   
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                options.LoginPath = "/Account/Signin";
-                options.LogoutPath = "/Account/Signout";
-                options.Cookie = new CookieBuilder
-                {
-                    IsEssential = true // required for auth to work without explicit user consent; adjust to suit your privacy policy
-                };
+                options.Cookie.Expiration = TimeSpan.FromHours(1);
+                options.Cookie.Name = "RetailBay.Administration.Identity";
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.IsEssential = true;
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
             });
 
             services.AddCoreDependencies();
             services.AddInfrastructureDependencies();
             services.AddInfrastructureEFDependencies();
             services.AddMultitenancy<Tenant, TenantResolver>();
-
-            // TODO: Need a better way of handling this. We are depending on EF.
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<IdentityDBContext>()
-                .AddDefaultTokenProviders();
 
             services.AddMiniProfiler(options =>
             {
@@ -78,7 +70,8 @@ namespace RetailBay.WebAdministration
             })
             .AddEntityFramework();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             _services = services;
         }
@@ -99,7 +92,7 @@ namespace RetailBay.WebAdministration
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseMultitenancy<Tenant>();
             app.UseAuthentication();
             app.UseMiniProfiler();
