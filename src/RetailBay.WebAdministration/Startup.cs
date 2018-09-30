@@ -15,11 +15,14 @@ using System;
 using StackExchange.Profiling.Storage;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using System.Text;
 
 namespace RetailBay.WebAdministration
 {
     public class Startup
     {
+        private IServiceCollection _services;
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -76,6 +79,8 @@ namespace RetailBay.WebAdministration
             .AddEntityFramework();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            _services = services;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +89,7 @@ namespace RetailBay.WebAdministration
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                ListAllRegisteredServices(app);
             }
             else
             {
@@ -108,6 +114,28 @@ namespace RetailBay.WebAdministration
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void ListAllRegisteredServices(IApplicationBuilder app)
+        {
+            app.Map("/allservices", builder => builder.Run(async context =>
+            {
+                var sb = new StringBuilder();
+                sb.Append("<h1>All Services</h1>");
+                sb.Append("<table><thead>");
+                sb.Append("<tr><th>Type</th><th>Lifetime</th><th>Instance</th></tr>");
+                sb.Append("</thead><tbody>");
+                foreach (var svc in _services)
+                {
+                    sb.Append("<tr>");
+                    sb.Append($"<td>{svc.ServiceType.FullName}</td>");
+                    sb.Append($"<td>{svc.Lifetime}</td>");
+                    sb.Append($"<td>{svc.ImplementationType?.FullName}</td>");
+                    sb.Append("</tr>");
+                }
+                sb.Append("</tbody></table>");
+                await context.Response.WriteAsync(sb.ToString());
+            }));
         }
     }
 }
