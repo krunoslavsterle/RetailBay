@@ -11,8 +11,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
         {
 
             //SeedIdentityDB();
-            //SeedProductCategoryTable();
-            SeedingProductTable();
+            SeedProductCategoryTable();
+            //SeedingProductTable();
             Console.Read();
         }
 
@@ -23,20 +23,30 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
             var factory = new TenantContextFactory();
             var context = factory.CreateDbContext(null);
 
-            var category = new ProductCategory
+            context.ProductCategories.Add(new ProductCategory
             {
                 Id = Guid.NewGuid(),
-                Abrv = "GNR",
-                Name = "General",
-                Slug = "general",
+                Abrv = "ELC",
+                Name = "Electronics",
+                Slug = "electronics",
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow,
                 IsDeleted = false
-            };
+            });
+
+            context.ProductCategories.Add(new ProductCategory
+            {
+                Id = Guid.NewGuid(),
+                Abrv = "FDD",
+                Name = "Food",
+                Slug = "food",
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow,
+                IsDeleted = false
+            });
 
             try
             {
-                context.ProductCategories.Add(category);
                 context.SaveChanges();
 
                 Console.WriteLine("Success");

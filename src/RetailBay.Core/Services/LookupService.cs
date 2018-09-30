@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RetailBay.Core.Entities;
 using RetailBay.Core.Interfaces;
@@ -44,13 +45,53 @@ namespace RetailBay.Core.Services
         }
 
         /// <summary>
-        /// Gets the one <see cref="TEntity"/> by abbreviation.
+        /// Gets the one <see cref="TEntity"/> by slug asynchronous.
         /// </summary>
-        /// <param name="abrv">The abbreviation.</param>
+        /// <param name="abrv">The slug.</param>
         /// <returns></returns>
-        public Task<TEntity> GetOneByAbrv(string abrv)
+        public Task<TEntity> GetOneBySlugAsync(string slug)
         {
-            return _lookupRepository.GetOneAsync(p => p.IsDeleted == false && p.Abrv == abrv);
+            return _lookupRepository.GetOneAsync(p => p.IsDeleted == false && p.Slug == slug); 
+        }
+
+        /// <summary>
+        /// Gets the one <see cref="TEntity"/> by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public Task<TEntity> GetOneById(Guid id)
+        {
+            return _lookupRepository.GetOneAsync(p => p.IsDeleted == false && p.Id == id);
+        }
+
+        /// <summary>
+        /// Inserts the <see cref="TEntity"/> asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public Task InsertAsync(TEntity entity)
+        {
+            return _lookupRepository.InsertAsync(entity);
+        }
+
+        /// <summary>
+        /// Updates the <see cref="TEntity"/> asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
+        public Task UpdateAsync(TEntity entity)
+        {
+            return _lookupRepository.UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// Deletes the <see cref="TEntity"/> asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public Task DeleteAsync(Guid id)
+        {
+            return _lookupRepository.DeleteAsync(id);
         }
 
         #endregion Methods

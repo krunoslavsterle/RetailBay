@@ -1,0 +1,48 @@
+﻿@model ProductCategoriesViewModel
+@using RetailBay.WebAdministration.TagHelpers
+
+@{
+    ViewData["Title"] = "Product Categories";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Categories</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <a asp-area="Catalog" asp-controller="Categories" asp-action="Create" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Create Category</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Slug</td>
+            <td>Abrv</td>
+            <td>Deleted</td>
+            <td>Created On</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pCategory in Model.ProductCategories)
+        {
+            <tr>
+                <td>@pCategory.Name</td>
+                <td>@pCategory.Slug</td>
+                <td>@pCategory.Abrv</td>    
+                <td>@pCategory.IsDeleted</td>
+                <td>@pCategory.DateCreated.ToString()</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Categories" asp-route-slug="@pCategory.Slug" class="btn btn-default btn-xs">Edit</a>
+                    <form asp-action="Delete" asp-controller="Categories" asp-route-id="@pCategory.Id" id="@String.Format($"form-delete-{pCategory.Id}")" method="post" class="btn-group">
+                        <button type="button" class="btn btn-danger btn-xs" onclick="submitOnConfirm('@String.Format($"form-delete-{pCategory.Id}")', 'Are you sure?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

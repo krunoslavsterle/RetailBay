@@ -41,8 +41,8 @@
                 <td>@product.DateCreated.ToString()</td>
                 <td>        
                     <a asp-action="Edit" asp-controller="Products" asp-route-id="@product.Id" class="btn btn-default btn-xs">Edit</a>                   
-                    <form asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" id="form-delete" method="post" class="btn-group">
-                        <button type="button" class="btn btn-danger btn-xs" onclick="submitOnConfirm('form-delete', 'Are you sure?');">Delete</button>
+                    <form asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" id="@String.Format($"form-delete-{product.Id}")" method="post" class="btn-group">
+                        <button type="button" class="btn btn-danger btn-xs" onclick="submitOnConfirm('@String.Format($"form-delete-{product.Id}")', 'Are you sure?');">Delete</button>
                     </form>
                 </td>
             </tr>

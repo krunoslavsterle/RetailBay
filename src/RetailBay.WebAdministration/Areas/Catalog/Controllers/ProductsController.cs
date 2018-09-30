@@ -116,7 +116,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             var product = await _catalogService.GetProductAsync(id);
             var vm = Mapper.Map(product).ToANew<EditProductViewModel>();
             vm.Price = product.ProductPrice.Price;
-           
+
+            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
+            var productCategories = await lkpCategories.GetAllAsync();
+            ViewBag.ProductCategories = new SelectList(productCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name));
             return View(vm);
         }
 
