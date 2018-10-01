@@ -10,7 +10,21 @@ services:
       - "51468:80"
       - "44371:443"
     depends_on:
-    - retailbay_postgres_server
+      - retailbay_postgres_server
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  retailbay.webshop:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44372  
+    ports:
+      - "51469:80"
+      - "44372:443"
+    depends_on:
+      - retailbay_postgres_server
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro

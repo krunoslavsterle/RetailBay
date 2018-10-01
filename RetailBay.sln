@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.WebAdministration
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{550F4124-91E7-4191-9391-4562117F03D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.Infrastructure.EntityFramework.Migrations", "src\RetailBay.Infrastructure.EntityFramework.Migrations\RetailBay.Infrastructure.EntityFramework.Migrations.csproj", "{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetailBay.Infrastructure.EntityFramework.Migrations", "src\RetailBay.Infrastructure.EntityFramework.Migrations\RetailBay.Infrastructure.EntityFramework.Migrations.csproj", "{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetailBay.WebShop", "src\RetailBay.WebShop\RetailBay.WebShop.csproj", "{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{33AF0899-B913-43D5-88D1-08570AA2D8D5} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 		{37F54B87-0710-4877-9980-49133EFA97AB} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 		{B2ED0343-1DBE-4BDB-89B0-4CC6E19FD3B7} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
+		{35DBFE15-CB39-42E3-B796-AA1D9FE9EC18} = {8C33B78F-0E22-441D-9F40-B018377F6D46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6A48B96-D9BF-4590-B74B-DAB16A2DE899}
