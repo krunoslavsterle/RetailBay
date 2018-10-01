@@ -38,7 +38,7 @@ namespace RetailBay.Infrastructure.Multitenancy
         #endregion Constructors
 
         #region Methods
-
+        
         /// <summary>
         /// Gets the context identifier.
         /// </summary>
@@ -56,7 +56,7 @@ namespace RetailBay.Infrastructure.Multitenancy
         /// <returns></returns>
         protected override IEnumerable<string> GetTenantIdentifiers(TenantContext<Tenant> context)
         {
-            return new[] { context.Tenant.HostName };
+            return context.Tenant.HostName.Split(';');
         }
 
         /// <summary>
@@ -67,13 +67,19 @@ namespace RetailBay.Infrastructure.Multitenancy
         protected override async Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
         {
             TenantContext<Tenant> tenantContext = null;
-            var hostName = context.Request.Host.Value.ToLower();
+            var hostName = GetContextIdentifier(context);
 
             var tenants = await _systemRepository.GetAllTenantsAsync();
-            var tenant = tenants.FirstOrDefault(t => t.HostName == hostName);
-            if (tenant != null)
-                tenantContext = new TenantContext<Tenant>(tenant);
-
+            foreach(var ten in tenants)
+            {
+                var hosts = ten.HostName.Split(';');
+                if (hosts.Contains(hostName))
+                {
+                    tenantContext = new TenantContext<Tenant>(ten);
+                    break;
+                }
+            }
+            
             // TODO: Check how to handle case if no tenant was found.
             return tenantContext;
         }

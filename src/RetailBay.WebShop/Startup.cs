@@ -73,6 +73,7 @@ namespace RetailBay.WebShop
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseMultitenancy<Tenant>();
 
             app.UseMvc(routes =>
             {
