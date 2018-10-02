@@ -3,37 +3,34 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core.Interfaces;
+using RetailBay.Core.SharedKernel.QueryParameters;
 using RetailBay.WebShop.Models;
 
 namespace RetailBay.WebShop.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICatalogService _catalogService;
+        public HomeController(ICatalogService catalogService)
         {
-            return View();
+            _catalogService = catalogService;
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Index()
         {
-            ViewData["Message"] = "Your application description page.";
+            var sortingParameters = new SortingParameters();
+            sortingParameters.Add("Id", false);
 
-            return View();
+            var list = await _catalogService.GetProductsPagedAsync(sortingParameters, 1, 10);
+            var vm = new IndexViewModel();
+            vm.Products = Mapper.Map(list).ToANew<IEnumerable<IndexViewModel.ProductDTO>>();
+            
+            return View(vm);
         }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
