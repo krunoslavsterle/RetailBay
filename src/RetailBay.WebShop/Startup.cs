@@ -85,6 +85,7 @@ namespace RetailBay.WebShop
             app.UseCookiePolicy();
             app.UseMultitenancy<Tenant>();
             app.UseAuthentication();
+            app.UseMiniProfiler();
 
             app.UseMvc(routes =>
             {
