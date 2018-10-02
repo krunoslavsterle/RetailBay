@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 @inject RetailBay.Core.Entities.SystemDb.Tenant Tenant;
+@inject UserManager<RetailBay.Core.Entities.Identity.ApplicationUser> UserManager
+@inject SignInManager<RetailBay.Core.Entities.Identity.ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 <html>
@@ -34,7 +36,27 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>                 
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @UserManager.GetUserName(User)<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <form asp-action="Logout" asp-controller="Account" asp-area="" method="post" class="btn-group">
+                                        <button type="submit" class="btn btn-link">Log out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Login" asp-controller="Account">Login </a></li>
+                        <li><a asp-action="Register" asp-controller="Account">Register </a></li>
+                    }
                 </ul>
             </div>
         </div>

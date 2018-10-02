@@ -3,10 +3,12 @@ using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RetailBay.Core;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Infrastructure;
 using RetailBay.Infrastructure.EntityFramework;
@@ -30,11 +32,19 @@ namespace RetailBay.WebShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromHours(1);
+                options.Cookie.Name = "RetailBay.WebShop.Identity";
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.IsEssential = true;
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
             });
 
             services.AddCoreDependencies();
@@ -74,6 +84,7 @@ namespace RetailBay.WebShop
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseMultitenancy<Tenant>();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

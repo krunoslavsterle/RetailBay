@@ -10,8 +10,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
         static void Main(string[] args)
         {
 
-            //SeedIdentityDB();
-            SeedProductCategoryTable();
+            SeedIdentityDB();
+            //SeedProductCategoryTable();
             //SeedingProductTable();
             Console.Read();
         }
@@ -109,8 +109,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
             {
                 Id = Guid.NewGuid(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
-                Name = "SuperAdmin",
-                NormalizedName = "SUPERADMIN"
+                Name = "Customer",
+                NormalizedName = "CUSTOMER"
             };
 
             ctx.Roles.Add(role);
