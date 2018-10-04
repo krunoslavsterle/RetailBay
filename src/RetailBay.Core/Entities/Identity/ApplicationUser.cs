@@ -8,6 +8,6 @@ namespace RetailBay.Core.Entities.Identity
     [Table("identity_user")]
     public class ApplicationUser : IdentityUser<Guid>
     {
-        //public Cart Cart { get; set; }
+        public Cart Cart { get; set; }
     }
 }

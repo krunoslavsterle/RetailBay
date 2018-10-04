@@ -27,8 +27,8 @@ namespace RetailBay.Infrastructure.EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories {get; set;}
         public DbSet<ProductPrice> ProductPrices { get; set; }
-       // public DbSet<Cart> Carts { get; set; }
-        //public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -74,8 +74,8 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductPrice>(ConfigureProductPrice);
             builder.Entity<ProductCategory>(ConfigureProductCategory);
-           // builder.Entity<Cart>(ConfigureCart);
-           // builder.Entity<CartItem>(ConfigureCartItem);
+            builder.Entity<Cart>(ConfigureCart);
+            builder.Entity<CartItem>(ConfigureCartItem);
         }
 
         private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
@@ -103,7 +103,7 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.ForNpgsqlUseXminAsConcurrencyToken();
 
             builder.HasOne(p => p.User)
-                .WithOne()
+                .WithOne(p => p.Cart)
                 .HasForeignKey<Cart>(p => p.UserId);
         }
 
@@ -115,9 +115,9 @@ namespace RetailBay.Infrastructure.EntityFramework
                 .WithMany(c => c.CartItems)
                 .HasForeignKey(p => p.CartId);
 
-            //builder.HasOne(p => p.Product)
-            //    .WithMany(p => p.CartItems)
-            //    .HasForeignKey(p => p.ProductId);
+            builder.HasOne(p => p.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(p => p.ProductId);
         }
     }
 }
