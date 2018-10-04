@@ -7,8 +7,6 @@ namespace RetailBay.Core.Entities.TenantDB
     [Table("product_price")]
     public class ProductPrice : EntityBase
     {
-        public Guid ProductId { get; set; }
-
         [Required]
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
