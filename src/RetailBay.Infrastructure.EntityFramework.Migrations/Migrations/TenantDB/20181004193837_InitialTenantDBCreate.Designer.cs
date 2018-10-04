@@ -10,7 +10,7 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    [Migration("20181004191531_InitialTenantDBCreate")]
+    [Migration("20181004193837_InitialTenantDBCreate")]
     partial class InitialTenantDBCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.0-preview2-35157")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -223,6 +223,74 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.ToTable("identity_user");
                 });
 
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnName("date_created");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnName("date_updated");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cart");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasName("ix_cart_user_id");
+
+                    b.ToTable("cart");
+                });
+
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnName("cart_id");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnName("date_created");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnName("date_updated");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnName("product_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnName("quantity");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cart_item");
+
+                    b.HasIndex("CartId")
+                        .HasName("ix_cart_item_cart_id");
+
+                    b.HasIndex("ProductId")
+                        .HasName("ix_cart_item_product_id");
+
+                    b.ToTable("cart_item");
+                });
+
             modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -360,6 +428,29 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Cart", b =>
+                {
+                    b.HasOne("RetailBay.Core.Entities.Identity.ApplicationUser", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("RetailBay.Core.Entities.TenantDB.Cart", "UserId")
+                        .HasConstraintName("fk_cart_identity_user_user_id");
+                });
+
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.CartItem", b =>
+                {
+                    b.HasOne("RetailBay.Core.Entities.TenantDB.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .HasConstraintName("fk_cart_item_cart_cart_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RetailBay.Core.Entities.TenantDB.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .HasConstraintName("fk_cart_item_product_product_id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Product", b =>
                 {
                     b.HasOne("RetailBay.Core.Entities.TenantDB.ProductCategory", "ProductCategory")
@@ -386,9 +477,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                                 .IsConcurrencyToken()
                                 .ValueGeneratedOnAddOrUpdate()
                                 .HasColumnType("xid");
-
-                            b1.HasKey("Id")
-                                .HasName("pk_product_price");
 
                             b1.ToTable("product_price");
 

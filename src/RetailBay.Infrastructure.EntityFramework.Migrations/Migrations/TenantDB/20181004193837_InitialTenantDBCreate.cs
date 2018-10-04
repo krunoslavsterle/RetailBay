@@ -87,6 +87,27 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                 });
 
             migrationBuilder.CreateTable(
+                name: "cart",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    date_created = table.Column<DateTime>(nullable: false),
+                    date_updated = table.Column<DateTime>(nullable: false),
+                    user_id = table.Column<Guid>(nullable: true),
+                    xmin = table.Column<uint>(type: "xid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cart", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cart_identity_user_user_id",
+                        column: x => x.user_id,
+                        principalTable: "identity_user",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "identity_user_claim",
                 columns: table => new
                 {
@@ -197,6 +218,35 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                 });
 
             migrationBuilder.CreateTable(
+                name: "cart_item",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    date_created = table.Column<DateTime>(nullable: false),
+                    date_updated = table.Column<DateTime>(nullable: false),
+                    cart_id = table.Column<Guid>(nullable: false),
+                    product_id = table.Column<Guid>(nullable: false),
+                    quantity = table.Column<int>(nullable: false),
+                    xmin = table.Column<uint>(type: "xid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cart_item", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cart_item_cart_cart_id",
+                        column: x => x.cart_id,
+                        principalTable: "cart",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_cart_item_product_product_id",
+                        column: x => x.product_id,
+                        principalTable: "product",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "product_price",
                 columns: table => new
                 {
@@ -216,6 +266,22 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_user_id",
+                table: "cart",
+                column: "user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_item_cart_id",
+                table: "cart_item",
+                column: "cart_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_item_product_id",
+                table: "cart_item",
+                column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "role_name_index",
@@ -263,6 +329,9 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "cart_item");
+
+            migrationBuilder.DropTable(
                 name: "identity_role_claim");
 
             migrationBuilder.DropTable(
@@ -281,13 +350,16 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                 name: "product_price");
 
             migrationBuilder.DropTable(
+                name: "cart");
+
+            migrationBuilder.DropTable(
                 name: "identity_role");
 
             migrationBuilder.DropTable(
-                name: "identity_user");
+                name: "product");
 
             migrationBuilder.DropTable(
-                name: "product");
+                name: "identity_user");
 
             migrationBuilder.DropTable(
                 name: "product_category");
