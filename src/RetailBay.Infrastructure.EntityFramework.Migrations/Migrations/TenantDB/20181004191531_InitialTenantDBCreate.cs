@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
-    public partial class InitalTenantCreate : Migration
+    public partial class InitialTenantDBCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,27 +84,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         principalTable: "identity_role",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "cart",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    date_created = table.Column<DateTime>(nullable: false),
-                    date_updated = table.Column<DateTime>(nullable: false),
-                    user_id = table.Column<Guid>(nullable: true),
-                    xmin = table.Column<uint>(type: "xid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cart", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_cart_identity_user_user_id",
-                        column: x => x.user_id,
-                        principalTable: "identity_user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,12 +218,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_cart_user_id",
-                table: "cart",
-                column: "user_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "role_name_index",
                 table: "identity_role",
                 column: "normalized_name",
@@ -289,9 +262,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "cart");
-
             migrationBuilder.DropTable(
                 name: "identity_role_claim");
 

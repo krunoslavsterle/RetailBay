@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RetailBay.Core.Entities.TenantDB
 {
-    //[Table("cart_item")]
+    [Table("cart_item")]
     public class CartItem : EntityBase
     {
         [Required]

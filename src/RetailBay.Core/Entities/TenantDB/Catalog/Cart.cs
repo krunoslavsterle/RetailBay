@@ -11,6 +11,6 @@ namespace RetailBay.Core.Entities.TenantDB
         public Guid? UserId { get; set; }
 
         public ApplicationUser User { get; set; }
-        //public IEnumerable<CartItem> CartItems { get; set; }
+        public IEnumerable<CartItem> CartItems { get; set; }
     }
 }

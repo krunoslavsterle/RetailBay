@@ -10,8 +10,8 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    [Migration("20181004183045_InitalTenantCreate")]
-    partial class InitalTenantCreate
+    [Migration("20181004191531_InitialTenantDBCreate")]
+    partial class InitialTenantDBCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,36 +223,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.ToTable("identity_user");
                 });
 
-            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Cart", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnName("date_created");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnName("date_updated");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.Property<uint>("xmin")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("xid");
-
-                    b.HasKey("Id")
-                        .HasName("pk_cart");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasName("ix_cart_user_id");
-
-                    b.ToTable("cart");
-                });
-
             modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -388,14 +358,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_identity_user_token_identity_user_user_id")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Cart", b =>
-                {
-                    b.HasOne("RetailBay.Core.Entities.Identity.ApplicationUser", "User")
-                        .WithOne()
-                        .HasForeignKey("RetailBay.Core.Entities.TenantDB.Cart", "UserId")
-                        .HasConstraintName("fk_cart_identity_user_user_id");
                 });
 
             modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Product", b =>
