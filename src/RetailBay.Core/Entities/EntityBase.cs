@@ -16,8 +16,5 @@ namespace RetailBay.Core.Entities
 
         [Required]
         public DateTime DateUpdated { get; set; }
-
-        [Timestamp]
-        public byte[] TimeStamp { get; set; }
     }
 }

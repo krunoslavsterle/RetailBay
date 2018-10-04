@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,6 @@ namespace RetailBay.Core.Entities.TenantDB
 
         public ProductCategory ProductCategory { get; set; }
         public ProductPrice ProductPrice { get; set; }
+        public IEnumerable<CartItem> CartItems { get; set; }
     }
 }

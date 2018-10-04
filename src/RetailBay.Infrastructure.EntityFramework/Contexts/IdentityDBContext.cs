@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {
@@ -28,9 +30,50 @@ namespace RetailBay.Infrastructure.EntityFramework
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<ApplicationUser>(b =>
+            {
+                b.ToTable("identity_user");
+
+                //b.HasOne(u => u.Cart)
+                //.WithOne(c => c.User)
+                //.HasForeignKey<Cart>(c => c.UserId)
+                //.IsRequired(false)
+                //.OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<ApplicationRole>(b =>
+            {
+                b.ToTable("identity_role");
+            });
+
+            builder.Entity<IdentityUserRole<Guid>>(b =>
+            {
+                b.ToTable("identity_user_role");
+            });
+            
+            builder.Entity<IdentityRoleClaim<Guid>>(b =>
+            {
+                b.ToTable("identity_role_claim");
+            });
+
+            builder.Entity<IdentityUserClaim<Guid>>(b =>
+            {
+                b.ToTable("identity_user_claim");
+            });
+
+            builder.Entity<IdentityUserLogin<Guid>>(b =>
+            {
+                b.ToTable("identity_user_login");
+            });
+            
+            builder.Entity<IdentityUserToken<Guid>>(b =>
+            {
+                b.ToTable("identity_user_token");
+            });
+
             builder.UseSnakeCaseNamingConvention(false);
         }
-
+        
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             var defaultUser = new ApplicationUser { UserName = "ksterle", Email = "demouser@microsoft.com" };
