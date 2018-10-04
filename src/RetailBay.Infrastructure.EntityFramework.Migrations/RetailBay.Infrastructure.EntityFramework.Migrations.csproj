@@ -7,9 +7,11 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180929091651_InitialTenantCreate.cs" />
-    <Compile Remove="Migrations\IdentityDB\20181004171301_IdentityTestMigration.cs" />
+    <Compile Remove="Migrations\20181004181914_InitalTenant.cs" />
     <Compile Remove="Migrations\TenantDB\20181004171540_TestTenantMigration.cs" />
     <Compile Remove="Migrations\TenantDB\20181004172022_TestTenantMigration.cs" />
+    <Compile Remove="Migrations\TenantDB\20181004175431_TestTenant.cs" />
+    <Compile Remove="Migrations\TenantDB\20181004182852_InitalTenantCreate.cs" />
   </ItemGroup>
 
   <ItemGroup>

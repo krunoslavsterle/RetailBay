@@ -1,11 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {
-    public class TenantDBContext : DbContext
+    public class TenantDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         private readonly string _connectionString;
         public TenantDBContext(Tenant tenant)
@@ -23,14 +27,53 @@ namespace RetailBay.Infrastructure.EntityFramework
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories {get; set;}
         public DbSet<ProductPrice> ProductPrices { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>(b =>
+            {
+                b.ToTable("identity_user");
+            });
+
+            builder.Entity<ApplicationRole>(b =>
+            {
+                b.ToTable("identity_role");
+            });
+
+            builder.Entity<IdentityUserRole<Guid>>(b =>
+            {
+                b.ToTable("identity_user_role");
+            });
+
+            builder.Entity<IdentityRoleClaim<Guid>>(b =>
+            {
+                b.ToTable("identity_role_claim");
+            });
+
+            builder.Entity<IdentityUserClaim<Guid>>(b =>
+            {
+                b.ToTable("identity_user_claim");
+            });
+
+            builder.Entity<IdentityUserLogin<Guid>>(b =>
+            {
+                b.ToTable("identity_user_login");
+            });
+
+            builder.Entity<IdentityUserToken<Guid>>(b =>
+            {
+                b.ToTable("identity_user_token");
+            });
+
             builder.UseSnakeCaseNamingConvention(true);
 
             builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductPrice>(ConfigureProductPrice);
             builder.Entity<ProductCategory>(ConfigureProductCategory);
+            builder.Entity<Cart>(ConfigureCart);
         }
 
         private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
@@ -51,6 +94,15 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.HasOne(p => p.ProductCategory)
                 .WithMany(p => p.Products)
                 .HasForeignKey(p => p.ProductCategoryId);
+        }
+
+        private void ConfigureCart(EntityTypeBuilder<Cart> builder)
+        {
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
+
+            builder.HasOne(p => p.User)
+                .WithOne()
+                .HasForeignKey<Cart>(p => p.UserId);
         }
     }
 }

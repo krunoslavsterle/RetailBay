@@ -33,7 +33,7 @@ namespace RetailBay.WebShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddEntityFrameworkStores<TenantDBContext>()
                 .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(options =>

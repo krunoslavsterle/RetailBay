@@ -102,7 +102,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
 
         private static void SeedIdentityDB()
         {
-            var factory = new IdentityDBContextFactory();
+            var factory = new TenantContextFactory();
             var ctx = factory.CreateDbContext(null);
 
             var role = new ApplicationRole

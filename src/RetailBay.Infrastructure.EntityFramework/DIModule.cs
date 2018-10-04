@@ -17,7 +17,6 @@ namespace RetailBay.Infrastructure.EntityFramework
             }, ServiceLifetime.Scoped);
 
             services.AddDbContext<TenantDBContext>(ServiceLifetime.Scoped);
-            services.AddDbContext<IdentityDBContext>(ServiceLifetime.Scoped);
 
             services.AddScoped<ISystemRepository, SystemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

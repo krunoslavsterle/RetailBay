@@ -42,7 +42,7 @@ namespace RetailBay.WebAdministration
             });
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<IdentityDBContext>()
+                .AddEntityFrameworkStores<TenantDBContext>()
                 .AddDefaultTokenProviders();
             
             services.ConfigureApplicationCookie(options =>
