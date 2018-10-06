@@ -56,8 +56,21 @@ namespace RetailBay.Core.Interfaces
         /// or
         /// productId
         /// </exception>
-        Task<int> AddProductToCart(Guid cartId, Guid productId);
+        Task<int> AddProductToCartAsync(Guid cartId, Guid productId);
 
+        /// <summary>
+        /// Removes the cart item.
+        /// </summary>
+        /// <param name="cartItemId">The cart item identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">cartItemId</exception>
+        Task RemoveCartItem(Guid cartItemId);
+
+        /// <summary>
+        /// Checks the cart exists.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
         Task<bool> CheckCartExists(Guid cartId);
 
         /// <summary>
@@ -65,14 +78,14 @@ namespace RetailBay.Core.Interfaces
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="cartId">The cart identifier.</param>
-        Task CreateCartForUser(Guid? userId, Guid cartId);
+        Task CreateCartForUserAsync(Guid? userId, Guid cartId);
 
         /// <summary>
         /// Gets the number of products in cart.
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>
         /// <returns></returns>
-        Task<int> GetNumberOfProductsInCart(Guid cartId);
+        Task<int> GetNumberOfProductsInCartAsync(Guid cartId);
 
         /// <summary>
         /// Adds the user to anonymous cart.
@@ -82,7 +95,7 @@ namespace RetailBay.Core.Interfaces
         /// <returns></returns>
         /// <exception cref="ArgumentException">cartId or userId</exception>
         /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
-        Task AddUserToAnonymousCart(Guid userId, Guid cartId);
+        Task AddUserToAnonymousCartAsync(Guid userId, Guid cartId);
 
         /// <summary>
         /// Transfers the anonymous cart to user.
@@ -92,6 +105,14 @@ namespace RetailBay.Core.Interfaces
         /// <returns>Identifier for the user cart.</returns>
         /// <exception cref="ArgumentException">cartId or userId</exception>
         /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
-        Task<Guid> TransferAnonymousCartToUser(Guid userId, Guid cartId);
+        Task<Guid> TransferAnonymousCartToUserAsync(Guid userId, Guid cartId);
+
+        /// <summary>
+        /// Gets the cart asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="includeProperties">The include properties.</param>
+        /// <returns></returns>
+        Task<Cart> GetCartAsync(Guid id, params string[] includeProperties);
     }
 }

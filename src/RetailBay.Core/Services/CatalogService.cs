@@ -106,7 +106,7 @@ namespace RetailBay.Core.Services
         /// or
         /// productId
         /// </exception>
-        public async Task<int> AddProductToCart(Guid cartId, Guid productId)
+        public async Task<int> AddProductToCartAsync(Guid cartId, Guid productId)
         {
             if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
             if (productId == Guid.Empty) throw new ArgumentException(nameof(productId));
@@ -130,6 +130,24 @@ namespace RetailBay.Core.Services
             return await _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
         }
 
+        /// <summary>
+        /// Removes the cart item.
+        /// </summary>
+        /// <param name="cartItemId">The cart item identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">cartItemId</exception>
+        public Task RemoveCartItem(Guid cartItemId)
+        {
+            if (cartItemId == Guid.Empty) throw new ArgumentException(nameof(cartItemId));
+
+            return _cartItemRepository.DeleteAsync(cartItemId);
+        }
+
+        /// <summary>
+        /// Checks the cart exists.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
         public async Task<bool> CheckCartExists(Guid cartId)
         {
             var cartsCount = await _cartRepository.GetCountAsync(p => p.Id == cartId);
@@ -141,7 +159,7 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="cartId">The cart identifier.</param>
-        public Task CreateCartForUser(Guid? userId, Guid cartId)
+        public Task CreateCartForUserAsync(Guid? userId, Guid cartId)
         {
             var cart = new Cart
             {
@@ -159,7 +177,7 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>
         /// <returns></returns>
-        public Task<int> GetNumberOfProductsInCart(Guid cartId)
+        public Task<int> GetNumberOfProductsInCartAsync(Guid cartId)
         {
             return _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
         }
@@ -172,7 +190,7 @@ namespace RetailBay.Core.Services
         /// <returns></returns>
         /// <exception cref="ArgumentException">cartId or userId</exception>
         /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
-        public async Task AddUserToAnonymousCart(Guid userId, Guid cartId)
+        public async Task AddUserToAnonymousCartAsync(Guid userId, Guid cartId)
         {
             if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
             if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
@@ -196,7 +214,7 @@ namespace RetailBay.Core.Services
         /// <returns>Identifier for the user cart.</returns>
         /// <exception cref="ArgumentException">cartId or userId</exception>
         /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
-        public async Task<Guid> TransferAnonymousCartToUser(Guid userId, Guid cartId)
+        public async Task<Guid> TransferAnonymousCartToUserAsync(Guid userId, Guid cartId)
         {
             if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
             if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
@@ -222,6 +240,17 @@ namespace RetailBay.Core.Services
             anonymousCart.UserId = userId;
             await _cartRepository.UpdateAsync(anonymousCart);
             return anonymousCart.Id;
+        }
+
+        /// <summary>
+        /// Gets the cart asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="includeProperties">The include properties.</param>
+        /// <returns></returns>
+        public Task<Cart> GetCartAsync(Guid id, params string[] includeProperties)
+        {
+            return _cartRepository.GetOneAsync(p => p.Id == id, includeProperties);
         }
 
         #endregion Methods

@@ -33,7 +33,7 @@ namespace RetailBay.WebShop.ViewComponents
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
             {
                 var cartId = Request.Cookies[Constants.CART_COOKIE_NAME];
-                count = await _catalogService.GetNumberOfProductsInCart(new Guid(cartId));
+                count = await _catalogService.GetNumberOfProductsInCartAsync(new Guid(cartId));
             }
 
             return View(count);

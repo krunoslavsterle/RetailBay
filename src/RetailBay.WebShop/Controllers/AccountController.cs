@@ -111,7 +111,7 @@ namespace RetailBay.WebShop.Controllers
                     if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                     {
                         var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-                        await _catalogService.AddUserToAnonymousCart(user.Id, cartId);
+                        await _catalogService.AddUserToAnonymousCartAsync(user.Id, cartId);
                     }
 
                     return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -127,7 +127,7 @@ namespace RetailBay.WebShop.Controllers
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
             {
                 var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-                var userCartId = await _catalogService.TransferAnonymousCartToUser(userId, cartId);
+                var userCartId = await _catalogService.TransferAnonymousCartToUserAsync(userId, cartId);
                 Response.Cookies.Append(Constants.CART_COOKIE_NAME, userCartId.ToString());
             }
         }

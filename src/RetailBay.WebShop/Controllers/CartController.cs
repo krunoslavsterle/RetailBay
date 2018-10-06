@@ -1,26 +1,65 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
+using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.WebShop.Models.Cart;
 
 namespace RetailBay.WebShop.Controllers
 {
     public class CartController : Controller
     {
+        #region Fields
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICatalogService _catalogService;
 
+        #endregion Fields
+
+        #region Controllers
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CartController"/> class.
+        /// </summary>
+        /// <param name="catalogService">The catalog service.</param>
+        /// <param name="userManager">The user manager.</param>
         public CartController(ICatalogService catalogService, UserManager<ApplicationUser> userManager)
         {
             _catalogService = catalogService;
             _userManager = userManager;
         }
 
+        #endregion Controllers
+
+        #region Methods
+
+        [HttpGet]
+        [Route("cart")]
+        public async Task<IActionResult> Index()
+        {
+            var vm = new IndexViewModel();
+
+            if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return View(vm);
+
+            var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+            var cart = await _catalogService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            if (cart == null)
+                return View(vm);
+
+            vm.Products = MapDomainCartItemsToProductDTO(cart.CartItems);
+
+            return View(vm);
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(Guid productId)
         {
             var cartId = GetOrSetCartCookie();
@@ -34,11 +73,21 @@ namespace RetailBay.WebShop.Controllers
                     userId = user.Id;
                 }
 
-                await _catalogService.CreateCartForUser(userId, cartId);
+                await _catalogService.CreateCartForUserAsync(userId, cartId);
             }
 
-            var productsCount = await _catalogService.AddProductToCart(cartId, productId);
+            var productsCount = await _catalogService.AddProductToCartAsync(cartId, productId);
             return new JsonResult(productsCount);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveProduct(Guid id)
+        {
+            if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                await _catalogService.RemoveCartItem(id);
+
+            return RedirectToAction("Index");
         }
 
         private Guid GetOrSetCartCookie()
@@ -55,5 +104,13 @@ namespace RetailBay.WebShop.Controllers
             Response.Cookies.Append(Constants.CART_COOKIE_NAME, anonymousId.ToString(), cookieOptions);
             return anonymousId;
         }
+
+        private IEnumerable<IndexViewModel.CartItemDTO> MapDomainCartItemsToProductDTO(IEnumerable<CartItem> cartItems)
+        {
+            foreach (var cartItem in cartItems)
+                yield return new IndexViewModel.CartItemDTO { Name = cartItem.Product.Name, Price = cartItem.Product.ProductPrice.Price, Id = cartItem.Id };
+        }
+
+        #endregion Methods
     }
 }
