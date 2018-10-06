@@ -164,6 +164,66 @@ namespace RetailBay.Core.Services
             return _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
         }
 
+        /// <summary>
+        /// Adds the user to anonymous cart.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">cartId or userId</exception>
+        /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
+        public async Task AddUserToAnonymousCart(Guid userId, Guid cartId)
+        {
+            if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
+            if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
+
+            var cart = await _cartRepository.GetOneAsync(p => p.Id == cartId);
+            if (cart == null)
+                throw new Exception("Can't find cart.");
+
+            if (cart.UserId.HasValue && cart.UserId.Value != userId)
+                throw new Exception("Cart is belonging to another user");
+
+            cart.UserId = userId;
+            await _cartRepository.UpdateAsync(cart);
+        }
+
+        /// <summary>
+        /// Transfers the anonymous cart to user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns>Identifier for the user cart.</returns>
+        /// <exception cref="ArgumentException">cartId or userId</exception>
+        /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
+        public async Task<Guid> TransferAnonymousCartToUser(Guid userId, Guid cartId)
+        {
+            if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
+            if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
+
+            var anonymousCart = await _cartRepository.GetOneAsync(p => p.Id == cartId);
+            if (anonymousCart == null)
+                throw new Exception("Can't find cart.");
+
+            if (anonymousCart.UserId.HasValue)
+            {
+                // If we found that the anonymousCart has a user and it is not the current user throw an exception, if it is this user just return it's id, he will use that one.
+                if (anonymousCart.UserId.Value != userId)
+                    throw new Exception("Cart is belonging to another user");
+                else
+                    return anonymousCart.Id;
+            }
+
+            // Current cart has priority over the old one, so if the user already has a cart we will delete that one.
+            var userCart = await _cartRepository.GetOneAsync(p => p.UserId == userId);
+            if (userCart != null)
+                await _cartRepository.DeleteAsync(userCart.Id);
+
+            anonymousCart.UserId = userId;
+            await _cartRepository.UpdateAsync(anonymousCart);
+            return anonymousCart.Id;
+        }
+
         #endregion Methods
     }
 }

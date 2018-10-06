@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
+using RetailBay.Core.Interfaces;
 using RetailBay.WebShop.Models;
 
 namespace RetailBay.WebShop.Controllers
@@ -16,22 +20,29 @@ namespace RetailBay.WebShop.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ICatalogService _catalogService;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// Initializes a new instance of the <see cref="AccountController" /> class.
         /// </summary>
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        /// <param name="catalogService">The catalog service.</param>
+        public AccountController(
+            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager, 
+            RoleManager<ApplicationRole> roleManager, 
+            ICatalogService catalogService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _catalogService = catalogService;
         }
 
         #endregion Constructors
@@ -60,7 +71,11 @@ namespace RetailBay.WebShop.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, vm.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
+            {
+                var user = await _userManager.FindByNameAsync(vm.Username);
+                await OnLoginSuccess(user.Id);
                 return RedirectToAction("Index", "Home");
+            }
 
             return null;
         }
@@ -92,11 +107,29 @@ namespace RetailBay.WebShop.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Customer");
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                    {
+                        var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+                        await _catalogService.AddUserToAnonymousCart(user.Id, cartId);
+                    }
+
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }                
             }
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private async Task OnLoginSuccess(Guid userId)
+        {
+            // Transfer user cart if needed.
+            if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+            {
+                var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+                var userCartId = await _catalogService.TransferAnonymousCartToUser(userId, cartId);
+                Response.Cookies.Append(Constants.CART_COOKIE_NAME, userCartId.ToString());
+            }
         }
 
         #endregion Actions

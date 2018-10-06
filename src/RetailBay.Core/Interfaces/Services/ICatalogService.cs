@@ -73,5 +73,25 @@ namespace RetailBay.Core.Interfaces
         /// <param name="cartId">The cart identifier.</param>
         /// <returns></returns>
         Task<int> GetNumberOfProductsInCart(Guid cartId);
+
+        /// <summary>
+        /// Adds the user to anonymous cart.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">cartId or userId</exception>
+        /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
+        Task AddUserToAnonymousCart(Guid userId, Guid cartId);
+
+        /// <summary>
+        /// Transfers the anonymous cart to user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns>Identifier for the user cart.</returns>
+        /// <exception cref="ArgumentException">cartId or userId</exception>
+        /// <exception cref="Exception">Can't find cart. or Cart is belonging to another user</exception>
+        Task<Guid> TransferAnonymousCartToUser(Guid userId, Guid cartId);
     }
 }

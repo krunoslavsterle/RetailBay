@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core;
 using RetailBay.Core.Interfaces;
 
 namespace RetailBay.WebShop.ViewComponents
@@ -29,9 +30,9 @@ namespace RetailBay.WebShop.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             int count = 0;
-            if (Request.Cookies.ContainsKey("RetailBay.Cart"))
+            if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
             {
-                var cartId = Request.Cookies["RetailBay.Cart"];
+                var cartId = Request.Cookies[Constants.CART_COOKIE_NAME];
                 count = await _catalogService.GetNumberOfProductsInCart(new Guid(cartId));
             }
 

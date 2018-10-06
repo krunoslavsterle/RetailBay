@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces;
 
@@ -42,8 +43,8 @@ namespace RetailBay.WebShop.Controllers
 
         private Guid GetOrSetCartCookie()
         {
-            if (Request.Cookies.ContainsKey("RetailBay.Cart"))
-                return new Guid(Request.Cookies["RetailBay.Cart"]);
+            if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
 
             var anonymousId = Guid.NewGuid();
             var cookieOptions = new CookieOptions
@@ -51,7 +52,7 @@ namespace RetailBay.WebShop.Controllers
                 Expires = DateTime.Today.AddDays(30)
             };
 
-            Response.Cookies.Append("RetailBay.Cart", anonymousId.ToString(), cookieOptions);
+            Response.Cookies.Append(Constants.CART_COOKIE_NAME, anonymousId.ToString(), cookieOptions);
             return anonymousId;
         }
     }
