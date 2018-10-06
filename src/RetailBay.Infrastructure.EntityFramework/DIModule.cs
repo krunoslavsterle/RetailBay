@@ -20,6 +20,8 @@ namespace RetailBay.Infrastructure.EntityFramework
 
             services.AddScoped<ISystemRepository, SystemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartItemRepository, CartItemRepository>();
             services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
@@ -15,20 +16,26 @@ namespace RetailBay.Core.Services
     public class CatalogService : ICatalogService
     {
         #region Fields
-
+        
         private readonly IProductRepository _productRepository;
+        private readonly ICartRepository _cartRepository;
+        private readonly ICartItemRepository _cartItemRepository;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CatalogService"/> class.
+        /// Initializes a new instance of the <see cref="CatalogService" /> class.
         /// </summary>
         /// <param name="productRepository">The product repository.</param>
-        public CatalogService(IProductRepository productRepository)
+        /// <param name="cartRepository">The cart repository.</param>
+        /// <param name="cartItemRepository">The cart item repository.</param>
+        public CatalogService(IProductRepository productRepository, ICartRepository cartRepository, ICartItemRepository cartItemRepository)
         {
-            _productRepository = productRepository;                        
+            _productRepository = productRepository;
+            _cartRepository = cartRepository;
+            _cartItemRepository = cartItemRepository;
         }
 
         #endregion Constructors
@@ -86,6 +93,75 @@ namespace RetailBay.Core.Services
         public Task DeleteProductAsync(Guid productId)
         {
             return _productRepository.DeleteAsync(productId);
+        }
+
+        /// <summary>
+        /// Adds the product to cart.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// cartId
+        /// or
+        /// productId
+        /// </exception>
+        public async Task<int> AddProductToCart(Guid cartId, Guid productId)
+        {
+            if (cartId == Guid.Empty) throw new ArgumentException(nameof(cartId));
+            if (productId == Guid.Empty) throw new ArgumentException(nameof(productId));
+
+            var cartsCount = await _cartRepository.GetCountAsync(p => p.Id == cartId);
+            if (cartsCount == 0)
+            {
+                
+            }
+
+            var cart = await _cartRepository.GetOneAsync(p => p.Id == cartId);
+
+            var entity = new CartItem
+            {
+                Id = Guid.NewGuid(),
+                CartId = cartId,
+                ProductId = productId
+            };
+
+            await _cartItemRepository.InsertAsync(entity);
+            return await _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
+        }
+
+        public async Task<bool> CheckCartExists(Guid cartId)
+        {
+            var cartsCount = await _cartRepository.GetCountAsync(p => p.Id == cartId);
+            return cartsCount > 0;
+        }
+
+        /// <summary>
+        /// Creates the cart for user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        public Task CreateCartForUser(Guid? userId, Guid cartId)
+        {
+            var cart = new Cart
+            {
+                Id = cartId,
+                UserId = userId,
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow
+            };
+
+            return _cartRepository.InsertAsync(cart);
+        }
+
+        /// <summary>
+        /// Gets the number of products in cart.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
+        public Task<int> GetNumberOfProductsInCart(Guid cartId)
+        {
+            return _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
         }
 
         #endregion Methods

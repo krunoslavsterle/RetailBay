@@ -44,5 +44,34 @@ namespace RetailBay.Core.Interfaces
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         Task<Product> GetProductAsync(Guid id);
+
+        // <summary>
+        /// Adds the product to cart.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <param name="productId">The product identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">
+        /// cartId
+        /// or
+        /// productId
+        /// </exception>
+        Task<int> AddProductToCart(Guid cartId, Guid productId);
+
+        Task<bool> CheckCartExists(Guid cartId);
+
+        /// <summary>
+        /// Creates the cart for user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        Task CreateCartForUser(Guid? userId, Guid cartId);
+
+        /// <summary>
+        /// Gets the number of products in cart.
+        /// </summary>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <returns></returns>
+        Task<int> GetNumberOfProductsInCart(Guid cartId);
     }
 }

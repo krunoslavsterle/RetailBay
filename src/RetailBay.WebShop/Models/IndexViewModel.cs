@@ -9,6 +9,7 @@ namespace RetailBay.WebShop.Models
 
         public class ProductDTO
         {
+            public Guid Id { get; set; }
             public Guid ProductCategoryId { get; set; }
             public string Name { get; set; }
             public string Slug { get; set; }
