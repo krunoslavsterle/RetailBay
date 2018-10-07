@@ -6,13 +6,11 @@ using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RetailBay.Core.Entities;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
 using RetailBay.WebAdministration.Areas.Catalog.Models;
-using RetailBay.WebAdministration.Infrastructure.MappingConfigurations;
 using static RetailBay.WebAdministration.Areas.Catalog.Models.ProductsViewModel;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
@@ -42,9 +40,6 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             _catalogService = catalogService;
             _lookupServiceFactory = lookupServiceFactory;
             _logger = logger;
-
-            Mapper.WhenMapping
-                .UseConfigurations.From<CatalogMappingConfiguration>();
         }
 
         #endregion Constructors
@@ -66,6 +61,12 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
             var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
             var productCategories = await lkpCategories.GetAllAsync();
+
+            Mapper.WhenMapping
+                .From<Product>()
+                .To<ProductDTO>()
+                .Map(ctx => ctx.Source.ProductPrice.Price)
+                .To(dto => dto.Price);
             
             var vm = new ProductsViewModel
             {
