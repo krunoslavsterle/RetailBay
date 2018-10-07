@@ -13,6 +13,9 @@
     <Compile Remove="Migrations\TenantDB\20181004175431_TestTenant.cs" />
     <Compile Remove="Migrations\TenantDB\20181004182852_InitalTenantCreate.cs" />
     <Compile Remove="Migrations\TenantDB\20181004190729_CartItem.cs" />
+    <Compile Remove="Migrations\TenantDB\20181007090932_Test.cs" />
+    <Compile Remove="Migrations\TenantDB\20181007092042_Test.cs" />
+    <Compile Remove="Migrations\TenantDB\20181007092714_TenantInitial.cs" />
   </ItemGroup>
 
   <ItemGroup>

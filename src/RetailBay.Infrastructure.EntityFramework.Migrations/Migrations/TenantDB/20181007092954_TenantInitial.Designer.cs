@@ -10,8 +10,8 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    [Migration("20181007084014_UserAddress")]
-    partial class UserAddress
+    [Migration("20181007092954_TenantInitial")]
+    partial class TenantInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -462,6 +462,40 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.ToTable("product_category");
                 });
 
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.ProductPrice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnName("date_created");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnName("date_updated");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnName("price");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnName("product_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnName("xmin")
+                        .HasColumnType("xid");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_price");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique()
+                        .HasName("ix_product_price_product_id");
+
+                    b.ToTable("product_price");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("RetailBay.Core.Entities.Identity.ApplicationRole")
@@ -558,35 +592,15 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                         .HasForeignKey("ProductCategoryId")
                         .HasConstraintName("fk_product_product_category_product_category_id")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.OwnsOne("RetailBay.Core.Entities.TenantDB.ProductPrice", "ProductPrice", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnName("id");
-
-                            b1.Property<DateTime>("DateCreated")
-                                .HasColumnName("date_created");
-
-                            b1.Property<DateTime>("DateUpdated")
-                                .HasColumnName("date_updated");
-
-                            b1.Property<decimal>("Price")
-                                .HasColumnName("price");
-
-                            b1.Property<uint>("xmin")
-                                .IsConcurrencyToken()
-                                .ValueGeneratedOnAddOrUpdate()
-                                .HasColumnName("xmin")
-                                .HasColumnType("xid");
-
-                            b1.ToTable("product_price");
-
-                            b1.HasOne("RetailBay.Core.Entities.TenantDB.Product", "Product")
-                                .WithOne("ProductPrice")
-                                .HasForeignKey("RetailBay.Core.Entities.TenantDB.ProductPrice", "Id")
-                                .HasConstraintName("fk_product_price_product_id")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
+            modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.ProductPrice", b =>
+                {
+                    b.HasOne("RetailBay.Core.Entities.TenantDB.Product", "Product")
+                        .WithOne("ProductPrice")
+                        .HasForeignKey("RetailBay.Core.Entities.TenantDB.ProductPrice", "ProductId")
+                        .HasConstraintName("fk_product_price_product_product_id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

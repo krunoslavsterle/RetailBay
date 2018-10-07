@@ -72,8 +72,8 @@ namespace RetailBay.Infrastructure.EntityFramework
             });
 
 
-            builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductPrice>(ConfigureProductPrice);
+            builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductCategory>(ConfigureProductCategory);
             builder.Entity<Cart>(ConfigureCart);
             builder.Entity<CartItem>(ConfigureCartItem);
@@ -90,12 +90,15 @@ namespace RetailBay.Infrastructure.EntityFramework
         private void ConfigureProductPrice(EntityTypeBuilder<ProductPrice> builder)
         {
             builder.ForNpgsqlUseXminAsConcurrencyToken();
+
+            builder.HasOne(p => p.Product)
+                .WithOne(p => p.ProductPrice)
+                .HasForeignKey<ProductPrice>(p => p.ProductId);
         }
 
         private void ConfigureProduct(EntityTypeBuilder<Product> builder)
         {
             builder.ForNpgsqlUseXminAsConcurrencyToken();
-            builder.OwnsOne(p => p.ProductPrice).HasForeignKey(p => p.Id);
 
             builder.HasOne(p => p.ProductCategory)
                 .WithMany(p => p.Products)
