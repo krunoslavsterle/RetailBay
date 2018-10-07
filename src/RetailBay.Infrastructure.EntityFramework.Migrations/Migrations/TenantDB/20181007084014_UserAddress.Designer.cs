@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RetailBay.Infrastructure.EntityFramework;
@@ -9,9 +10,10 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    partial class TenantDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181007084014_UserAddress")]
+    partial class UserAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

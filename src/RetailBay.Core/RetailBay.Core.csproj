@@ -13,4 +13,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\TenantDB\Order\" />
+  </ItemGroup>
+
 </Project>

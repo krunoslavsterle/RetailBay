@@ -29,6 +29,8 @@ namespace RetailBay.Infrastructure.EntityFramework
         public DbSet<ProductPrice> ProductPrices { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -69,13 +71,15 @@ namespace RetailBay.Infrastructure.EntityFramework
                 b.ToTable("identity_user_token");
             });
 
-            builder.UseSnakeCaseNamingConvention(true);
 
             builder.Entity<Product>(ConfigureProduct);
             builder.Entity<ProductPrice>(ConfigureProductPrice);
             builder.Entity<ProductCategory>(ConfigureProductCategory);
             builder.Entity<Cart>(ConfigureCart);
             builder.Entity<CartItem>(ConfigureCartItem);
+            builder.Entity<UserAddress>(ConfigureUserAddress);
+
+            builder.UseSnakeCaseNamingConvention(true);
         }
 
         private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
@@ -118,6 +122,19 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.HasOne(p => p.Product)
                 .WithMany(p => p.CartItems)
                 .HasForeignKey(p => p.ProductId);
+        }
+
+        private void ConfigureUserAddress(EntityTypeBuilder<UserAddress> builder)
+        {
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
+
+            builder.HasOne(p => p.User)
+                .WithMany(p => p.UserAddresses)
+                .HasForeignKey(p => p.UserId);
+
+            builder.HasOne(p => p.Address)
+                .WithMany(p => p.UserAddresses)
+                .HasForeignKey(p => p.AddressId);
         }
     }
 }
