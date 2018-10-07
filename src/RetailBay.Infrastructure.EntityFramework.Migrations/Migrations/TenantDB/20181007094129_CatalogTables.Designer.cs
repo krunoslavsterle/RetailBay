@@ -10,8 +10,8 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    [Migration("20181007093128_Test")]
-    partial class Test
+    [Migration("20181007094129_CatalogTables")]
+    partial class CatalogTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

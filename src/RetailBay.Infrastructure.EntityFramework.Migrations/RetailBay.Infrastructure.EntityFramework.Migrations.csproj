@@ -16,6 +16,8 @@
     <Compile Remove="Migrations\TenantDB\20181007090932_Test.cs" />
     <Compile Remove="Migrations\TenantDB\20181007092042_Test.cs" />
     <Compile Remove="Migrations\TenantDB\20181007092714_TenantInitial.cs" />
+    <Compile Remove="Migrations\TenantDB\20181007093642_TenantInitial.cs" />
+    <Compile Remove="Migrations\TenantDB\20181007094300_Test.cs" />
   </ItemGroup>
 
   <ItemGroup>

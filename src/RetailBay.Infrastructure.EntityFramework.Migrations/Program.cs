@@ -10,8 +10,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
         static void Main(string[] args)
         {
 
-            SeedIdentityDB();
-            //SeedProductCategoryTable();
+            //SeedIdentityDB();
+            SeedProductCategoryTable();
             //SeedingProductTable();
             Console.Read();
         }
@@ -64,29 +64,29 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
             var factory = new TenantContextFactory();
             var context = factory.CreateDbContext(null);
 
-            var category = context.ProductCategories.First();
-            var product = new Product
-            {
-                Id = Guid.NewGuid(),
-                Name = "RetailBay Test Product",
-                Description = "Some long description",
-                ProductCategoryId = category.Id,
-                IsPublished = false,
-                Slug = "retail_bay_test_product",
-                DateCreated = DateTime.UtcNow,
-                DateUpdated = DateTime.UtcNow
-            };
+            //var category = context.ProductCategories.First();
+            //var product = new Product
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = "RetailBay Test Product",
+            //    Description = "Some long description",
+            //    ProductCategoryId = category.Id,
+            //    IsPublished = false,
+            //    Slug = "retail_bay_test_product",
+            //    DateCreated = DateTime.UtcNow,
+            //    DateUpdated = DateTime.UtcNow
+            //};
 
-            var productPrice = new ProductPrice
-            {
-                Id = product.Id,
-                Price = 22.99M,
-                DateCreated = DateTime.UtcNow,
-                DateUpdated = DateTime.UtcNow
-            };
+            //var productPrice = new ProductPrice
+            //{
+            //    Id = product.Id,
+            //    Price = 22.99M,
+            //    DateCreated = DateTime.UtcNow,
+            //    DateUpdated = DateTime.UtcNow
+            //};
 
-            product.ProductPrice = productPrice;
-            context.Products.Add(product);
+            //product.ProductPrice = productPrice;
+           // context.Products.Add(product);
 
             try
             {

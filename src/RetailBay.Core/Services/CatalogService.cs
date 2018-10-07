@@ -52,7 +52,7 @@ namespace RetailBay.Core.Services
         public Task<IPagedCollection<Product>> GetProductsPagedAsync(ISortingParameters sortingParameters, int pageNumber, int pageSize)
         {
             var pagingParameters = new PagingParameters(pageNumber, pageSize);
-            return _productRepository.GetPagedAsync(null, sortingParameters, pagingParameters);
+            return _productRepository.GetPagedAsync(null, sortingParameters, pagingParameters, nameof(Product.ProductPrice));
         }
 
         /// <summary>
