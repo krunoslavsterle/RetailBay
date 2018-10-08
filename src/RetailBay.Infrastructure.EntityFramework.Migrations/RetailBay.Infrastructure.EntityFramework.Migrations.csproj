@@ -18,6 +18,7 @@
     <Compile Remove="Migrations\TenantDB\20181007092714_TenantInitial.cs" />
     <Compile Remove="Migrations\TenantDB\20181007093642_TenantInitial.cs" />
     <Compile Remove="Migrations\TenantDB\20181007094300_Test.cs" />
+    <Compile Remove="Migrations\TenantDB\20181008085421_FixingTableNames3.cs" />
   </ItemGroup>
 
   <ItemGroup>

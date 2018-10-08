@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RetailBay.Infrastructure.EntityFramework;
@@ -9,9 +10,10 @@ using RetailBay.Infrastructure.EntityFramework;
 namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantDB
 {
     [DbContext(typeof(TenantDBContext))]
-    partial class TenantDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181008085217_FixingTableNames2")]
+    partial class FixingTableNames2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -405,9 +407,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.HasKey("Id")
                         .HasName("pk_order");
 
-                    b.HasIndex("ShippingAddressId")
-                        .HasName("ix_order_shipping_address_id");
-
                     b.HasIndex("UserId")
                         .HasName("ix_order_user_id");
 
@@ -429,8 +428,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.Property<Guid>("OrderId")
                         .HasColumnName("order_id");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnName("product_id");
+                    b.Property<Guid>("ProdcutId")
+                        .HasColumnName("prodcut_id");
 
                     b.Property<decimal>("ProductPrice")
                         .HasColumnName("product_price");
@@ -447,8 +446,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
                     b.HasIndex("OrderId")
                         .HasName("ix_order_item_order_id");
 
-                    b.HasIndex("ProductId")
-                        .HasName("ix_order_item_product_id");
+                    b.HasIndex("ProdcutId")
+                        .HasName("ix_order_item_prodcut_id");
 
                     b.ToTable("order_item");
                 });
@@ -666,12 +665,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 
             modelBuilder.Entity("RetailBay.Core.Entities.TenantDB.Order", b =>
                 {
-                    b.HasOne("RetailBay.Core.Entities.Identity.Address", "ShippingAddress")
-                        .WithMany()
-                        .HasForeignKey("ShippingAddressId")
-                        .HasConstraintName("fk_order_address_shipping_address_id")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("RetailBay.Core.Entities.Identity.ApplicationUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -689,8 +682,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.TenantD
 
                     b.HasOne("RetailBay.Core.Entities.TenantDB.Product", "Product")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
-                        .HasConstraintName("fk_order_item_product_product_id")
+                        .HasForeignKey("ProdcutId")
+                        .HasConstraintName("fk_order_item_product_prodcut_id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

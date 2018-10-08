@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Infrastructure.EntityFramework.Repositories;
 
@@ -22,6 +21,11 @@ namespace RetailBay.Infrastructure.EntityFramework
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<ICartItemRepository, CartItemRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
             services.AddScoped(typeof(ILookupRepository<>), typeof(LookupRepository<>));
 
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
@@ -114,5 +116,32 @@ namespace RetailBay.Core.Interfaces
         /// <param name="includeProperties">The include properties.</param>
         /// <returns></returns>
         Task<Cart> GetCartAsync(Guid id, params string[] includeProperties);
+
+        /// <summary>
+        /// Gets the user addresses by <see cref="AddressType"/>.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="addressType">Type of the address.</param>
+        /// <returns></returns>
+        Task<IEnumerable<Address>> GetUserAddresses(Guid userId, AddressType? addressType);
+
+        /// <summary>
+        /// Inserts the user address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="addressType">Type of the address.</param>
+        /// <returns></returns>
+        Task InsertUserAddress(Address address, Guid userId, AddressType addressType);
+
+        /// <summary>
+        /// Creates the order for user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <param name="shippingAddressId">The shipping address identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">No cart items found</exception>
+        Task CreateOrderForUser(Guid userId, Guid cartId, Guid shippingAddressId);
     }
 }

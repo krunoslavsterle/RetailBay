@@ -11,5 +11,6 @@ namespace RetailBay.Core.Entities.Identity
     {
         public Cart Cart { get; set; }
         public IEnumerable<UserAddress> UserAddresses { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

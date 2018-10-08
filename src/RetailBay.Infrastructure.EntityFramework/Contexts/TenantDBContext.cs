@@ -31,6 +31,8 @@ namespace RetailBay.Infrastructure.EntityFramework
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -78,8 +80,10 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.Entity<Cart>(ConfigureCart);
             builder.Entity<CartItem>(ConfigureCartItem);
             builder.Entity<UserAddress>(ConfigureUserAddress);
-
-            builder.UseSnakeCaseNamingConvention(true);
+            builder.Entity<Order>(ConfigureOrder);
+            builder.Entity<OrderItem>(ConfigureOrderItem);
+            
+            builder.UseSnakeCaseNamingConvention(false);
         }
 
         private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
@@ -138,6 +142,32 @@ namespace RetailBay.Infrastructure.EntityFramework
             builder.HasOne(p => p.Address)
                 .WithMany(p => p.UserAddresses)
                 .HasForeignKey(p => p.AddressId);
+        }
+
+        private void ConfigureOrder(EntityTypeBuilder<Order> builder)
+        {
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
+
+            builder.HasOne(p => p.User)
+                .WithMany(p => p.Orders)
+                .HasForeignKey(p => p.UserId);
+
+            builder.HasOne(p => p.ShippingAddress)
+                .WithMany()
+                .HasForeignKey(p => p.ShippingAddressId);
+
+            builder.HasMany(p => p.OrderItems)
+                .WithOne(p => p.Order)
+                .HasForeignKey(p => p.OrderId);
+        }
+
+        private void ConfigureOrderItem(EntityTypeBuilder<OrderItem> builder)
+        {
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
+
+            builder.HasOne(p => p.Product)
+                .WithMany(p => p.OrderItems)
+                .HasForeignKey(p => p.ProductId);
         }
     }
 }

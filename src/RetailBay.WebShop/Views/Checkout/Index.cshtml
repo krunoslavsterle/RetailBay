@@ -1,0 +1,32 @@
+﻿@model RetailBay.WebShop.Models.Checkout.IndexViewModel
+
+@{
+    ViewData["Title"] = "Shipping Address";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+</div>
+<form asp-action="ConfirmOrder" asp-controller="Checkout" method="post" class="form-horizontal">
+
+    @foreach (var address in Model.ShippingAddresses)
+    {
+        var formatedName = $"{address.ContactName}, {address.StreetAddress}, {address.PostalCode} {address.City}";
+        <div>
+            <input asp-for="SelectedAddressId" type="radio" value="@address.Id" id="@address.Id" />
+            <label for="@address.Id">@formatedName</label>
+        </div>
+    }
+
+    <br />
+    <a asp-action="NewAddress" asp-controller="Checkout" class="btn btn-primary btn-md">New Address</a>
+
+    <br />
+    <br />
+
+    <button class="btn btn-primary btn-lg">Confirm Order</button>
+</form>

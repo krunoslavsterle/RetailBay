@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
@@ -20,6 +22,9 @@ namespace RetailBay.Core.Services
         private readonly IProductRepository _productRepository;
         private readonly ICartRepository _cartRepository;
         private readonly ICartItemRepository _cartItemRepository;
+        private readonly IAddressRepository _addressRepository;
+        private readonly IUserAddressRepository _userAddressRepository;
+        private readonly IOrderRepository _orderRepository;
 
         #endregion Fields
 
@@ -31,11 +36,23 @@ namespace RetailBay.Core.Services
         /// <param name="productRepository">The product repository.</param>
         /// <param name="cartRepository">The cart repository.</param>
         /// <param name="cartItemRepository">The cart item repository.</param>
-        public CatalogService(IProductRepository productRepository, ICartRepository cartRepository, ICartItemRepository cartItemRepository)
+        /// <param name="addressRepository">The address repository.</param>
+        /// <param name="userAddressRepository">The user address repository.</param>
+        /// <param name="orderRepository">The order repository.</param>
+        public CatalogService(
+            IProductRepository productRepository, 
+            ICartRepository cartRepository, 
+            ICartItemRepository cartItemRepository, 
+            IAddressRepository addressRepository, 
+            IUserAddressRepository userAddressRepository,
+            IOrderRepository orderRepository)
         {
             _productRepository = productRepository;
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
+            _addressRepository = addressRepository;
+            _userAddressRepository = userAddressRepository;
+            _orderRepository = orderRepository;
         }
 
         #endregion Constructors
@@ -251,6 +268,90 @@ namespace RetailBay.Core.Services
         public Task<Cart> GetCartAsync(Guid id, params string[] includeProperties)
         {
             return _cartRepository.GetOneAsync(p => p.Id == id, includeProperties);
+        }
+
+        /// <summary>
+        /// Gets the user addresses by <see cref="AddressType"/>.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="addressType">Type of the address.</param>
+        /// <returns></returns>
+        public Task<IEnumerable<Address>> GetUserAddresses(Guid userId, AddressType? addressType)
+        {
+            if (addressType.HasValue)
+                return _addressRepository.GetAsync(p => p.UserAddresses.Any(s => s.UserId == userId && s.AddressType == addressType.Value));
+
+            return _addressRepository.GetAsync(p => p.UserAddresses.Any(s => s.UserId == userId));
+        }
+
+        /// <summary>
+        /// Inserts the user address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="addressType">Type of the address.</param>
+        /// <returns></returns>
+        public async Task InsertUserAddress(Address address, Guid userId, AddressType addressType)
+        {
+            if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
+
+            address.Id = Guid.NewGuid();
+            var userAddress = new UserAddress
+            {
+                Id = Guid.NewGuid(),
+                AddressType = addressType,
+                UserId = userId,
+                AddressId = address.Id,
+                Address = address
+            };
+
+            await _userAddressRepository.InsertAsync(userAddress);
+        }
+
+        /// <summary>
+        /// Creates the order for user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="cartId">The cart identifier.</param>
+        /// <param name="shippingAddressId">The shipping address identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">No cart items found</exception>
+        public async Task CreateOrderForUser(Guid userId, Guid cartId, Guid shippingAddressId)
+        {
+            var cartItems = await _cartItemRepository.GetAsync(p => p.CartId == cartId, null, $"{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            if (cartItems == null || cartItems.Count() == 0)
+                throw new Exception("No cart items found");
+
+            var order = new Order
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                ShippingAddressId = shippingAddressId,
+                OrderStatus = OrderStatus.New
+            };
+
+            var orderItems = new List<OrderItem>();
+            var products = cartItems.Select(p => p.Product);
+            foreach(var product in products)
+            {
+                orderItems.Add(new OrderItem
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = order.Id,
+                    ProductId = product.Id,
+                    ProductPrice = product.ProductPrice.Price,
+                    DateCreated = DateTime.UtcNow,
+                    DateUpdated = DateTime.UtcNow
+                });
+            }
+
+            order.OrderItems = orderItems;
+            order.OrderTotal = orderItems.Sum(p => p.ProductPrice);
+
+            await _orderRepository.InsertAsync(order, false);
+            await _cartRepository.DeleteAsync(cartId, false);
+
+            await _cartRepository.SaveAsync();
         }
 
         #endregion Methods
