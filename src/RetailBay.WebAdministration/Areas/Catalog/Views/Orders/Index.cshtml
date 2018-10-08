@@ -1,0 +1,34 @@
+﻿@model IEnumerable<RetailBay.Core.Entities.TenantDB.Order>
+@using RetailBay.WebAdministration.TagHelpers
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Date Created</td>
+            <td>Status</td>
+            <td>Total</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.DateCreated</td>
+                <td>@order.OrderStatus.ToString()</td>
+                <td>@order.OrderTotal</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -143,5 +143,11 @@ namespace RetailBay.Core.Interfaces
         /// <returns></returns>
         /// <exception cref="Exception">No cart items found</exception>
         Task CreateOrderForUser(Guid userId, Guid cartId, Guid shippingAddressId);
+
+        /// <summary>
+        /// Gets all orders.
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<Order>> GetAllOrders();
     }
 }

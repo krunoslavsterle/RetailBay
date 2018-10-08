@@ -354,6 +354,15 @@ namespace RetailBay.Core.Services
             await _cartRepository.SaveAsync();
         }
 
+        /// <summary>
+        /// Gets all orders.
+        /// </summary>
+        /// <returns></returns>
+        public Task<IEnumerable<Order>> GetAllOrders()
+        {
+            return _orderRepository.GetAllAsync();
+        }
+
         #endregion Methods
     }
 }
