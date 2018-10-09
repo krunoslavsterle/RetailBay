@@ -16,6 +16,7 @@ using StackExchange.Profiling.Storage;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Text;
+using AgileObjects.AgileMapper;
 
 namespace RetailBay.WebAdministration
 {
@@ -26,6 +27,7 @@ namespace RetailBay.WebAdministration
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Mapper.WhenMapping.UseConfigurations.From<Infrastructure.Mapper.MappingConfiguration>();
         }
 
         public IConfiguration Configuration { get; }

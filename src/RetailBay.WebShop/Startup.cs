@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,11 +21,11 @@ namespace RetailBay.WebShop
     public class Startup
     {
         private IServiceCollection _services;
-
-
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Mapper.WhenMapping.UseConfigurations.From<Infrastructure.Mapper.MappingConfiguration>();
         }
 
         public IConfiguration Configuration { get; }

@@ -61,13 +61,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 
             var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
             var productCategories = await lkpCategories.GetAllAsync();
-
-            Mapper.WhenMapping
-                .From<Product>()
-                .To<ProductDTO>()
-                .Map(ctx => ctx.Source.ProductPrice.Price)
-                .To(dto => dto.Price);
-            
+                        
             var vm = new ProductsViewModel
             {
                 Products = new PagedCollection<ProductDTO>(Mapper.Map(list).ToANew<IEnumerable<ProductDTO>>(), list.TotalItemCount, list.PageNumber, list.PageSize),
