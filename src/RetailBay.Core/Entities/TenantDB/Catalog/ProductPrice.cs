@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RetailBay.Core.Entities.TenantDB
 {
     [Table("product_price")]
-    public class ProductPrice : EntityBase
+    public class Product : EntityBase
     {
         [Required]
         public Guid ProductId { get; set; }

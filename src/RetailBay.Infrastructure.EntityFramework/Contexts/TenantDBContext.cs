@@ -1,21 +1,55 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Infrastructure.EntityFramework.Configurations;
+using RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {
+    /// <summary>
+    /// TenantDBContext implementation.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext{RetailBay.Core.Entities.Identity.ApplicationUser, RetailBay.Core.Entities.Identity.ApplicationRole, System.Guid}" />
     public class TenantDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
+        #region Fields
+
         private readonly string _connectionString;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TenantDBContext"/> class.
+        /// </summary>
+        /// <param name="tenant">The tenant.</param>
         public TenantDBContext(Tenant tenant)
         {
             _connectionString = tenant.ConnectionString;
         }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Product> ProductPrices { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        #endregion Properties
+
+        #region Methods
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,150 +58,31 @@ namespace RetailBay.Infrastructure.EntityFramework
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<ProductPrice> ProductPrices { get; set; }
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<UserAddress> UserAddresses { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>(b =>
-            {
-                b.ToTable("identity_user");
-            });
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new ApplicationRoleConfiguration());
+            builder.ApplyConfiguration(new IdentityRoleClaimConfiguration());
+            builder.ApplyConfiguration(new IdentityUserClaimConfiguration());
+            builder.ApplyConfiguration(new IdentityUserLoginConfiguration());
+            builder.ApplyConfiguration(new IdentityUserRoleConfiguration());
+            builder.ApplyConfiguration(new IdentityUserTokenConfiguration());
+            builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new UserAddressConfiguration());
 
-            builder.Entity<ApplicationRole>(b =>
-            {
-                b.ToTable("identity_role");
-            });
+            builder.ApplyConfiguration(new CartConfiguration());
+            builder.ApplyConfiguration(new CartItemConfiguration());
+            builder.ApplyConfiguration(new OrderConfiguration());
+            builder.ApplyConfiguration(new OrderItemConfiguration());
+            builder.ApplyConfiguration(new ProductCategoryConfiguration());
+            builder.ApplyConfiguration(new ProductConfiguration());
+            builder.ApplyConfiguration(new ProductPriceConfiguration());
 
-            builder.Entity<IdentityUserRole<Guid>>(b =>
-            {
-                b.ToTable("identity_user_role");
-            });
-
-            builder.Entity<IdentityRoleClaim<Guid>>(b =>
-            {
-                b.ToTable("identity_role_claim");
-            });
-
-            builder.Entity<IdentityUserClaim<Guid>>(b =>
-            {
-                b.ToTable("identity_user_claim");
-            });
-
-            builder.Entity<IdentityUserLogin<Guid>>(b =>
-            {
-                b.ToTable("identity_user_login");
-            });
-
-            builder.Entity<IdentityUserToken<Guid>>(b =>
-            {
-                b.ToTable("identity_user_token");
-            });
-
-
-            builder.Entity<ProductPrice>(ConfigureProductPrice);
-            builder.Entity<Product>(ConfigureProduct);
-            builder.Entity<ProductCategory>(ConfigureProductCategory);
-            builder.Entity<Cart>(ConfigureCart);
-            builder.Entity<CartItem>(ConfigureCartItem);
-            builder.Entity<UserAddress>(ConfigureUserAddress);
-            builder.Entity<Order>(ConfigureOrder);
-            builder.Entity<OrderItem>(ConfigureOrderItem);
-            
             builder.UseSnakeCaseNamingConvention(false);
         }
 
-        private void ConfigureProductCategory(EntityTypeBuilder<ProductCategory> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-        }
-
-        private void ConfigureProductPrice(EntityTypeBuilder<ProductPrice> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.Product)
-                .WithOne(p => p.ProductPrice)
-                .HasForeignKey<ProductPrice>(p => p.ProductId);
-        }
-
-        private void ConfigureProduct(EntityTypeBuilder<Product> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.ProductCategory)
-                .WithMany(p => p.Products)
-                .HasForeignKey(p => p.ProductCategoryId);
-        }
-
-        private void ConfigureCart(EntityTypeBuilder<Cart> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.User)
-                .WithOne(p => p.Cart)
-                .HasForeignKey<Cart>(p => p.UserId);
-        }
-
-        private void ConfigureCartItem(EntityTypeBuilder<CartItem> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.Cart)
-                .WithMany(c => c.CartItems)
-                .HasForeignKey(p => p.CartId);
-
-            builder.HasOne(p => p.Product)
-                .WithMany(p => p.CartItems)
-                .HasForeignKey(p => p.ProductId);
-        }
-
-        private void ConfigureUserAddress(EntityTypeBuilder<UserAddress> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.User)
-                .WithMany(p => p.UserAddresses)
-                .HasForeignKey(p => p.UserId);
-
-            builder.HasOne(p => p.Address)
-                .WithMany(p => p.UserAddresses)
-                .HasForeignKey(p => p.AddressId);
-        }
-
-        private void ConfigureOrder(EntityTypeBuilder<Order> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.User)
-                .WithMany(p => p.Orders)
-                .HasForeignKey(p => p.UserId);
-
-            builder.HasOne(p => p.ShippingAddress)
-                .WithMany()
-                .HasForeignKey(p => p.ShippingAddressId);
-
-            builder.HasMany(p => p.OrderItems)
-                .WithOne(p => p.Order)
-                .HasForeignKey(p => p.OrderId);
-        }
-
-        private void ConfigureOrderItem(EntityTypeBuilder<OrderItem> builder)
-        {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
-
-            builder.HasOne(p => p.Product)
-                .WithMany(p => p.OrderItems)
-                .HasForeignKey(p => p.ProductId);
-        }
+        #endregion Methods
     }
 }

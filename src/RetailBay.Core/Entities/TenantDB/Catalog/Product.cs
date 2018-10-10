@@ -25,7 +25,7 @@ namespace RetailBay.Core.Entities.TenantDB
         public Guid ProductCategoryId { get; set; }
         
         public ProductCategory ProductCategory { get; set; }
-        public ProductPrice ProductPrice { get; set; }
+        public Product ProductPrice { get; set; }
         public IEnumerable<CartItem> CartItems { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }
     }
