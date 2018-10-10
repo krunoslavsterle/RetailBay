@@ -99,7 +99,7 @@ namespace RetailBay.Core.Services
         /// <returns></returns>
         public Task<Product> GetProductAsync(Guid id)
         {
-            return _productRepository.GetOneAsync(p => p.Id == id);
+            return _productRepository.GetOneAsync(p => p.Id == id, nameof(Product.ProductPrice));
         }
 
         /// <summary>

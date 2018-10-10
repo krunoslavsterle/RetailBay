@@ -13,8 +13,15 @@ namespace RetailBay.WebAdministration.Infrastructure.Mapper
                 .Map(ctx => ctx.Source.ProductPrice.Price)
                 .To(dto => dto.Price);
 
+            WhenMapping
+                .From<Areas.Catalog.Models.EditProductViewModel>()
+                .Over<Product>()
+                .Map(ctx => ctx.Source.Price)
+                .To(domain => domain.ProductPrice.Price);
+
             // Cache all Product -> ProductDto mapping plans:
             GetPlansFor<Product>().To<Areas.Catalog.Models.ProductsViewModel.ProductDTO>();
+            GetPlanFor<Areas.Catalog.Models.EditProductViewModel>().Over<Product>();
         }
     }
 }
