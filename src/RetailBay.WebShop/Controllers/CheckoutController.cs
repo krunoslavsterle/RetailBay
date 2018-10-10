@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -19,20 +18,26 @@ namespace RetailBay.WebShop.Controllers
         #region Fields
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICatalogService _catalogService;
+        private readonly IOrderService _orderService;
+        private readonly ICartService _cartService;
+        private readonly IUserService _userService;
 
         #endregion Fields
 
         #region Controllers
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartController"/> class.
+        /// Initializes a new instance of the <see cref="CartController" /> class.
         /// </summary>
-        /// <param name="catalogService">The catalog service.</param>
+        /// <param name="orderService">The order service.</param>
+        /// <param name="cartService">The cart service.</param>
+        /// <param name="userService">The user service.</param>
         /// <param name="userManager">The user manager.</param>
-        public CheckoutController(ICatalogService catalogService, UserManager<ApplicationUser> userManager)
+        public CheckoutController(IOrderService orderService, ICartService cartService, IUserService userService, UserManager<ApplicationUser> userManager)
         {
-            _catalogService = catalogService;
+            _orderService = orderService;
+            _cartService = cartService;
+            _userService = userService;
             _userManager = userManager;
         }
 
@@ -47,12 +52,12 @@ namespace RetailBay.WebShop.Controllers
             var userId = new Guid(_userManager.GetUserId(User));
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
 
-            var cart = await _catalogService.GetCartAsync(cartId);
+            var cart = await _cartService.GetCartAsync(cartId);
             if (cart == null || cart.UserId != userId)
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel();
-            vm.ShippingAddresses = await _catalogService.GetUserAddressesAsync(userId, AddressType.Shipping);
+            vm.ShippingAddresses = await _userService.GetUserAddressesAsync(userId, AddressType.Shipping);
 
             return View(vm);
         }
@@ -72,7 +77,7 @@ namespace RetailBay.WebShop.Controllers
             var userId = new Guid(_userManager.GetUserId(User));
             var domainAddress = Mapper.Map(vm).ToANew<Address>();
 
-            await _catalogService.InsertUserAddressAsync(domainAddress, userId, AddressType.Shipping);
+            await _userService.InsertUserAddressAsync(domainAddress, userId, AddressType.Shipping);
             return RedirectToAction("Index");
         }
 
@@ -86,7 +91,7 @@ namespace RetailBay.WebShop.Controllers
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
             var userId = new Guid(_userManager.GetUserId(User));
 
-            await _catalogService.CreateOrderForUserAsync(userId, cartId, vm.SelectedAddressId);
+            await _orderService.CreateOrderForUserAsync(userId, cartId, vm.SelectedAddressId);
 
             return RedirectToAction("Index", "Home");
         }

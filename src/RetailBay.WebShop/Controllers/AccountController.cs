@@ -20,7 +20,7 @@ namespace RetailBay.WebShop.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly ICatalogService _catalogService;
+        private readonly ICartService _cartService;
 
         #endregion Fields
 
@@ -32,17 +32,17 @@ namespace RetailBay.WebShop.Controllers
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
-        /// <param name="catalogService">The catalog service.</param>
+        /// <param name="cartService">The cart service.</param>
         public AccountController(
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager, 
             RoleManager<ApplicationRole> roleManager, 
-            ICatalogService catalogService)
+            ICartService cartService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
-            _catalogService = catalogService;
+            _cartService = cartService;
         }
 
         #endregion Constructors
@@ -111,7 +111,7 @@ namespace RetailBay.WebShop.Controllers
                     if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                     {
                         var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-                        await _catalogService.AddUserToAnonymousCartAsync(user.Id, cartId);
+                        await _cartService.AddUserToAnonymousCartAsync(user.Id, cartId);
                     }
 
                     return RedirectToAction(nameof(HomeController.Index), "Home");
@@ -127,7 +127,7 @@ namespace RetailBay.WebShop.Controllers
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
             {
                 var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-                var userCartId = await _catalogService.TransferAnonymousCartToUserAsync(userId, cartId);
+                var userCartId = await _cartService.TransferAnonymousCartToUserAsync(userId, cartId);
                 Response.Cookies.Append(Constants.CART_COOKIE_NAME, userCartId.ToString());
             }
         }

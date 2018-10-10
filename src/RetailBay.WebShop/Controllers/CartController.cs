@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -18,20 +17,20 @@ namespace RetailBay.WebShop.Controllers
         #region Fields
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ICatalogService _catalogService;
+        private readonly ICartService _cartService;
 
         #endregion Fields
 
         #region Controllers
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartController"/> class.
+        /// Initializes a new instance of the <see cref="CartController" /> class.
         /// </summary>
-        /// <param name="catalogService">The catalog service.</param>
+        /// <param name="cartService">The cart service.</param>
         /// <param name="userManager">The user manager.</param>
-        public CartController(ICatalogService catalogService, UserManager<ApplicationUser> userManager)
+        public CartController(ICartService cartService, UserManager<ApplicationUser> userManager)
         {
-            _catalogService = catalogService;
+            _cartService = cartService;
             _userManager = userManager;
         }
 
@@ -49,7 +48,7 @@ namespace RetailBay.WebShop.Controllers
                 return View(vm);
 
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-            var cart = await _catalogService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
             if (cart == null)
                 return View(vm);
 
@@ -63,7 +62,7 @@ namespace RetailBay.WebShop.Controllers
         public async Task<IActionResult> AddToCart(Guid productId)
         {
             var cartId = GetOrSetCartCookie();
-            var cartExists = await _catalogService.CheckCartExistsAsync(cartId);
+            var cartExists = await _cartService.CheckCartExistsAsync(cartId);
             if (!cartExists)
             {
                 var userId = (Guid?)null;
@@ -73,10 +72,10 @@ namespace RetailBay.WebShop.Controllers
                     userId = user.Id;
                 }
 
-                await _catalogService.CreateCartForUserAsync(userId, cartId);
+                await _cartService.CreateCartForUserAsync(userId, cartId);
             }
 
-            var productsCount = await _catalogService.AddProductToCartAsync(cartId, productId);
+            var productsCount = await _cartService.AddProductToCartAsync(cartId, productId);
             return new JsonResult(productsCount);
         }
 
@@ -85,7 +84,7 @@ namespace RetailBay.WebShop.Controllers
         public async Task<IActionResult> RemoveProduct(Guid id)
         {
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
-                await _catalogService.RemoveCartItemAsync(id);
+                await _cartService.RemoveCartItemAsync(id);
 
             return RedirectToAction("Index");
         }

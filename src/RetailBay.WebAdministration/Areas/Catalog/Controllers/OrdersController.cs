@@ -11,7 +11,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     {
         #region Fields
 
-        private readonly ICatalogService _catalogService;
+        private readonly IOrderService _orderService;
         private readonly ILookupServiceFactory _lookupServiceFactory;
         private readonly IAppLogger<ProductsController> _logger;
 
@@ -25,14 +25,16 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         /// <param name="catalogService">The catalog service.</param>
         /// <param name="lookupService">The lookup service.</param>
         /// <param name="logger">The logger.</param>
-        public OrdersController(ICatalogService catalogService, ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
+        public OrdersController(IOrderService orderService, ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
         {
-            _catalogService = catalogService;
+            _orderService = orderService;
             _lookupServiceFactory = lookupServiceFactory;
             _logger = logger;
         }
 
         #endregion Constructors
+
+        #region Methods
 
         [HttpGet]
         [Route("orders")]
@@ -40,8 +42,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         {
             _logger.LogInformation("Request received for [{action}] GET action", nameof(OrdersController.Index));
 
-            var orders = await _catalogService.GetAllOrdersAsync();
+            var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
         }
+
+        #endregion Methods
     }
 }

@@ -12,15 +12,15 @@ namespace RetailBay.WebShop.ViewComponents
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ViewComponent" />
     public class Cart : ViewComponent
     {
-        private readonly ICatalogService _catalogService;
-        
+        private readonly ICartService _cartService;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Cart"/> class.
+        /// Initializes a new instance of the <see cref="Cart" /> class.
         /// </summary>
-        /// <param name="catalogService">The catalog service.</param>
-        public Cart(ICatalogService catalogService)
+        /// <param name="cartService">The cart service.</param>
+        public Cart(ICartService cartService)
         {
-            _catalogService = catalogService;
+            _cartService = cartService;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace RetailBay.WebShop.ViewComponents
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
             {
                 var cartId = Request.Cookies[Constants.CART_COOKIE_NAME];
-                count = await _catalogService.GetNumberOfProductsInCartAsync(new Guid(cartId));
+                count = await _cartService.GetNumberOfProductsInCartAsync(new Guid(cartId));
             }
 
             return View(count);
