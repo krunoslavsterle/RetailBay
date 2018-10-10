@@ -37,5 +37,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         }
 
         #endregion Methods
+
+        
     }
 }

@@ -94,7 +94,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
                 var newProduct = Mapper.Map(vm).ToANew<Product>();
                 newProduct.Id = Guid.NewGuid();
 
-                newProduct.ProductPrice = new Product
+                newProduct.ProductPrice = new ProductPrice
                 {
                     Id = Guid.NewGuid(),
                     ProductId = newProduct.Id,

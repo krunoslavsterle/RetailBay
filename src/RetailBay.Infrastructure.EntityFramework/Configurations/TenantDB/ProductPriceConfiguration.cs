@@ -4,15 +4,15 @@ using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
 {
-    public class ProductPriceConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductPriceConfiguration : IEntityTypeConfiguration<ProductPrice>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<ProductPrice> builder)
         {
             builder.ForNpgsqlUseXminAsConcurrencyToken();
 
             builder.HasOne(p => p.Product)
                 .WithOne(p => p.ProductPrice)
-                .HasForeignKey<Product>(p => p.ProductId);
+                .HasForeignKey<ProductPrice>(p => p.ProductId);
         }
     }
 }
