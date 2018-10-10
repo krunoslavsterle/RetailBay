@@ -153,7 +153,7 @@ namespace RetailBay.Core.Services
         /// <param name="cartItemId">The cart item identifier.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">cartItemId</exception>
-        public Task RemoveCartItem(Guid cartItemId)
+        public Task RemoveCartItemAsync(Guid cartItemId)
         {
             if (cartItemId == Guid.Empty) throw new ArgumentException(nameof(cartItemId));
 
@@ -165,7 +165,7 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>
         /// <returns></returns>
-        public async Task<bool> CheckCartExists(Guid cartId)
+        public async Task<bool> CheckCartExistsAsync(Guid cartId)
         {
             var cartsCount = await _cartRepository.GetCountAsync(p => p.Id == cartId);
             return cartsCount > 0;
@@ -276,7 +276,7 @@ namespace RetailBay.Core.Services
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
         /// <returns></returns>
-        public Task<IEnumerable<Address>> GetUserAddresses(Guid userId, AddressType? addressType)
+        public Task<IEnumerable<Address>> GetUserAddressesAsync(Guid userId, AddressType? addressType)
         {
             if (addressType.HasValue)
                 return _addressRepository.GetAsync(p => p.UserAddresses.Any(s => s.UserId == userId && s.AddressType == addressType.Value));
@@ -291,7 +291,7 @@ namespace RetailBay.Core.Services
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
         /// <returns></returns>
-        public async Task InsertUserAddress(Address address, Guid userId, AddressType addressType)
+        public async Task InsertUserAddressAsync(Address address, Guid userId, AddressType addressType)
         {
             if (userId == Guid.Empty) throw new ArgumentException(nameof(userId));
 
@@ -316,7 +316,7 @@ namespace RetailBay.Core.Services
         /// <param name="shippingAddressId">The shipping address identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">No cart items found</exception>
-        public async Task CreateOrderForUser(Guid userId, Guid cartId, Guid shippingAddressId)
+        public async Task CreateOrderForUserAsync(Guid userId, Guid cartId, Guid shippingAddressId)
         {
             var cartItems = await _cartItemRepository.GetAsync(p => p.CartId == cartId, null, $"{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
             if (cartItems == null || cartItems.Count() == 0)
@@ -358,7 +358,7 @@ namespace RetailBay.Core.Services
         /// Gets all orders.
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<Order>> GetAllOrders()
+        public Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return _orderRepository.GetAllAsync();
         }

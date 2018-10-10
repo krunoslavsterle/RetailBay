@@ -66,14 +66,14 @@ namespace RetailBay.Core.Interfaces
         /// <param name="cartItemId">The cart item identifier.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">cartItemId</exception>
-        Task RemoveCartItem(Guid cartItemId);
+        Task RemoveCartItemAsync(Guid cartItemId);
 
         /// <summary>
         /// Checks the cart exists.
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>
         /// <returns></returns>
-        Task<bool> CheckCartExists(Guid cartId);
+        Task<bool> CheckCartExistsAsync(Guid cartId);
 
         /// <summary>
         /// Creates the cart for user.
@@ -123,7 +123,7 @@ namespace RetailBay.Core.Interfaces
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
         /// <returns></returns>
-        Task<IEnumerable<Address>> GetUserAddresses(Guid userId, AddressType? addressType);
+        Task<IEnumerable<Address>> GetUserAddressesAsync(Guid userId, AddressType? addressType);
 
         /// <summary>
         /// Inserts the user address.
@@ -132,7 +132,7 @@ namespace RetailBay.Core.Interfaces
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
         /// <returns></returns>
-        Task InsertUserAddress(Address address, Guid userId, AddressType addressType);
+        Task InsertUserAddressAsync(Address address, Guid userId, AddressType addressType);
 
         /// <summary>
         /// Creates the order for user.
@@ -142,12 +142,12 @@ namespace RetailBay.Core.Interfaces
         /// <param name="shippingAddressId">The shipping address identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">No cart items found</exception>
-        Task CreateOrderForUser(Guid userId, Guid cartId, Guid shippingAddressId);
+        Task CreateOrderForUserAsync(Guid userId, Guid cartId, Guid shippingAddressId);
 
         /// <summary>
         /// Gets all orders.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Order>> GetAllOrders();
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
     }
 }

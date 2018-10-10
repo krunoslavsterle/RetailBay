@@ -52,7 +52,7 @@ namespace RetailBay.WebShop.Controllers
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel();
-            vm.ShippingAddresses = await _catalogService.GetUserAddresses(userId, AddressType.Shipping);
+            vm.ShippingAddresses = await _catalogService.GetUserAddressesAsync(userId, AddressType.Shipping);
 
             return View(vm);
         }
@@ -72,7 +72,7 @@ namespace RetailBay.WebShop.Controllers
             var userId = new Guid(_userManager.GetUserId(User));
             var domainAddress = Mapper.Map(vm).ToANew<Address>();
 
-            await _catalogService.InsertUserAddress(domainAddress, userId, AddressType.Shipping);
+            await _catalogService.InsertUserAddressAsync(domainAddress, userId, AddressType.Shipping);
             return RedirectToAction("Index");
         }
 
@@ -86,7 +86,7 @@ namespace RetailBay.WebShop.Controllers
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
             var userId = new Guid(_userManager.GetUserId(User));
 
-            await _catalogService.CreateOrderForUser(userId, cartId, vm.SelectedAddressId);
+            await _catalogService.CreateOrderForUserAsync(userId, cartId, vm.SelectedAddressId);
 
             return RedirectToAction("Index", "Home");
         }

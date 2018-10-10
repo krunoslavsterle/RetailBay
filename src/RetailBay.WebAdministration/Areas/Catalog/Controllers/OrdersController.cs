@@ -40,7 +40,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         {
             _logger.LogInformation("Request received for [{action}] GET action", nameof(OrdersController.Index));
 
-            var orders = await _catalogService.GetAllOrders();
+            var orders = await _catalogService.GetAllOrdersAsync();
             return View(orders);
         }
     }

@@ -63,7 +63,7 @@ namespace RetailBay.WebShop.Controllers
         public async Task<IActionResult> AddToCart(Guid productId)
         {
             var cartId = GetOrSetCartCookie();
-            var cartExists = await _catalogService.CheckCartExists(cartId);
+            var cartExists = await _catalogService.CheckCartExistsAsync(cartId);
             if (!cartExists)
             {
                 var userId = (Guid?)null;
@@ -85,7 +85,7 @@ namespace RetailBay.WebShop.Controllers
         public async Task<IActionResult> RemoveProduct(Guid id)
         {
             if (Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
-                await _catalogService.RemoveCartItem(id);
+                await _catalogService.RemoveCartItemAsync(id);
 
             return RedirectToAction("Index");
         }
