@@ -12,21 +12,15 @@ namespace RetailBay.WebShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICatalogService _catalogService;
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICatalogService _catalogService;       
+
         public HomeController(ICatalogService catalogService, ILogger<HomeController> logger)
         {
             _catalogService = catalogService;
-
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
-        {
-
-            _logger.Log(LogLevel.Warning, "This is info");
-
-            
+        {   
             var sortingParameters = new SortingParameters();
             sortingParameters.Add("Id", false);
 

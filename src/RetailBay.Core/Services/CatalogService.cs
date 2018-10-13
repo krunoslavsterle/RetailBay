@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
@@ -20,6 +21,7 @@ namespace RetailBay.Core.Services
         #region Fields
         
         private readonly IProductRepository _productRepository;
+        private readonly ILogger<CatalogService> _logger;
 
         #endregion Fields
 
@@ -29,9 +31,11 @@ namespace RetailBay.Core.Services
         /// Initializes a new instance of the <see cref="CatalogService" /> class.
         /// </summary>
         /// <param name="productRepository">The product repository.</param>
-        public CatalogService(IProductRepository productRepository)
+        /// <param name="logger">The logger.</param>
+        public CatalogService(IProductRepository productRepository, ILogger<CatalogService> logger)
         {
             _productRepository = productRepository;
+            _logger = logger;
         }
 
         #endregion Constructors
@@ -47,6 +51,8 @@ namespace RetailBay.Core.Services
         /// <returns></returns>
         public Task<IPagedCollection<Product>> GetProductsPagedAsync(ISortingParameters sortingParameters, int pageNumber, int pageSize)
         {
+            _logger.LogDebug("{Method} - {PageNumber}, {PageSize}", nameof(CatalogService.GetProductsPagedAsync), pageNumber, pageSize);
+
             var pagingParameters = new PagingParameters(pageNumber, pageSize);
             return _productRepository.GetPagedAsync(null, sortingParameters, pagingParameters, nameof(Product.ProductPrice));
         }

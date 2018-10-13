@@ -1,4 +1,5 @@
-﻿using RetailBay.Core.Entities.Identity;
+﻿using Microsoft.Extensions.Logging;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces.Repositories;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
@@ -13,10 +14,11 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddressRepository"/> class.
+        /// Initializes a new instance of the <see cref="AddressRepository" /> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public AddressRepository(TenantDBContext context) : base(context)
+        /// <param name="logger">The logger.</param>
+        public AddressRepository(TenantDBContext context, ILogger<AddressRepository> logger) : base(context, logger)
         {
         }
 

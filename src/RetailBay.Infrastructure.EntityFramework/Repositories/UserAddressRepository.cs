@@ -1,4 +1,5 @@
-﻿using RetailBay.Core.Entities.Identity;
+﻿using Microsoft.Extensions.Logging;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces.Repositories;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
@@ -16,7 +17,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         /// Initializes a new instance of the <see cref="UserAddressRepository"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public UserAddressRepository(TenantDBContext context) : base(context)
+        public UserAddressRepository(TenantDBContext context, ILogger<UserAddressRepository> logger) : base(context, logger)
         {
         }
 

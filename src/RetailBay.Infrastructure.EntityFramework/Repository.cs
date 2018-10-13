@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RetailBay.Core.Entities;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Core.SharedKernel.Collections;
@@ -21,18 +22,22 @@ namespace RetailBay.Infrastructure.EntityFramework
         #region Fields
 
         private readonly DbContext _context;
+        private readonly ILogger<Repository<TEntity>> _logger;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
+        /// Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
         /// </summary>
         /// <param name="context">The database context.</param>
-        public Repository(DbContext context)
+        /// <param name="logger">The logger.</param>
+        /// <exception cref="ArgumentNullException">context or logger</exception>
+        public Repository(DbContext context, ILogger<Repository<TEntity>> logger)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         #endregion Constructors
@@ -49,6 +54,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         /// </returns>
         public async Task<IEnumerable<TEntity>> GetAllAsync(ISortingParameters sortingParameters = null, params string[] includeProperties)
         {
+            _logger.LogDebug("{Method}, {SortingParameters}, {IncludeProperties}", nameof(Repository<TEntity>.GetAllAsync), sortingParameters, includeProperties);
             return await GetQueryable(null, sortingParameters, null, includeProperties).ToListAsync();
         }
 
@@ -62,6 +68,7 @@ namespace RetailBay.Infrastructure.EntityFramework
         /// </returns>
         public async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> filter = null, params string[] includeProperties)
         {
+            _logger.LogDebug("{Method}, {Filter}, {IncludeProperties}", nameof(Repository<TEntity>.GetOneAsync), filter, includeProperties);
             return await GetQueryable(filter, null, null, includeProperties).SingleOrDefaultAsync();
         }
 
@@ -77,6 +84,7 @@ namespace RetailBay.Infrastructure.EntityFramework
             ISortingParameters sortingParameters = null, 
             params string[] includeProperties)
         {
+            _logger.LogDebug("{Method}, {Filter}, {SortingParameters}, {IncludeProperties}", nameof(Repository<TEntity>.GetAsync), filter, sortingParameters, includeProperties);
             return await GetQueryable(filter, sortingParameters, null, includeProperties).ToListAsync();
         }
 
@@ -96,6 +104,8 @@ namespace RetailBay.Infrastructure.EntityFramework
             IPagingParameters pagingParameters = null, 
             params string[] includeProperties)
         {
+            _logger.LogDebug("{Method}, {SortingParameters}, {PagingParameters}, {IncludeProperties}", nameof(Repository<TEntity>.GetPagedAsync), sortingParameters, pagingParameters, includeProperties);
+
             // NOTE: EF Core does not support multiple parallel operations being run on the same context instance. 
             var totalCount = await GetCountAsync();
             var result = await GetQueryable(filter, sortingParameters, pagingParameters, includeProperties).ToListAsync();

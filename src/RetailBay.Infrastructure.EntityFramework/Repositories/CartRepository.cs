@@ -1,4 +1,5 @@
-﻿using RetailBay.Core.Entities.TenantDB;
+﻿using Microsoft.Extensions.Logging;
+using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces.Repositories;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
@@ -16,7 +17,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         /// Initializes a new instance of the <see cref="CartRepository"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public CartRepository(TenantDBContext context) : base(context)
+        public CartRepository(TenantDBContext context, ILogger<CartRepository> logger) : base(context, logger)
         {
         }
 
