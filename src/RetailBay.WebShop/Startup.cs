@@ -14,6 +14,7 @@ using RetailBay.Core.Entities.SystemDb;
 using RetailBay.Infrastructure;
 using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
+using RetailBay.WebShop.Infrastructure.Logging;
 using StackExchange.Profiling.Storage;
 
 namespace RetailBay.WebShop
@@ -21,14 +22,14 @@ namespace RetailBay.WebShop
     public class Startup
     {
         private IServiceCollection _services;
-        
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
             Mapper.WhenMapping.UseConfigurations.From<Infrastructure.Mapper.MappingConfiguration>();
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -58,7 +59,7 @@ namespace RetailBay.WebShop
                 // All of this is optional. You can simply call .AddMiniProfiler() for all defaults
                 (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
                 options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
-                options.TrackConnectionOpenClose = true;
+                options.TrackConnectionOpenClose = true;                
             })
             .AddEntityFramework();
 
@@ -80,6 +81,8 @@ namespace RetailBay.WebShop
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseMiddleware<SerilogMiddleware>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
