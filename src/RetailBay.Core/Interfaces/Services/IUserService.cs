@@ -11,12 +11,19 @@ namespace RetailBay.Core.Interfaces
     public interface IUserService
     {
         /// <summary>
-        /// Gets the user addresses by <see cref="AddressType"/>.
+        /// Gets the addresses for <see cref="ApplicationUser"/> asynchronously. 
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
-        /// <returns></returns>
-        Task<IEnumerable<Address>> GetUserAddressesAsync(Guid userId, AddressType? addressType);
+        /// <returns>List of <see cref="Address"/> for specified <see cref="ApplicationUser"/>.</returns>
+        Task<IEnumerable<Address>> GetAddressesForUserAsync(Guid userId, AddressType? addressType);
+
+        /// <summary>
+        /// Gets the list of <see cref="UserAddress"/> asynchronous.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>List of <see cref="UserAddress"/> asynchronous.</returns>
+        Task<IEnumerable<UserAddress>> GetUserAddressesAsync(Guid userId);
 
         /// <summary>
         /// Inserts the user address.

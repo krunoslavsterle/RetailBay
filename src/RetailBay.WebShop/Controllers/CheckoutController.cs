@@ -57,7 +57,7 @@ namespace RetailBay.WebShop.Controllers
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel();
-            vm.ShippingAddresses = await _userService.GetUserAddressesAsync(userId, AddressType.Shipping);
+            vm.ShippingAddresses = await _userService.GetAddressesForUserAsync(userId, AddressType.Shipping);
 
             return View(vm);
         }

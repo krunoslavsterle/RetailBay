@@ -43,19 +43,29 @@ namespace RetailBay.Core.Services
         #endregion Properties
 
         #region Methods
-        
+
         /// <summary>
-        /// Gets the user addresses by <see cref="AddressType"/>.
+        /// Gets the addresses for <see cref="ApplicationUser"/> asynchronously. 
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="addressType">Type of the address.</param>
-        /// <returns></returns>
-        public Task<IEnumerable<Address>> GetUserAddressesAsync(Guid userId, AddressType? addressType)
+        /// <returns>List of <see cref="Address"/> for specified <see cref="ApplicationUser"/>.</returns>
+        public Task<IEnumerable<Address>> GetAddressesForUserAsync(Guid userId, AddressType? addressType)
         {
             if (addressType.HasValue)
                 return _addressRepository.GetAsync(p => p.UserAddresses.Any(s => s.UserId == userId && s.AddressType == addressType.Value));
 
             return _addressRepository.GetAsync(p => p.UserAddresses.Any(s => s.UserId == userId));
+        }
+
+        /// <summary>
+        /// Gets the list of <see cref="UserAddress"/> asynchronous.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>List of <see cref="UserAddress"/> asynchronous.</returns>
+        public Task<IEnumerable<UserAddress>> GetUserAddressesAsync(Guid userId)
+        {
+            return _userAddressRepository.GetAsync(p => p.UserId == userId, null, nameof(UserAddress.Address));
         }
 
         /// <summary>

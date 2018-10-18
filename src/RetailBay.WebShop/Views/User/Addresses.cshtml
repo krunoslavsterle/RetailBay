@@ -1,0 +1,85 @@
+﻿@model RetailBay.WebShop.Models.User.AddressesViewModel
+
+@{
+    ViewData["Title"] = "Addresses";
+}
+
+<div class="container">
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-3 ">
+            <div class="list-group ">
+                <a asp-action="Profile" asp-controller="User" class="list-group-item list-group-item-action">Profile</a>
+                <a href="#" class="list-group-item list-group-item-action active">Addresses</a>
+                <a href="#" class="list-group-item list-group-item-action">Orders</a>
+                <a href="#" class="list-group-item list-group-item-action">Settings</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+
+                    <h3>Shipping Addresses</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>ContactName</td>
+                                <td>Phone</td>
+                                <td>StreetAddress</td>
+                                <td>PostalCode</td>
+                                <td>City</td>
+                                <td>Country</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var shippingAddresses in Model.ShippingAddresses)
+                            {
+                            <tr>
+                                <td>@shippingAddresses.ContactName</td>
+                                <td>@shippingAddresses.Phone</td>
+                                <td>@shippingAddresses.StreetAddress</td>
+                                <td>@shippingAddresses.PostalCode</td>
+                                <td>@shippingAddresses.City</td>
+                                <td>@shippingAddresses.Country</td>
+                                <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <h3>Billing Addresses</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>ContactName</td>
+                                <td>Phone</td>
+                                <td>StreetAddress</td>
+                                <td>City</td>
+                                <td>PostalCode</td>
+                                <td>Country</td>
+                                <td>Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var billingAddresses in Model.BillingAddresses)
+                            {
+                                <tr>
+                                    <td>@billingAddresses.ContactName</td>
+                                    <td>@billingAddresses.Phone</td>
+                                    <td>@billingAddresses.StreetAddress</td>
+                                    <td>@billingAddresses.PostalCode</td>
+                                    <td>@billingAddresses.City</td>
+                                    <td>@billingAddresses.Country</td>
+                                    <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
