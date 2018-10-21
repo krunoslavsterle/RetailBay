@@ -69,6 +69,25 @@ namespace RetailBay.WebShop.Controllers
             return View(vm);
         }
 
+        [HttpGet]
+        [Route("new-address")]
+        public IActionResult NewAddress()
+        {
+            return View(new NewAddressViewModel());
+        }
+
+        [HttpPost]
+        [Route("new-address")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NewAddress(NewAddressViewModel vm)
+        {
+            var userId = new Guid(_userManager.GetUserId(User));
+            var domainAddress = Mapper.Map(vm).ToANew<Address>();
+
+            await _userService.InsertUserAddressAsync(domainAddress, userId, AddressType.Shipping);
+            return RedirectToAction("Addresses");
+        }
+
         #endregion Methods
     }
 }

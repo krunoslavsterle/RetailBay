@@ -49,35 +49,12 @@
                         </tbody>
                     </table>
 
+                    <a asp-action="NewAddress" asp-controller="User" class="btn btn-primary btn-lg">Add</a>
+
                     <br />
                     <h3>Billing Addresses</h3>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <td>ContactName</td>
-                                <td>Phone</td>
-                                <td>StreetAddress</td>
-                                <td>City</td>
-                                <td>PostalCode</td>
-                                <td>Country</td>
-                                <td>Actions</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var billingAddresses in Model.BillingAddresses)
-                            {
-                                <tr>
-                                    <td>@billingAddresses.ContactName</td>
-                                    <td>@billingAddresses.Phone</td>
-                                    <td>@billingAddresses.StreetAddress</td>
-                                    <td>@billingAddresses.PostalCode</td>
-                                    <td>@billingAddresses.City</td>
-                                    <td>@billingAddresses.Country</td>
-                                    <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <p>* Not implemented</p>
+
                 </div>
             </div>
         </div>

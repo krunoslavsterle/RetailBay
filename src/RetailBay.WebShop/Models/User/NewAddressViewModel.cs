@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RetailBay.WebShop.Models.Checkout
+namespace RetailBay.WebShop.Models.User
 {
     public class NewAddressViewModel
     {
