@@ -14,26 +14,30 @@ using RetailBay.WebShop.Models.User;
 namespace RetailBay.WebShop.Controllers
 {
     [Authorize]
+    [Route("user")]
     public class UserController : Controller
     {
         #region Fields
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
 
         #endregion Fields
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="userService">The user service.</param>
-        public UserController(UserManager<ApplicationUser> userManager, IUserService userService)
+        /// <param name="orderService">The order service.</param>
+        public UserController(UserManager<ApplicationUser> userManager, IUserService userService, IOrderService orderService)
         {
             _userManager = userManager;
             _userService = userService;
+            _orderService = orderService;
         }
 
         #endregion Constructors
@@ -44,6 +48,7 @@ namespace RetailBay.WebShop.Controllers
         #region Methods
 
         [HttpGet]
+        [Route("profile")]
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -53,6 +58,7 @@ namespace RetailBay.WebShop.Controllers
         }
 
         [HttpGet]
+        [Route("addresses")]
         public async Task<IActionResult> Addresses()
         {
             var userId = _userManager.GetUserId(User);
@@ -88,6 +94,16 @@ namespace RetailBay.WebShop.Controllers
             return RedirectToAction("Addresses");
         }
 
+        [HttpGet]
+        [Route("orders")]
+        public async Task<IActionResult> Orders()
+        {
+            var userId = new Guid(_userManager.GetUserId(User));
+
+            var orders = await _orderService.GetOrdersForUserAsync(userId);
+            return View(orders);
+        }
+        
         #endregion Methods
     }
 }

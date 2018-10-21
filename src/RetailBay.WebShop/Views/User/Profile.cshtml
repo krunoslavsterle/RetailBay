@@ -8,18 +8,11 @@
     <br />
     <br />
     <div class="row">
-        <div class="col-md-3 ">
-            <div class="list-group ">
-                <a href="#" class="list-group-item list-group-item-action active">Profile</a>
-                <a asp-action="Addresses" asp-controller="User" class="list-group-item list-group-item-action">Addresses</a>
-                <a href="#" class="list-group-item list-group-item-action">Orders</a>
-                <a href="#" class="list-group-item list-group-item-action">Settings</a>
-            </div>
-        </div>
+        <partial name="_UserMenu" />
         <div class="col-md-9">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group row">
@@ -33,7 +26,7 @@
                                 <div class="col-8">
                                     <input asp-for="Email" class="form-control here" readonly />
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
 

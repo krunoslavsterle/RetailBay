@@ -51,6 +51,16 @@ namespace RetailBay.Core.Services
         {
             return _orderRepository.GetAllAsync();
         }
+
+        /// <summary>
+        /// Gets the orders for user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        public Task<IEnumerable<Order>> GetOrdersForUserAsync(Guid userId)
+        {
+            return _orderRepository.GetAsync(p => p.UserId == userId);
+        }
         
         /// <summary>
         /// Creates the order for user asynchronous.
