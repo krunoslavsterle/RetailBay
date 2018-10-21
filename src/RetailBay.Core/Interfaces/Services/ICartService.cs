@@ -18,6 +18,13 @@ namespace RetailBay.Core.Interfaces
         Task<Cart> GetCartAsync(Guid id, params string[] includeProperties);
 
         /// <summary>
+        /// Gets the user cart asynchronous.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        Task<Cart> GetUserCartAsync(Guid userId);
+
+        /// <summary>
         /// Gets the number of products in cart.
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>

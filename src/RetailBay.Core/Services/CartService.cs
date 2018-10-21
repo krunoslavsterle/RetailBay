@@ -49,6 +49,16 @@ namespace RetailBay.Core.Services
         }
 
         /// <summary>
+        /// Gets the user cart asynchronous.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        public Task<Cart> GetUserCartAsync(Guid userId)
+        {
+            return _cartRepository.GetOneAsync(p => p.UserId == userId);
+        }
+
+        /// <summary>
         /// Gets the number of products in Cart.
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>

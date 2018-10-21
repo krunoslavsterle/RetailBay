@@ -130,6 +130,13 @@ namespace RetailBay.WebShop.Controllers
                 var userCartId = await _cartService.TransferAnonymousCartToUserAsync(userId, cartId);
                 Response.Cookies.Append(Constants.CART_COOKIE_NAME, userCartId.ToString());
             }
+            else
+            {
+                // Check if there is an existing cart for this user.
+                var cart = await _cartService.GetUserCartAsync(userId);
+                if (cart != null)
+                    Response.Cookies.Append(Constants.CART_COOKIE_NAME, cart.Id.ToString());
+            }
         }
 
         #endregion Actions
