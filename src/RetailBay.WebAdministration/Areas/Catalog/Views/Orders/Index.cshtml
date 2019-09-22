@@ -19,6 +19,7 @@
             <td>Date Created</td>
             <td>Status</td>
             <td>Total</td>
+            <td>Actions</td>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +29,9 @@
                 <td>@order.DateCreated</td>
                 <td>@order.OrderStatus.ToString()</td>
                 <td>@order.OrderTotal</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Orders" asp-route-id="@order.Id" class="btn btn-default btn-xs">Details</a>
+                </td>
             </tr>
         }
     </tbody>

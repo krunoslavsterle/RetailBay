@@ -1,11 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.WebAdministration.Areas.Catalog.Models.Order;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
+    [Route("orders")]
     [Authorize(Roles = "Administrator")]
     public class OrdersController : Controller
     {
@@ -37,13 +42,21 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         #region Methods
 
         [HttpGet]
-        [Route("orders")]
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("Request received for [{action}] GET action", nameof(OrdersController.Index));
-
             var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
+        }
+
+        [HttpGet]
+        [Route("details")]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var vm = new DetailsViewModel();
+            var order = await _orderService.GetOrderAsync(id, nameof(Order.ShippingAddress), nameof(Order.OrderItems));
+
+            vm.Order = Mapper.Map(order).ToANew<DetailsViewModel.OrderDTO>();
+            return View(vm);
         }
 
         #endregion Methods

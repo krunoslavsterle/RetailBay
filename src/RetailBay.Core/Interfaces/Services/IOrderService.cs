@@ -17,6 +17,14 @@ namespace RetailBay.Core.Interfaces
         Task<IEnumerable<Order>> GetAllOrdersAsync();
 
         /// <summary>
+        /// Gets the <see cref="Order" /> by id asynchronous.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="includeProperties">The include properties.</param>
+        /// <returns>The <see cref="Order" /></returns>
+        Task<Order> GetOrderAsync(Guid id, params string[] includeProperties);
+
+        /// <summary>
         /// Gets the orders for user.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

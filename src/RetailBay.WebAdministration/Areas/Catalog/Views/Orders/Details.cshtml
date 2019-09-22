@@ -1,0 +1,24 @@
+﻿@model RetailBay.WebAdministration.Areas.Catalog.Models.Order.DetailsViewModel
+
+@{
+    ViewData["Title"] = "Order Detail";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @foreach(var orderItem in Model.Order.OrderItems)
+        {
+            <div>
+                <span>Product: @orderItem.Product.Name</span>
+                <span>Price: @orderItem.ProductPrice</span>
+            </div>
+        }
+    </div>
+</div>

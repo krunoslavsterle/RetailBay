@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Catalog\Data\" />
-    <Folder Include="Areas\Catalog\Models\Order\" />
   </ItemGroup>
 
 </Project>
