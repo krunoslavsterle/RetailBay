@@ -14,17 +14,18 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.IOrderService" />
     public class OrderService : IOrderService
     {
-        #region Fields
-
         private readonly IOrderRepository _orderRepository;
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly ICartItemRepository _cartItemRepository;
         private readonly ICartRepository _cartRepository;
 
-        #endregion Fields
-
-        #region Constructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderService"/> class.
+        /// </summary>
+        /// <param name="orderRepository">The Order repository.</param>
+        /// <param name="orderItemRepository">The OrderItem repository.</param>
+        /// <param name="cartItemRepository">The CartItem repository.</param>
+        /// <param name="cartRepository">The Cart repository.</param>
         public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, ICartItemRepository cartItemRepository, ICartRepository cartRepository)
         {
             _orderRepository = orderRepository;
@@ -32,16 +33,6 @@ namespace RetailBay.Core.Services
             _cartItemRepository = cartItemRepository;
             _cartRepository = cartRepository;
         }
-
-        #endregion Constructors
-
-        #region Properties
-
-
-
-        #endregion Properties
-
-        #region Methods
         
         /// <summary>
         /// Gets list of all <see cref="Order"/> asynchronous.
@@ -117,7 +108,5 @@ namespace RetailBay.Core.Services
             await _cartRepository.DeleteAsync(cartId, false);
             await _cartRepository.SaveAsync();
         }
-
-        #endregion Methods
     }
 }

@@ -15,13 +15,7 @@ namespace RetailBay.Infrastructure.Multitenancy
     /// </summary>
     public class TenantResolver : MemoryCacheTenantResolver<Tenant>
     {
-        #region Fields
-
         private readonly ISystemRepository _systemRepository;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TenantResolver"/> class.
@@ -35,10 +29,6 @@ namespace RetailBay.Infrastructure.Multitenancy
             _systemRepository = systemRepository;
         }
 
-        #endregion Constructors
-
-        #region Methods
-        
         /// <summary>
         /// Gets the context identifier.
         /// </summary>
@@ -83,7 +73,5 @@ namespace RetailBay.Infrastructure.Multitenancy
             // TODO: Check how to handle case if no tenant was found.
             return tenantContext;
         }
-
-        #endregion Methods
     }
 }

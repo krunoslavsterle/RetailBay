@@ -11,8 +11,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.IOrderRepository" />
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductRepository"/> class.
         /// </summary>
@@ -20,7 +18,5 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         public OrderRepository(TenantDBContext context, ILogger<OrderRepository> logger) : base(context, logger)
         {
         }
-
-        #endregion Constructors
     }
 }

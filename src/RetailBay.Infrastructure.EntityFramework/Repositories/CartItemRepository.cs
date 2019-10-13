@@ -11,8 +11,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.ICartItemRepository" />
     public class CartItemRepository : Repository<CartItem>, ICartItemRepository
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CartItemRepository"/> class.
         /// </summary>
@@ -20,7 +18,5 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         public CartItemRepository(TenantDBContext context, ILogger<CartItemRepository> logger) : base(context, logger)
         {
         }
-
-        #endregion Constructors
     }
 }

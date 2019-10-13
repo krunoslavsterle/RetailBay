@@ -12,31 +12,20 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.ICartService" />
     public class CartService : ICartService
     {
-        #region Fields
-
         private readonly ICartRepository _cartRepository;
         private readonly ICartItemRepository _cartItemRepository;
 
-        #endregion Fields
-
-        #region Constructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CartService" /> class.
+        /// </summary>
+        /// <param name="cartRepository">The Cart repository.</param>
+        /// <param name="cartItemRepository">The CartItem repository.</param>
         public CartService(ICartRepository cartRepository, ICartItemRepository cartItemRepository)
         {
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
         }
-
-        #endregion Constructors
-
-        #region Properties
-
-
-
-        #endregion Properties
-
-        #region Methods
-
+        
         /// <summary>
         /// Gets the Cart asynchronous.
         /// </summary>
@@ -192,7 +181,5 @@ namespace RetailBay.Core.Services
             await _cartItemRepository.InsertAsync(entity);
             return await _cartItemRepository.GetCountAsync(p => p.CartId == cartId);
         }
-
-        #endregion Methods
     }
 }

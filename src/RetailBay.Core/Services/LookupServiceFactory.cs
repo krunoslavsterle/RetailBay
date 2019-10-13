@@ -10,13 +10,7 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.ILookupServiceFactory" />
     public class LookupServiceFactory : ILookupServiceFactory
     {
-        #region Fields
-
         private readonly IServiceProvider _serviceProvider;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LookupServiceFactory"/> class.
@@ -27,10 +21,6 @@ namespace RetailBay.Core.Services
             _serviceProvider = serviceProvider;
         }
 
-        #endregion Constructors
-
-        #region Methods
-
         /// <summary>
         /// Creates the instance of <see cref="T"/>.
         /// </summary>
@@ -40,7 +30,5 @@ namespace RetailBay.Core.Services
         {
             return _serviceProvider.GetService(typeof(ILookupService<T>)) as ILookupService<T>;
         }
-
-        #endregion Methods
     }
 }

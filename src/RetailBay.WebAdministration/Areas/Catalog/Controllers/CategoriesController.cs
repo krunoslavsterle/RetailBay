@@ -14,14 +14,8 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
-        #region Fields
-
         private readonly ILookupServiceFactory _lookupServiceFactory;
         private readonly IAppLogger<ProductsController> _logger;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoriesController"/> class.
@@ -33,11 +27,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             _lookupServiceFactory = lookupServiceFactory;
             _logger = logger;
         }
-
-        #endregion Constructors
-
-        #region Actions
-
+        
         [HttpGet]
         [Route("categories")]
         public async Task<IActionResult> Categories()
@@ -114,7 +104,5 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             await lkpService.DeleteAsync(id);
             return RedirectToAction(nameof(CategoriesController.Categories));
         }
-
-        #endregion Actions
     }
 }

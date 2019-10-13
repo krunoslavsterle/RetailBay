@@ -14,14 +14,8 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.IUserService" />
     public class UserService : IUserService
     {
-        #region Fields
-
         private readonly IAddressRepository _addressRepository;
         private readonly IUserAddressRepository _userAddressRepository;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -33,16 +27,6 @@ namespace RetailBay.Core.Services
             _userAddressRepository = userAddressRepository;
             _addressRepository = addressRepository;
         }
-
-        #endregion Constructors
-
-        #region Properties
-
-
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// Gets the addresses for <see cref="ApplicationUser"/> asynchronously. 
@@ -91,7 +75,5 @@ namespace RetailBay.Core.Services
 
             await _userAddressRepository.InsertAsync(userAddress);
         }
-
-        #endregion Methods
     }
 }

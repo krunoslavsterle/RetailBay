@@ -19,14 +19,8 @@ namespace RetailBay.Infrastructure.EntityFramework
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.IRepository{TEntity}" />
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : EntityBase
     {
-        #region Fields
-
         private readonly DbContext _context;
         private readonly ILogger<Repository<TEntity>> _logger;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}" /> class.
@@ -39,10 +33,6 @@ namespace RetailBay.Infrastructure.EntityFramework
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Gets all <see cref="TEntity"/> asynchronous.
@@ -221,7 +211,5 @@ namespace RetailBay.Infrastructure.EntityFramework
 
             return query;
         }
-        
-        #endregion Methods
     }
 }

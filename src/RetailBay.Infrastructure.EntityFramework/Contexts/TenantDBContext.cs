@@ -16,13 +16,7 @@ namespace RetailBay.Infrastructure.EntityFramework
     /// <seealso cref="Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext{RetailBay.Core.Entities.Identity.ApplicationUser, RetailBay.Core.Entities.Identity.ApplicationRole, System.Guid}" />
     public class TenantDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
-        #region Fields
-
         private readonly string _connectionString;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TenantDBContext"/> class.
@@ -33,10 +27,6 @@ namespace RetailBay.Infrastructure.EntityFramework
             _connectionString = tenant.ConnectionString;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> ProductPrices { get; set; }
@@ -46,10 +36,6 @@ namespace RetailBay.Infrastructure.EntityFramework
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
-        #endregion Properties
-
-        #region Methods
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -82,7 +68,5 @@ namespace RetailBay.Infrastructure.EntityFramework
 
             builder.UseSnakeCaseNamingConvention(false);
         }
-
-        #endregion Methods
     }
 }

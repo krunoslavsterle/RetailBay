@@ -2,8 +2,6 @@
 {
     public class SortingPair : ISortingPair
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SortingPair"/> class.
         /// </summary>
@@ -15,10 +13,6 @@
             IsAscending = isAscending;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         /// <summary>
         /// Gets a value indicating if order direction is ascending.
         /// </summary>
@@ -28,7 +22,5 @@
         /// Gets the order by field.
         /// </summary>
         public string OrderBy { get; set; }
-
-        #endregion Properties
     }
 }

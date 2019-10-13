@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces;
 using RetailBay.WebShop.Models.Checkout;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
 {
@@ -15,16 +14,10 @@ namespace RetailBay.WebShop.Controllers
     [Route("checkout")]
     public class CheckoutController : Controller
     {
-        #region Fields
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOrderService _orderService;
         private readonly ICartService _cartService;
         private readonly IUserService _userService;
-
-        #endregion Fields
-
-        #region Controllers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CartController" /> class.
@@ -40,8 +33,6 @@ namespace RetailBay.WebShop.Controllers
             _userService = userService;
             _userManager = userManager;
         }
-
-        #endregion Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index()

@@ -17,15 +17,9 @@ namespace RetailBay.WebShop.Controllers
     [Route("user")]
     public class UserController : Controller
     {
-        #region Fields
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
         private readonly IOrderService _orderService;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class.
@@ -39,13 +33,6 @@ namespace RetailBay.WebShop.Controllers
             _userService = userService;
             _orderService = orderService;
         }
-
-        #endregion Constructors
-
-        #region Properties
-        #endregion Properties
-
-        #region Methods
 
         [HttpGet]
         [Route("profile")]
@@ -103,7 +90,5 @@ namespace RetailBay.WebShop.Controllers
             var orders = await _orderService.GetOrdersForUserAsync(userId);
             return View(orders);
         }
-        
-        #endregion Methods
     }
 }

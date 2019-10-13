@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.Identity;
+﻿using Microsoft.Extensions.Logging;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.Core.Services
 {
@@ -18,14 +15,8 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.ICatalogService" />
     public class CatalogService : ICatalogService
     {
-        #region Fields
-        
         private readonly IProductRepository _productRepository;
         private readonly ILogger<CatalogService> _logger;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CatalogService" /> class.
@@ -37,10 +28,6 @@ namespace RetailBay.Core.Services
             _productRepository = productRepository;
             _logger = logger;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Gets the products paged asynchronous.
@@ -96,7 +83,5 @@ namespace RetailBay.Core.Services
         {
             return _productRepository.DeleteAsync(productId);
         }
-         
-        #endregion Methods
     }
 }

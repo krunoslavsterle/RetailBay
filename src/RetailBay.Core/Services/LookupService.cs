@@ -14,13 +14,7 @@ namespace RetailBay.Core.Services
     /// <seealso cref="RetailBay.Core.Interfaces.ILookupService{TEntity}" />
     public class LookupService<TEntity> : ILookupService<TEntity> where TEntity: LookupEntityBase
     {
-        #region Fields
-
         private readonly ILookupRepository<TEntity> _lookupRepository;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LookupService"/> class.
@@ -30,10 +24,6 @@ namespace RetailBay.Core.Services
         {
             _lookupRepository = lookupRepository;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Gets all <see cref="TEntity"/> asynchronous.
@@ -95,7 +85,5 @@ namespace RetailBay.Core.Services
             lkp.IsDeleted = true;
             await _lookupRepository.UpdateAsync(lkp);
         }
-
-        #endregion Methods
     }
 }

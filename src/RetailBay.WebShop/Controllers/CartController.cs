@@ -14,15 +14,9 @@ namespace RetailBay.WebShop.Controllers
 {
     public class CartController : Controller
     {
-        #region Fields
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICartService _cartService;
-
-        #endregion Fields
-
-        #region Controllers
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="CartController" /> class.
         /// </summary>
@@ -33,10 +27,6 @@ namespace RetailBay.WebShop.Controllers
             _cartService = cartService;
             _userManager = userManager;
         }
-
-        #endregion Controllers
-
-        #region Methods
 
         [HttpGet]
         [Route("cart")]
@@ -109,7 +99,5 @@ namespace RetailBay.WebShop.Controllers
             foreach (var cartItem in cartItems)
                 yield return new IndexViewModel.CartItemDTO { Name = cartItem.Product.Name, Price = cartItem.Product.ProductPrice.Price, Id = cartItem.Id };
         }
-
-        #endregion Methods
     }
 }

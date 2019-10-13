@@ -11,15 +11,9 @@ namespace RetailBay.WebAdministration.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        #region Fields
-
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -33,10 +27,6 @@ namespace RetailBay.WebAdministration.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
-        #endregion Constructors
-
-        #region Actions
 
         [HttpGet]
         [AllowAnonymous]
@@ -74,7 +64,5 @@ namespace RetailBay.WebAdministration.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(AccountController.Login));
         }
-
-        #endregion Actions
     }
 }

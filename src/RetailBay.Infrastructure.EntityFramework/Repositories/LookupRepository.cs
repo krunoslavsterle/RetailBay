@@ -13,8 +13,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     public class LookupRepository<TEntity> : Repository<TEntity>, ILookupRepository<TEntity>
         where TEntity: LookupEntityBase
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="LookupRepository{TEntity}"/> class.
         /// </summary>
@@ -22,7 +20,5 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         public LookupRepository(TenantDBContext context, ILogger<LookupRepository<TEntity>> logger) : base(context, logger)
         {
         }
-
-        #endregion Constructors
     }
 }

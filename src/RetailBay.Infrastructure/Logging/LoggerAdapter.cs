@@ -12,14 +12,8 @@ namespace RetailBay.Infrastructure.Logging
     /// <seealso cref="RetailBay.Core.Interfaces.IAppLogger{T}" />
     public class LoggerAdapter<T> : IAppLogger<T>
     {
-        #region Fields
-
         private readonly ILogger<T> _logger;
         private readonly Tenant _tenant;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoggerAdapter{T}"/> class.
@@ -31,10 +25,6 @@ namespace RetailBay.Infrastructure.Logging
             _logger = loggerFactory.CreateLogger<T>();
             _tenant = tenant;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Logs the critical message.
@@ -101,7 +91,5 @@ namespace RetailBay.Infrastructure.Logging
         {
             return $"[{DateTime.UtcNow}] Tenant: [{_tenant.Id}] - {message}";
         }
-
-        #endregion Methods
     }
 }

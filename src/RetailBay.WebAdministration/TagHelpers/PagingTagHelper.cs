@@ -12,22 +12,16 @@ namespace RetailBay.WebAdministration.TagHelpers
     [HtmlTargetElement("paging", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class PagingTagHelper : TagHelper
     {
-        #region Fields
-
         private readonly IUrlHelper _urlHelper;
 
-        #endregion Fields
-
-        #region Constructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PagingTagHelper"/> class.
+        /// </summary>
+        /// <param name="urlHelper"></param>
         public PagingTagHelper(IUrlHelper urlHelper)
         {
             _urlHelper = urlHelper;
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -39,10 +33,6 @@ namespace RetailBay.WebAdministration.TagHelpers
 
         [HtmlAttributeName("page-number")]
         public int PageNumber { get; set; }
-
-        #endregion Properties
-
-        #region Methods
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
@@ -113,7 +103,5 @@ namespace RetailBay.WebAdministration.TagHelpers
             output.Content.AppendHtml("</span>");
             output.Content.AppendHtml("</li>");
         }
-
-        #endregion Methods
     }
 }

@@ -15,16 +15,10 @@ namespace RetailBay.WebShop.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        #region Fields
-
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ICartService _cartService;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController" /> class.
@@ -44,10 +38,6 @@ namespace RetailBay.WebShop.Controllers
             _roleManager = roleManager;
             _cartService = cartService;
         }
-
-        #endregion Constructors
-
-        #region Actions
 
         [HttpGet]
         [AllowAnonymous]
@@ -138,7 +128,5 @@ namespace RetailBay.WebShop.Controllers
                     Response.Cookies.Append(Constants.CART_COOKIE_NAME, cart.Id.ToString());
             }
         }
-
-        #endregion Actions
     }
 }

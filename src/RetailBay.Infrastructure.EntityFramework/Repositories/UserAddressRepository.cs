@@ -11,8 +11,6 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     /// <seealso cref="RetailBay.Core.Interfaces.Repositories.IUserAddressRepository" />
     public class UserAddressRepository : Repository<UserAddress>, IUserAddressRepository
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UserAddressRepository"/> class.
         /// </summary>
@@ -20,7 +18,5 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
         public UserAddressRepository(TenantDBContext context, ILogger<UserAddressRepository> logger) : base(context, logger)
         {
         }
-
-        #endregion Constructors
     }
 }

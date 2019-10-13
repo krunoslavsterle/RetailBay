@@ -11,8 +11,6 @@ namespace RetailBay.Core.SharedKernel.Collections
     /// <seealso cref="ApplicationCore.SharedKernel.Collections.IPagedCollection{T}" />
     public class PagedCollection<T> : IPagedCollection<T>
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PagedCollection{T}"/> class.
         /// </summary>
@@ -39,10 +37,6 @@ namespace RetailBay.Core.SharedKernel.Collections
             this.PageSize = pageSize;
             this.PageNumber = pageNumber;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Gets the total item count.
@@ -101,7 +95,5 @@ namespace RetailBay.Core.SharedKernel.Collections
         {
             return GetEnumerator();
         }
-
-        #endregion Methods
     }
 }

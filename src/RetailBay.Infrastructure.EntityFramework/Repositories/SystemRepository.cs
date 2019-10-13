@@ -9,6 +9,11 @@ namespace RetailBay.Infrastructure.EntityFramework.Repositories
     public class SystemRepository : ISystemRepository
     {
         private readonly SystemDBContext _systemDBContext;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SystemRepository"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public SystemRepository(SystemDBContext context)
         {
             _systemDBContext = context;

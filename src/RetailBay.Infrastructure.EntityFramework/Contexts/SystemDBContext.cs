@@ -10,8 +10,6 @@ namespace RetailBay.Infrastructure.EntityFramework
     /// <seealso cref="Microsoft.EntityFrameworkCore.DbContext" />
     public class SystemDBContext : DbContext
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SystemDBContext"/> class.
         /// </summary>
@@ -20,24 +18,12 @@ namespace RetailBay.Infrastructure.EntityFramework
         {
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         public DbSet<Tenant> Tenants { get; set; }
-
-        #endregion Properties
-
-        #region Methods
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new TenantConfiguration());
             builder.UseSnakeCaseNamingConvention(true);
         }
-
-        #endregion Methods
-
-        
     }
 }

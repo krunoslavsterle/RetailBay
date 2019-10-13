@@ -4,8 +4,6 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
 {
     public class SortingParameters : ISortingParameters
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SortingParameters"/> class.
         /// </summary>
@@ -14,18 +12,10 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
             this.Sorters = new List<ISortingPair>();
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         /// <summary>
         /// Gets the sort pairs.
         /// </summary>
         public IList<ISortingPair> Sorters { get; private set; }
-
-        #endregion Properties
-        
-        #region Methods
 
         /// <summary>
         /// Adds a new sorting pair.
@@ -45,7 +35,5 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
         {
             Sorters.Add(sortingPair);
         }
-
-        #endregion Methods
     }
 }

@@ -4,8 +4,6 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
 {
     public class PagingParameters : IPagingParameters
     {
-        #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PagingParameters"/> class.
         /// </summary>
@@ -37,10 +35,6 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
             this.PageSize = pageSize;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         /// <summary>
         /// Gets the page number.
         /// </summary>
@@ -70,7 +64,5 @@ namespace RetailBay.Core.SharedKernel.QueryParameters
                 return (PageNumber - 1) * PageSize;
             }
         }
-
-        #endregion Properties
     }
 }

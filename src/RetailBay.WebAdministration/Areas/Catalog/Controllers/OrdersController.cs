@@ -14,15 +14,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     [Authorize(Roles = "Administrator")]
     public class OrdersController : Controller
     {
-        #region Fields
-
         private readonly IOrderService _orderService;
         private readonly ILookupServiceFactory _lookupServiceFactory;
         private readonly IAppLogger<ProductsController> _logger;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductsController"/> class.
@@ -36,10 +30,6 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             _lookupServiceFactory = lookupServiceFactory;
             _logger = logger;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -58,7 +48,5 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             vm.Order = Mapper.Map(order).ToANew<DetailsViewModel.OrderDTO>();
             return View(vm);
         }
-
-        #endregion Methods
     }
 }
