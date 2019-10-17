@@ -16,6 +16,9 @@ using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
 using RetailBay.WebShop.Infrastructure.Logging;
 using StackExchange.Profiling.Storage;
+using React.AspNet;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 
 namespace RetailBay.WebShop
 {
@@ -63,7 +66,12 @@ namespace RetailBay.WebShop
             })
             .AddEntityFramework();
 
+            services.AddReact();
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                .AddChakraCore();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             _services = services;
         }
@@ -83,6 +91,18 @@ namespace RetailBay.WebShop
             }
 
             app.UseMiddleware<SerilogMiddleware>();
+
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                config
+                    .SetReuseJavaScriptEngines(true)
+                    .SetLoadBabel(false)
+                    .SetLoadReact(false)
+                    .AddScriptWithoutTransform("~/dist/runtime.js")
+                    .AddScriptWithoutTransform("~/dist/vendor.js")
+                    .AddScriptWithoutTransform("~/dist/components.js");
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
