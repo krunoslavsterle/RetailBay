@@ -16,8 +16,11 @@
             <div class="text-center" style="font-size:25px;">$ @product.ProductPrice.Price</div>
         </div>
     }
+
+    @Html.React("Home", new { })
 </div>
 
-<environment names="Development">
-    <script src="~/js/basket.js" asp-append-version="true"></script>
-</environment>
+<script src="/dist/runtime.js"></script>
+<script src="/dist/vendor.js"></script>
+<script src="/dist/components.js"></script>
+@Html.ReactInitJavaScript()

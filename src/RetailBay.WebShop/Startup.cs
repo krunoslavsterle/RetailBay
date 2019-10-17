@@ -1,6 +1,6 @@
-﻿using System;
-using System.Text;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using React.AspNet;
 using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.SystemDb;
@@ -16,9 +17,8 @@ using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
 using RetailBay.WebShop.Infrastructure.Logging;
 using StackExchange.Profiling.Storage;
-using React.AspNet;
-using JavaScriptEngineSwitcher.ChakraCore;
-using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using System;
+using System.Text;
 
 namespace RetailBay.WebShop
 {
@@ -32,8 +32,7 @@ namespace RetailBay.WebShop
             Configuration = configuration;
             Mapper.WhenMapping.UseConfigurations.From<Infrastructure.Mapper.MappingConfiguration>();
         }
-
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -91,6 +90,13 @@ namespace RetailBay.WebShop
             }
 
             app.UseMiddleware<SerilogMiddleware>();
+            app.UseHttpsRedirection();
+
+           
+            app.UseCookiePolicy();
+            app.UseMultitenancy<Tenant>();
+            app.UseAuthentication();
+            app.UseMiniProfiler();
 
             // Initialise ReactJS.NET. Must be before static files.
             app.UseReact(config =>
@@ -104,13 +110,7 @@ namespace RetailBay.WebShop
                     .AddScriptWithoutTransform("~/dist/components.js");
             });
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseMultitenancy<Tenant>();
-            app.UseAuthentication();
-            app.UseMiniProfiler();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
