@@ -12,92 +12,127 @@
     <title>@ViewData["Title"] - RetailBay.WebShop</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css" />
+    </environment>   
 </head>
-<body>
-    <mini-profiler />
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">RetailBay @Tenant.Name</a>
+<body class="container" style="max-width: 1280px;">
+    <nav class="navbar" style="flex-wrap: wrap;">
+        <div class="navbar-menu" style="border-bottom: solid 1px #e8e8e8">
+            <div class="navbar-start">
+                <div class="navbar-item">
+                    <div class="field">
+                        <p class="control has-icons-left">
+                            <input class="input"
+                                   type="text"
+                                   placeholder="Search"
+                                   style="border: none;
+                    border-width: 0;
+                    box-shadow: none;" />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (Context.User.Identity.IsAuthenticated)
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @UserManager.GetUserName(User)<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <form asp-action="Logout" asp-controller="Account" asp-area="" method="post" class="btn-group">
-                                        <button type="submit" class="btn btn-link">Log out</button>
-                                    </form>
-                                </li>
-                                <li><a asp-action="Profile" asp-controller="User">Profile</a></li>
-                            </ul>
-                        </li>
-                    }
-                    else
-                    {
-                        <li><a asp-action="Login" asp-controller="Account">Login </a></li>
-                        <li><a asp-action="Register" asp-controller="Account">Register </a></li>
-                    }
-                    <li>
-                        <a asp-action="Index" asp-controller="Cart">@await Component.InvokeAsync("Cart")</a>
-                    </li>
-                </ul>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <button class="button"
+                                style="border: none;
+                border-width: 0;
+                box-shadow: none;">
+                            <span class="icon">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span>
+                            <span>Cart (1)</span>
+                        </button>
+                        <button class="button"
+                                style="border: none;
+                border-width: 0;
+                box-shadow: none;">
+                            Check Out
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div style="width:100%;">
+            <br />
+            <h1 class="title">
+                Simple.
+            </h1>
+            <br />
         </div>
     </nav>
 
-    <partial name="_CookieConsentPartial" />
+    <section class="columns is-fullheight"
+             style="border-bottom: solid 1px #e8e8e8; padding-bottom: 40px;">
+        <aside class="column is-2">
+            <ul class="menu-list" style="border-top: 1px solid #e8e8e8;">
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a class="">Home</a>
+                </li>
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a>Accessories</a>
+                </li>
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a>Denim</a>
+                </li>
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a>Footwear</a>
+                </li>
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a>Jeans</a>
+                </li>
+                <li style="border-bottom: 1px solid #e8e8e8">
+                    <a>Outewear</a>
+                </li>
+            </ul>
+        </aside>
+        <main class="container column is-10">
+            @RenderBody()
+        </main>
+    </section>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - RetailBay.WebShop</p>
-        </footer>
-    </div>
+    <footer style="padding-bottom: 20px;">
+        <secton class="columns"
+                style="padding-top: 20px; padding-bottom: 20px; border-bottom: solid 1px #e8e8e8;">
+            <aside class="menu column is-2">
+                <p class="menu-label">
+                    Links
+                </p>
+                <ul class="menu-list">
+                    <li><a>Home</a></li>
+                    <li><a>News</a></li>
+                    <li><a>Our story</a></li>
+                    <li><a>FAQ</a></li>
+                    <li><a>Contact us</a></li>
+                </ul>
+            </aside>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+            <div class="column is-5"></div>
+            <div class="column is-5">
+                <h4 class="title is-5">Be in the know</h4>
+                <p>Sign up for the latest news, offers and styles</p>
+                <div class="columns is-gapless" style="margin-top:15px;">
+                    <input type="text"
+                           class="input column is-four-fifths"
+                           style="background-color:#f4f4f4; border-radius: 0; border:0; padding: 8px!important; "
+                           placeholder="Your email" />
+                    <button class="button column"
+                            style="border-radius: 0; border:0; background-color: #333; color: white; padding: 9px 15px;">
+                        SUBSCRIBE
+                    </button>
+                </div>
+            </div>
+        </secton>
+        <p>Copyright © 2019, RetailBay.</p>
+    </footer>
 
-    @RenderSection("Scripts", required: false)
+    <script defer
+            src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </body>
 </html>

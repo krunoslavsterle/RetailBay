@@ -4,19 +4,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row" style="margin-top:50px;">
-    @Html.AntiForgeryToken()
-
-    @foreach (var product in Model.Products)
-    {
-        <div class="col-md-4" style="margin-bottom:40px;">
-            <img src="https://dummyimage.com/600x400/000/fff" class="img-responsive" />
-            <button type="button" class="btn btn-success btn-lg center-block" style="margin-top:15px;" onclick="addToCart('@Url.Action("AddToCart", "Cart")', '@product.Id');">[ADD TO BASKET]</button>
-            <div class="text-center" style="font-size:25px;">@product.Name</div>
-            <div class="text-center" style="font-size:25px;">$ @product.ProductPrice.Price</div>
-        </div>
-    }
-</div>
+@Html.AntiForgeryToken()
+    <div class="columns is-multiline">
+        @foreach (var product in Model.Products)
+        {
+            <partial name="_Product" model="product" />
+        }
+    </div>
 
 <environment names="Development">
     <script src="~/js/basket.js" asp-append-version="true"></script>
