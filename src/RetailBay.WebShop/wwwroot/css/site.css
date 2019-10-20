@@ -1,62 +1,34 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
+﻿
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 30px;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.home-header {
+    padding-top: 20px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
+.heading-search {
+    margin-left: 10px;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
+.heading-search i {
+    color: #333;
 }
 
-/* QR code generator */
-#qrCode {
-    margin: 15px;
+.heading-search-btn {
+    border: none!important;
+    border-radius: 0px!important;
+    box-shadow: none!important;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+.heading-hr {
+    margin: 0;
+    border-top: solid #e8e8e8;
+    border-width: 1px;
 }
 
-
-#cart-container {
+.pure-menu-heading {
     float: right;
-    width: 210px;
-    position: relative;
 }
-
-#itemCount {
-    position: absolute;
-    display: none;
-    top: -10px;
-    left: -10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-    text-align: center;
-}
-
-i:hover {
-    cursor: pointer;
-}
-

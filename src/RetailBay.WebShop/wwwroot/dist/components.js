@@ -1,5 +1,17 @@
 (this["webpackJsonp"] = this["webpackJsonp"] || []).push([["components"],{
 
+/***/ "./Content/components/Home/Item/index.jsx":
+/*!************************************************!*\
+  !*** ./Content/components/Home/Item/index.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar Item = function Item(props) {\n  return React.createElement(\"div\", {\n    className: \"col-md-4\"\n  }, React.createElement(\"img\", {\n    src: \"https://dummyimage.com/303x303/000/fff\",\n    \"class\": \"img-responsive\"\n  }), React.createElement(\"div\", null, \"Name: \", props.name), React.createElement(\"div\", null, \"Price: $\", props.price));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Item);\n\n//# sourceURL=webpack:///./Content/components/Home/Item/index.jsx?");
+
+/***/ }),
+
 /***/ "./Content/components/Home/index.jsx":
 /*!*******************************************!*\
   !*** ./Content/components/Home/index.jsx ***!
@@ -8,7 +20,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar Home = function Home() {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"h1\", null, \"Hallo from React!\"));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Home);\n\n//# sourceURL=webpack:///./Content/components/Home/index.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Item */ \"./Content/components/Home/Item/index.jsx\");\n\n\n\nvar Home = function Home(props) {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", null, props.products.map(function (product) {\n    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Item__WEBPACK_IMPORTED_MODULE_1__[\"default\"], {\n      key: product.id,\n      name: product.name,\n      price: product.productPrice.price\n    });\n  }));\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Home);\n\n//# sourceURL=webpack:///./Content/components/Home/index.jsx?");
 
 /***/ }),
 

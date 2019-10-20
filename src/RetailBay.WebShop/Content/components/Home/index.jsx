@@ -1,9 +1,18 @@
-﻿import React from 'react';
+﻿import React from "react";
+import Item from "./Item";
 
-const Home = () => (
+const Home = props => {
+  return (
     <div>
-        <h1>Hallo from React!</h1>
+      {props.products.map(product => (
+        <Item
+          key={product.id}
+          name={product.name}
+          price={product.productPrice.price}
+        ></Item>
+      ))}
     </div>
-);
+  );
+};
 
 export default Home;
