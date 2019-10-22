@@ -1,0 +1,16 @@
+﻿@model IEnumerable<IndexViewModel.CategoryDTO>
+
+<aside class="column is-2">
+    <ul class="menu-list" style="border-top: 1px solid #e8e8e8;">
+        <li style="border-bottom: 1px solid #e8e8e8">
+            <a class="">Home</a>
+        </li>
+
+        @foreach (var category in Model)
+        {
+            <li style="border-bottom: 1px solid #e8e8e8">
+                <a class="">@category.Name</a>
+            </li>
+        }
+    </ul>
+</aside>

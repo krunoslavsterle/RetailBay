@@ -6,6 +6,7 @@ namespace RetailBay.WebShop.Models
     public class IndexViewModel
     {
         public IEnumerable<ProductDTO> Products { get; set; }
+        public IEnumerable<CategoryDTO> Categories { get; set; }
 
         public class ProductDTO
         {
@@ -20,6 +21,12 @@ namespace RetailBay.WebShop.Models
         public class PriceDTO
         {
             public decimal Price { get; set; }
+        }
+
+        public class CategoryDTO
+        {
+            public string Name { get; set; }
+            public string Slug { get; set; }
         }
     }
 }

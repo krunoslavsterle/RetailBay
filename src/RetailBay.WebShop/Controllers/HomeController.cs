@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.QueryParameters;
 using RetailBay.WebShop.Models;
@@ -12,11 +13,13 @@ namespace RetailBay.WebShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICatalogService _catalogService;       
+        private readonly ICatalogService _catalogService;
+        private readonly ILookupServiceFactory _lookupServiceFactory;
 
-        public HomeController(ICatalogService catalogService, ILogger<HomeController> logger)
+        public HomeController(ICatalogService catalogService, ILookupServiceFactory lookupServiceFactory, ILogger<HomeController> logger)
         {
             _catalogService = catalogService;
+            _lookupServiceFactory = lookupServiceFactory;
         }
 
         public async Task<IActionResult> Index()
@@ -24,10 +27,15 @@ namespace RetailBay.WebShop.Controllers
             var sortingParameters = new SortingParameters();
             sortingParameters.Add("Id", false);
 
-            var list = await _catalogService.GetProductsPagedAsync(sortingParameters, 1, 10);
-            var vm = new IndexViewModel();
-            vm.Products = Mapper.Map(list).ToANew<IEnumerable<IndexViewModel.ProductDTO>>();
-            
+            var products = await _catalogService.GetProductsPagedAsync(sortingParameters, 1, 10);
+            var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
+
+            var vm = new IndexViewModel
+            {
+                Products = Mapper.Map(products).ToANew<IEnumerable<IndexViewModel.ProductDTO>>(),
+                Categories = Mapper.Map(categories).ToANew<IEnumerable<IndexViewModel.CategoryDTO>>()
+            };
+
             return View(vm);
         }
         

@@ -1,0 +1,10 @@
+﻿@model IEnumerable<RetailBay.WebShop.Models.IndexViewModel.ProductDTO>
+    
+<div class="column is-10 container">
+    <div class="columns is-multiline">
+        @foreach (var product in Model)
+        {
+            <partial name="_Product.cshtml" model="product" />
+        }
+    </div>
+</div>

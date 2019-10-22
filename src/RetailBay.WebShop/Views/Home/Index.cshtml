@@ -5,12 +5,9 @@
 }
 
 @Html.AntiForgeryToken()
-    <div class="columns is-multiline">
-        @foreach (var product in Model.Products)
-        {
-            <partial name="_Product" model="product" />
-        }
-    </div>
+
+<partial name="_SideMenu" model="Model.Categories" />
+<partial name="Products/_Products" model="Model.Products" />
 
 <environment names="Development">
     <script src="~/js/basket.js" asp-append-version="true"></script>
