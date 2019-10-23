@@ -30,14 +30,15 @@ namespace RetailBay.WebShop.Controllers
             sortingParameters.Add("Id", false);
 
             Expression<Func<Product, bool>> predicate = categorySlug == null ? (Expression<Func<Product, bool>>)null : o => o.ProductCategory.Slug == categorySlug;
+            
+            var products = _catalogService.GetProductsPagedAsync(predicate, sortingParameters, 1, 10);
+            var categories = _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
+            await Task.WhenAll(products, categories);
            
-            var products = await _catalogService.GetProductsPagedAsync(predicate, sortingParameters, 1, 10);
-            var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
-
             var vm = new IndexViewModel
             {
-                Products = Mapper.Map(products).ToANew<IEnumerable<IndexViewModel.ProductDTO>>(),
-                Categories = Mapper.Map(categories).ToANew<IEnumerable<IndexViewModel.CategoryDTO>>()
+                Products = Mapper.Map(await products).ToANew<IEnumerable<IndexViewModel.ProductDTO>>(),
+                Categories = Mapper.Map(await categories).ToANew<IEnumerable<IndexViewModel.CategoryDTO>>()
             };
 
             return View(vm);

@@ -10,7 +10,7 @@ using Serilog.Sinks.Elasticsearch;
 
 namespace RetailBay.WebShop
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -29,7 +29,7 @@ namespace RetailBay.WebShop
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Host terminated unexpectedly");
-                return;
+                throw;
             }
             finally
             {
