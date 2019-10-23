@@ -94,8 +94,14 @@ namespace RetailBay.WebShop
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "web_shop",
+                    template: "{categorySlug?}",
+                    defaults: new { controller = "Home", action = "Index" }); ;
+
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.SharedKernel.Collections;
@@ -14,11 +15,12 @@ namespace RetailBay.Core.Interfaces
         /// <summary>
         /// Gets the products paged asynchronous.
         /// </summary>
+        /// <param name="filter">The filter.</param>
         /// <param name="sortingParameters">The sorting parameters.</param>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
-        Task<IPagedCollection<Product>> GetProductsPagedAsync(ISortingParameters sortingParameters, int pageNumber, int pageSize);
+        Task<IPagedCollection<Product>> GetProductsPagedAsync(Expression<Func<Product, bool>> filter, ISortingParameters sortingParameters, int pageNumber, int pageSize);
 
         /// <summary>
         /// Creates the product asynchronous.

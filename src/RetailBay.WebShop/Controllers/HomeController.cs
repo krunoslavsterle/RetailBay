@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +24,14 @@ namespace RetailBay.WebShop.Controllers
             _lookupServiceFactory = lookupServiceFactory;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string categorySlug)
         {   
             var sortingParameters = new SortingParameters();
             sortingParameters.Add("Id", false);
 
-            var products = await _catalogService.GetProductsPagedAsync(sortingParameters, 1, 10);
+            Expression<Func<Product, bool>> predicate = categorySlug == null ? (Expression<Func<Product, bool>>)null : o => o.ProductCategory.Slug == categorySlug;
+           
+            var products = await _catalogService.GetProductsPagedAsync(predicate, sortingParameters, 1, 10);
             var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
 
             var vm = new IndexViewModel

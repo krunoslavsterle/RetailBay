@@ -5,6 +5,7 @@ using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Core.SharedKernel.Collections;
 using RetailBay.Core.SharedKernel.QueryParameters;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace RetailBay.Core.Services
@@ -32,16 +33,17 @@ namespace RetailBay.Core.Services
         /// <summary>
         /// Gets the products paged asynchronous.
         /// </summary>
+        /// <param name="filter">The filter.</param>
         /// <param name="sortingParameters">The sorting parameters.</param>
         /// <param name="pageNumber">The page number.</param>
         /// <param name="pageSize">Size of the page.</param>
         /// <returns></returns>
-        public Task<IPagedCollection<Product>> GetProductsPagedAsync(ISortingParameters sortingParameters, int pageNumber, int pageSize)
+        public Task<IPagedCollection<Product>> GetProductsPagedAsync(Expression<Func<Product, bool>> filter, ISortingParameters sortingParameters, int pageNumber, int pageSize)
         {
             _logger.LogDebug("{Method} - {PageNumber}, {PageSize}", nameof(CatalogService.GetProductsPagedAsync), pageNumber, pageSize);
 
             var pagingParameters = new PagingParameters(pageNumber, pageSize);
-            return _productRepository.GetPagedAsync(null, sortingParameters, pagingParameters, nameof(Product.ProductPrice));
+            return _productRepository.GetPagedAsync(filter, sortingParameters, pagingParameters, nameof(Product.ProductPrice));
         }
 
         /// <summary>

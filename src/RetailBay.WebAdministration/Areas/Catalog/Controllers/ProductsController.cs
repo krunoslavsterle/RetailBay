@@ -47,7 +47,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             
             var sortingParameters = new SortingParameters();
             sortingParameters.Add(orderBy, isAscending);
-            var list = await _catalogService.GetProductsPagedAsync(sortingParameters, pageNumber, pageSize);
+            var list = await _catalogService.GetProductsPagedAsync(null, sortingParameters, pageNumber, pageSize);
 
             var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
             var productCategories = await lkpCategories.GetAllAsync();

@@ -2,14 +2,18 @@
 
 <aside class="column is-2">
     <ul class="menu-list" style="border-top: 1px solid #e8e8e8;">
+        @{
+            var currentCategory = ViewContext.RouteData.Values["categorySlug"] == null ? string.Empty : ViewContext.RouteData.Values["categorySlug"].ToString();
+        }
+
         <li style="border-bottom: 1px solid #e8e8e8">
-            <a class="">Home</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-categorySlug="@null" class="@(string.IsNullOrEmpty(currentCategory) ? "is-active" : "")">Home</a>
         </li>
 
         @foreach (var category in Model)
         {
             <li style="border-bottom: 1px solid #e8e8e8">
-                <a class="">@category.Name</a>
+                <a asp-controller="Home" asp-action="Index" asp-route-categorySlug="@category.Slug" class="@(currentCategory == category.Slug ? "is-active" : "")">@category.Name</a>
             </li>
         }
     </ul>
