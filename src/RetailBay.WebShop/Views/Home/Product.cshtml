@@ -1,0 +1,30 @@
+﻿@model RetailBay.WebShop.Models.Home.ProductViewModel
+
+@{
+    ViewData["Title"] = "Product Page";
+}
+
+<partial name="_SideMenu" model="Model.Categories" />
+
+<div class="column is-10 container">
+    <div class="columns">
+        <div class="column is-6">
+            <img src="https://cdn.shopify.com/s/files/1/0037/5472/products/SGT-1155B_01_2048x2048.jpg?v=1509388434" />
+        </div>
+
+        <div class="column is-6">
+            <p class="is-size-4">@Model.Product.Name</p>
+            <p class="is-size-4">$@Model.Product.ProductPrice.Price.ToString("##,###.##")</p>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <button type="button" class="button is-medium">ADD TO CART</button>
+            <br />
+            <br />
+            <button type="button" class="button is-medium is-black">BUY IT NOW</button>
+        </div>
+    </div>
+    
+</div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AgileObjects.AgileMapper;
@@ -10,6 +11,7 @@ using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.SharedKernel.QueryParameters;
 using RetailBay.WebShop.Models;
+using RetailBay.WebShop.Models.Home;
 
 namespace RetailBay.WebShop.Controllers
 {
@@ -37,8 +39,25 @@ namespace RetailBay.WebShop.Controllers
            
             var vm = new IndexViewModel
             {
-                Products = Mapper.Map(await products).ToANew<IEnumerable<IndexViewModel.ProductDTO>>(),
-                Categories = Mapper.Map(await categories).ToANew<IEnumerable<IndexViewModel.CategoryDTO>>()
+                Products = Mapper.Map(await products).ToANew<IEnumerable<ProductDTO>>(),
+                Categories = Mapper.Map(await categories).ToANew<IEnumerable<CategoryDTO>>()
+            };
+
+            return View(vm);
+        }
+
+        public async Task<IActionResult> Product(string productSlug)
+        {
+            if (string.IsNullOrWhiteSpace(productSlug))
+                throw new ArgumentException(nameof(productSlug));
+
+            var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
+            var products = await _catalogService.GetProductsPagedAsync(p => p.Slug == productSlug, null, 1, 1);
+
+            var vm = new ProductViewModel
+            {
+                Categories = Mapper.Map(categories).ToANew<IEnumerable<CategoryDTO>>(),
+                Product = Mapper.Map(products.Items.First()).ToANew<ProductDTO>()
             };
 
             return View(vm);
