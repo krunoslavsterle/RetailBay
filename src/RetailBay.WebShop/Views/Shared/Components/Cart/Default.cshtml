@@ -1,15 +1,11 @@
 ﻿@model int
 
-<div id="cart-container">
-    <div id="cart">
-        <i class="glyphicon glyphicon-shopping-cart" style="font-size:20px;" aria-hidden="true"></i>
-    </div>
-    @if (Model > 0)
-    {
-        <span id="itemCount" style="display:block;">@Model</span>
-    }
-    else
-    {
-        <span id="itemCount"></span>
-    }
-</div>
+<button class="button"
+        style="border: none;
+            border-width: 0;
+            box-shadow: none;">
+    <span class="icon">
+        <i class="fa fa-shopping-cart"></i>
+    </span>
+    <span>Cart (<span id="cart-count">@Model</span>)</span>
+</button>

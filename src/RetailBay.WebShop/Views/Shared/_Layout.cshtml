@@ -40,15 +40,7 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="buttons">
-                        <button class="button"
-                                style="border: none;
-                border-width: 0;
-                box-shadow: none;">
-                            <span class="icon">
-                                <i class="fa fa-shopping-cart"></i>
-                            </span>
-                            <span>Cart (1)</span>
-                        </button>
+                        @await Component.InvokeAsync("Cart")
                         <button class="button"
                                 style="border: none;
                 border-width: 0;
@@ -109,5 +101,13 @@
 
     <script defer
             src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>

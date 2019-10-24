@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Product Page";
 }
+@Html.AntiForgeryToken()
 
 <partial name="_SideMenu" model="Model.Categories" />
 
@@ -20,11 +21,14 @@
             <br />
             <br />
             <br />
-            <button type="button" class="button is-medium">ADD TO CART</button>
+            <button type="button" class="button is-medium" onclick="addToCart('@Url.Action("AddToCart", "Cart")', '@Model.Product.Id');">ADD TO CART</button>
             <br />
             <br />
             <button type="button" class="button is-medium is-black">BUY IT NOW</button>
         </div>
     </div>
-    
 </div>
+
+<environment names="Development">
+    <script src="~/js/basket.js" asp-append-version="true"></script>
+</environment>

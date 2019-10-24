@@ -18,10 +18,5 @@
 }
 
 function updateCart(productsCount) {
-    if (productsCount <= 0) {
-        $('#itemCount').html('').css('display', 'none');
-        $('#cartItems').html('');
-    } else {
-        $('#itemCount').html(productsCount).css('display', 'block');
-    }
+    $('#cart-count').html(productsCount);
 }
