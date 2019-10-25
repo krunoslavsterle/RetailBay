@@ -4,36 +4,5 @@
     ViewData["Title"] = "Cart";
 }
 
-<div class="page-header">
-    <div class="row">
-        <div class="col-md-8">
-            <h2>@ViewData["Title"]</h2>
-        </div>       
-    </div>
-</div>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Product</td>
-            <td>Price</td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var product in Model.Products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>$@product.Price</td>
-                <td>
-                    <form asp-action="RemoveProduct" asp-controller="Cart" asp-route-id="@product.Id" id="@String.Format($"form-delete-{product.Id}")" method="post" class="btn-group">
-                        <button type="button" class="btn btn-danger btn-xs" onclick="submitForm('@String.Format($"form-delete-{product.Id}")');">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-action="Index" asp-controller="Checkout" class="btn btn-primary btn-lg">Checkout</a>
+<partial name="_SideMenu" model="Model.Categories" />
+<partial name="CartItems/_CartItems" model="Model.Products" />

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using RetailBay.WebShop.Models.Home;
 using System.Collections.Generic;
 
 namespace RetailBay.WebShop.Models.Cart
@@ -11,12 +11,6 @@ namespace RetailBay.WebShop.Models.Cart
         }
 
         public IEnumerable<CartItemDTO> Products { get; set; }
-
-        public struct CartItemDTO
-        {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public decimal Price { get; set; }
-        }
+        public IEnumerable<CategoryDTO> Categories { get; set; }
     }
 }

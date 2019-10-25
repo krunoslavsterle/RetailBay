@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RetailBay.WebShop.Models.Cart.CartItemDTO>
+
+<div class="column is-10 container">
+    <div class="columns">
+        <div class="column is-3">
+            <h5 class="title is-5">Product</h5>
+        </div>
+
+        <div class="column is-3">
+        </div>
+
+        <div class="column is-2">
+            <h5 class="title is-5">Price</h5>
+        </div>
+
+        <div class="column is-2">
+            <h5 class="title is-5">Quantity</h5>
+        </div>
+
+        <div class="column is-2">
+            <h5 class="title is-5">Total</h5>
+        </div>
+    </div>
+
+    @foreach (var product in Model)
+    {
+        <div class="columns is-vcentered">
+            <div class="column is-3">
+                <img src="https://cdn.shopify.com/s/files/1/0037/5472/products/SGT-1155B_01_2048x2048.jpg?v=1509388434" />
+            </div>
+
+            <div class="column is-3">
+                <h6 class="title is-6">@product.Name</h6>
+                <form asp-action="RemoveProduct" asp-controller="Cart" asp-route-id="@product.Id" id="@String.Format($"form-delete-{product.Id}")" method="post" class="btn-group">
+                    <button id="btn-remove" type="button" class="button is-small" onclick="submitForm('@String.Format($"form-delete-{product.Id}")');">Remove</button>
+                </form>
+            </div>
+
+            <div class="column is-2">
+                <h6 class="title is-6">$@product.Price.ToString("#,###.##")</h6>
+            </div>
+
+            <div class="column is-2">
+                <div class="notification">
+                    1
+                </div>
+            </div>
+
+            <div class="column is-2">
+                <h6 class="title is-6">$@product.Price.ToString("#,###.##")</h6>
+            </div>
+        </div>
+    }
+</div>

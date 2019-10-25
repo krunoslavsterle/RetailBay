@@ -1,6 +1,6 @@
 ﻿@model int
 
-<button class="button"
+<a class="button" asp-controller="cart" asp-action="index"
         style="border: none;
             border-width: 0;
             box-shadow: none;">
@@ -8,4 +8,4 @@
         <i class="fa fa-shopping-cart"></i>
     </span>
     <span>Cart (<span id="cart-count">@Model</span>)</span>
-</button>
+</a>

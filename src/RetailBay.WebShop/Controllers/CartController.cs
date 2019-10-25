@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,18 @@ namespace RetailBay.WebShop.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICartService _cartService;
+        private readonly ILookupServiceFactory _lookupServiceFactory;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="CartController" /> class.
         /// </summary>
         /// <param name="cartService">The cart service.</param>
         /// <param name="userManager">The user manager.</param>
-        public CartController(ICartService cartService, UserManager<ApplicationUser> userManager)
+        /// <param name="lookupServiceFactory">The lookup service factory.</param>
+        public CartController(ICartService cartService, ILookupServiceFactory lookupServiceFactory, UserManager<ApplicationUser> userManager)
         {
             _cartService = cartService;
+            _lookupServiceFactory = lookupServiceFactory;
             _userManager = userManager;
         }
 
@@ -32,17 +36,20 @@ namespace RetailBay.WebShop.Controllers
         [Route("cart")]
         public async Task<IActionResult> Index()
         {
-            var vm = new IndexViewModel();
-
             if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
-                return View(vm);
+                return View(null);
 
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
             var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
             if (cart == null)
-                return View(vm);
+                return View(null);
 
-            vm.Products = MapDomainCartItemsToProductDTO(cart.CartItems);
+            var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
+            var vm = new IndexViewModel
+            {
+                Products = MapDomainCartItemsToProductDTO(cart.CartItems),
+                Categories = Mapper.Map(categories).ToANew<IEnumerable<Models.Home.CategoryDTO>>()
+            };
 
             return View(vm);
         }
@@ -94,10 +101,10 @@ namespace RetailBay.WebShop.Controllers
             return anonymousId;
         }
 
-        private IEnumerable<IndexViewModel.CartItemDTO> MapDomainCartItemsToProductDTO(IEnumerable<CartItem> cartItems)
+        private IEnumerable<CartItemDTO> MapDomainCartItemsToProductDTO(IEnumerable<CartItem> cartItems)
         {
             foreach (var cartItem in cartItems)
-                yield return new IndexViewModel.CartItemDTO { Name = cartItem.Product.Name, Price = cartItem.Product.ProductPrice.Price, Id = cartItem.Id };
+                yield return new CartItemDTO { Name = cartItem.Product.Name, Price = cartItem.Product.ProductPrice.Price, Id = cartItem.Id };
         }
     }
 }
