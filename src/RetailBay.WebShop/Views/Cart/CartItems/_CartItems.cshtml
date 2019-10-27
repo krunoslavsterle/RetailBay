@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<RetailBay.WebShop.Models.Cart.CartItemDTO>
 
-<div class="column is-10 container">
+<div class="column is-12 container">
     <div class="columns">
         <div class="column is-3">
             <h5 class="title is-5">Product</h5>
@@ -10,15 +10,15 @@
         </div>
 
         <div class="column is-2">
-            <h5 class="title is-5">Price</h5>
+            <h5 class="title is-5 has-text-right">Price</h5>
         </div>
 
         <div class="column is-2">
-            <h5 class="title is-5">Quantity</h5>
+            <h5 class="title is-5 has-text-right">Quantity</h5>
         </div>
 
         <div class="column is-2">
-            <h5 class="title is-5">Total</h5>
+            <h5 class="title is-5 has-text-right">Total</h5>
         </div>
     </div>
 
@@ -37,17 +37,17 @@
             </div>
 
             <div class="column is-2">
-                <h6 class="title is-6">$@product.Price.ToString("#,###.##")</h6>
+                <h6 class="title is-6 has-text-right">$@product.Price.ToString("#,###.##")</h6>
             </div>
 
             <div class="column is-2">
-                <div class="notification">
+                <div class="notification has-text-right">
                     1
                 </div>
             </div>
 
             <div class="column is-2">
-                <h6 class="title is-6">$@product.Price.ToString("#,###.##")</h6>
+                <h6 class="title is-6 has-text-right">$@product.Price.ToString("#,###.##")</h6>
             </div>
         </div>
     }
