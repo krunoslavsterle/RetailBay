@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AgileObjects.AgileMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
+using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.WebShop.Infrastructure.Mapper;
 using RetailBay.WebShop.Models.Checkout;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
@@ -43,13 +47,16 @@ namespace RetailBay.WebShop.Controllers
             var userId = new Guid(_userManager.GetUserId(User));
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
 
-            var cart = await _cartService.GetCartAsync(cartId);
+            var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
             if (cart == null || cart.UserId != userId)
                 return RedirectToAction("Index", "Home");
 
-            var vm = new IndexViewModel();
-            vm.ShippingAddresses = await _userService.GetAddressesForUserAsync(userId, AddressType.Shipping);
-
+            var vm = new IndexViewModel
+            {
+                ShippingAddresses = await _userService.GetAddressesForUserAsync(userId, AddressType.Shipping),
+                CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
+                ShippingPrice = 20
+            };
             return View(vm);
         }
 

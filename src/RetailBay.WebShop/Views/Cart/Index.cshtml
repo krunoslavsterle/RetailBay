@@ -11,7 +11,7 @@
     <div class="column is-12">
         <h3 class="title is-5 has-text-right">Subtotal $@Model.Products.Sum(p => p.Price).ToString("###,###.##")</h3>
         <div class="container fluid">
-            <button type="button" class="button is-medium is-black is-pulled-right">CHECK OUT</button>
+            <a asp-controller="checkout" asp-action="index" class="button is-medium is-black is-pulled-right">CHECK OUT</a>
             <button type="button" class="button is-medium is-pulled-right">CONTINUE SHOPPING</button>
         </div>
     </div>

@@ -9,6 +9,7 @@ using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.WebShop.Infrastructure.Mapper;
 using RetailBay.WebShop.Models.Cart;
 
 namespace RetailBay.WebShop.Controllers

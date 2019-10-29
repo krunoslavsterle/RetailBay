@@ -2,16 +2,73 @@
 
 @{
     ViewData["Title"] = "Shipping Address";
+    Layout = "_LayoutCheckout";
 }
 
-<div class="page-header">
-    <div class="row">
-        <div class="col-md-8">
-            <h2>@ViewData["Title"]</h2>
+<div class="column is-7">
+    main
+</div>
+
+<div class="column is-5" style="border-left:solid 1px #d4d4d4; background-color:#fafafa; padding-top:80px; padding-left:40px;">
+    @foreach (var item in Model.CartItems)
+    {
+        <div class="level" style="padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4; width:70%;">
+            <div class="level-left" style="width:4.6em; height: 4.6em;">
+                <img src="https://cdn.shopify.com/s/files/1/0037/5472/products/SGT-1155B_01_100x100.jpg?v=1509388434" style="border: 1px solid #d4d4d4; border-radius: 10px;" />
+                <h6 class="level-item title is-6" style="margin-left:40px;">@item.Name</h6>
+            </div>
+
+            <div class="level-left" style="margin-left:20px;">
+                <h6 class="level-item title is-6">$@item.Price.ToString("###,###.##")</h6>
+            </div>
+        </div>
+    }
+    
+    <div class="level" style="padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4; width:70%;">
+        <input type="text"
+               class="input column is-four-fifths"
+               style=" font-size:1.25rem;"
+               placeholder="Gift Card" />
+        <button class="button column is-medium"
+                style="border-radius: 0; border:0; background-color: #333; color: white; padding: 9px 15px;">
+            Apply
+        </button>
+    </div>
+
+    <div class="level" style="width:70%;">
+        <div class="level-left">
+            <h6 class="level-item title is-6">Subtotal</h6>
+        </div>
+
+        <div class="level-left">
+            <h6 class="level-item title is-6">$@Model.CartItems.Sum(p => p.Price).ToString("###,###.##")</h6>
         </div>
     </div>
+
+    <div class="level" style="width:70%; padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4;">
+        <div class="level-left">
+            <h6 class="level-item title is-6">Shipping</h6>
+        </div>
+
+        <div class="level-left">
+            <h6 class="level-item title is-6">$@Model.ShippingPrice.ToString("###,###.##")</h6>
+        </div>
+    </div>
+
+    <div class="level" style="width:70%;">
+        <div class="level-left">
+            <h6 class="level-item title is-6">Total</h6>
+        </div>
+
+        <div class="level-left">
+            <h6 class="level-item title is-4">$@((Model.CartItems.Sum(p => p.Price) + Model.ShippingPrice).ToString("###,###.##"))</h6>
+        </div>
+    </div>
+
 </div>
-<form asp-action="ConfirmOrder" asp-controller="Checkout" method="post" class="form-horizontal">
+
+
+@*<form asp-action="ConfirmOrder" asp-controller="Checkout" method="post" class="form-horizontal">
 
     @foreach (var address in Model.ShippingAddresses)
     {
@@ -29,4 +86,4 @@
     <br />
 
     <button class="btn btn-primary btn-lg">Confirm Order</button>
-</form>
+</form>*@
