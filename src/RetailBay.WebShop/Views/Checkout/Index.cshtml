@@ -5,8 +5,68 @@
     Layout = "_LayoutCheckout";
 }
 
-<div class="column is-7">
-    main
+<div class="column is-7 container" style="padding-top:80px;">
+   
+    <div class="columns">
+        <div class="column is-4"></div>
+        <div class="column">
+            <h1 class="title is-3">Check out</h1>
+
+            <div style="border: 1px solid #d4d4d4; border-radius:5px; padding-left: 20px; padding-right: 20px; padding-bottom:20px; margin-right:20px; margin-top:40px;">
+                <div class="level" style="border-bottom:1px solid #d4d4d4; padding-top:20px; padding-bottom:20px;">
+                    <div class="level-left">
+                        <p class="level-item">Contact</p>
+                        <p class="level-item" style="margin-left:30px;">mail@gmail.com</p>
+                    </div>
+
+                    <div class="level-right">
+                        <a href="#" class="level-item">Change</a>
+                    </div>
+                </div>
+
+                <div class="level" padding-top:10px; padding-bottom:10px;">
+                    <div class="level-left">
+                        <p class="level-item">Ship to</p>
+                        <p class="level-item" style="margin-left:30px;">Street 123, 5000 City, Croatia</p>
+                    </div>
+
+                    <div class="level-right">
+                        <a href="#" class="level-item">Change</a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border: 1px solid #d4d4d4; border-radius:5px; padding-left: 20px; padding-right: 20px; padding-bottom:20px; margin-right:20px; margin-top:40px;">
+                <div class="level" style="border-bottom:1px solid #d4d4d4; padding-top:20px; padding-bottom:20px;">
+                    <div class="level-left">
+                        <div class="level-item field">
+                            <input class="is-checkradio" id="radioNormalShipping" type="radio" name="exampleRadioInline" checked="checked">
+                            <label for="radioNormalShipping" style="margin:0; padding:0; padding-left:40px;">Normal Shipping</label>
+                        </div>
+                    </div>
+
+                    <div class="level-right">
+                        <p class="level-item title is-6">$20.00</p>
+                    </div>
+                </div>
+                <div class="level" padding-top:10px; padding-bottom:10px;">
+                    <div class="level-left">
+                        <div class="level-item field">
+                            <input class="is-checkradio" id="radioInternationalShipping" type="radio" name="exampleRadioInline" checked="checked" >
+                            <label for="radioInternationalShipping" style="margin:0; padding:0; padding-left:40px;"">International Shipping</label>
+                        </div>
+                    </div>
+
+                    <div class="level-right">
+                        <p class="level-item title is-6">$20.00</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
 </div>
 
 <div class="column is-5" style="border-left:solid 1px #d4d4d4; background-color:#fafafa; padding-top:80px; padding-left:40px;">
