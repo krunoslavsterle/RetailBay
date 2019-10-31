@@ -49,5 +49,12 @@ namespace RetailBay.Core.Interfaces
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         Task<Product> GetProductAsync(Guid id);
+
+        /// <summary>
+        /// Gets the product by slug asynchronous.
+        /// </summary>
+        /// <param name="slug">The slug.</param>
+        /// <returns></returns>
+        Task<Product> GetProductBySlugAsync(string slug);
     }
 }

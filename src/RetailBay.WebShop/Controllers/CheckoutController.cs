@@ -23,7 +23,7 @@ namespace RetailBay.WebShop.Controllers
         private readonly IUserService _userService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CartController" /> class.
+        /// Initializes a new instance of the <see cref="CheckoutController" /> class.
         /// </summary>
         /// <param name="orderService">The order service.</param>
         /// <param name="cartService">The cart service.</param>
@@ -46,13 +46,17 @@ namespace RetailBay.WebShop.Controllers
             var userId = new Guid(_userManager.GetUserId(User));
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
 
-            var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            var cartTask = _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            var shippingAddressesTask = _userService.GetAddressesForUserAsync(userId, AddressType.Shipping);
+            await Task.WhenAll(cartTask, shippingAddressesTask);
+
+            var cart = await cartTask;
             if (cart == null || cart.UserId != userId)
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel
             {
-                ShippingAddresses = await _userService.GetAddressesForUserAsync(userId, AddressType.Shipping),
+                ShippingAddresses = await shippingAddressesTask,
                 CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
                 ShippingPrice = 20
             };

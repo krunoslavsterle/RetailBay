@@ -1,4 +1,5 @@
 ﻿@model RetailBay.WebShop.Models.Checkout.IndexViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewData["Title"] = "Shipping Address";
@@ -6,7 +7,7 @@
 }
 
 <div class="column is-7 container" style="padding-top:80px;">
-   
+
     <div class="columns">
         <div class="column is-4"></div>
         <div class="column">
@@ -35,43 +36,45 @@
                     </div>
                 </div>
             </div>
-
+            
             <div style="border: 1px solid #d4d4d4; border-radius:5px; padding-left: 20px; padding-right: 20px; padding-bottom:20px; margin-right:20px; margin-top:40px;">
                 <div class="level" style="border-bottom:1px solid #d4d4d4; padding-top:20px; padding-bottom:20px;">
                     <div class="level-left">
                         <div class="level-item field">
-                            <input class="is-checkradio" id="radioNormalShipping" type="radio" name="exampleRadioInline" checked="checked">
+                            <input class="is-checkradio" id="radioNormalShipping" type="radio" name="exampleRadioInline" checked="checked" />
                             <label for="radioNormalShipping" style="margin:0; padding:0; padding-left:40px;">Normal Shipping</label>
                         </div>
                     </div>
-
+                    
                     <div class="level-right">
                         <p class="level-item title is-6">$5.00</p>
                     </div>
                 </div>
-                <div class="level" padding-top:10px; padding-bottom:10px;">
+                <div class="level">
                     <div class="level-left">
                         <div class="level-item field">
-                            <input class="is-checkradio" id="radioInternationalShipping" type="radio" name="exampleRadioInline" checked="checked">
-                            <label for="radioInternationalShipping" style="margin:0; padding:0; padding-left:40px;" ">International Shipping</label>
+                            <input class="is-checkradio" id="radioInternationalShipping" type="radio" name="exampleRadioInline" checked="checked" />
+                            <label for="radioInternationalShipping" style="margin:0; padding:0; padding-left:40px;">International Shipping</label>
                         </div>
                     </div>
-
+                    
                     <div class="level-right">
                         <p class="level-item title is-6">$20.00</p>
                     </div>
                 </div>
+                
             </div>
 
             <div class="level" style="margin-top:30px; margin-right:20px;">
                 <div class="level-left">
-                    <a href="#" class="level-item">< Return to information</a>
+                    <a class="level-item" asp-controller="cart" asp-action="index">< Return to information</a>
                 </div>
                 <div class="level-right">
                     <button class="button is-medium is-primary" type="button">Continue to payment</button>
                 </div>
             </div>
-        </div>        
+
+        </div>
     </div>
 </div>
 
@@ -89,7 +92,7 @@
             </div>
         </div>
     }
-    
+
     <div class="level" style="padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4; width:70%;">
         <input type="text"
                class="input column is-four-fifths"
@@ -136,20 +139,20 @@
 
 @*<form asp-action="ConfirmOrder" asp-controller="Checkout" method="post" class="form-horizontal">
 
-    @foreach (var address in Model.ShippingAddresses)
-    {
-        var formatedName = $"{address.ContactName}, {address.StreetAddress}, {address.PostalCode} {address.City}";
-        <div>
-            <input asp-for="SelectedAddressId" type="radio" value="@address.Id" id="@address.Id" />
-            <label for="@address.Id">@formatedName</label>
-        </div>
-    }
+        @foreach (var address in Model.ShippingAddresses)
+        {
+            var formatedName = $"{address.ContactName}, {address.StreetAddress}, {address.PostalCode} {address.City}";
+            <div>
+                <input asp-for="SelectedAddressId" type="radio" value="@address.Id" id="@address.Id" />
+                <label for="@address.Id">@formatedName</label>
+            </div>
+        }
 
-    <br />
-    <a asp-action="NewAddress" asp-controller="Checkout" class="btn btn-primary btn-md">New Address</a>
+        <br />
+        <a asp-action="NewAddress" asp-controller="Checkout" class="btn btn-primary btn-md">New Address</a>
 
-    <br />
-    <br />
+        <br />
+        <br />
 
-    <button class="btn btn-primary btn-lg">Confirm Order</button>
-</form>*@
+        <button class="btn btn-primary btn-lg">Confirm Order</button>
+    </form>*@

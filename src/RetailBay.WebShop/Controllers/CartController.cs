@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +6,10 @@ using RetailBay.Core;
 using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
-using RetailBay.WebShop.Infrastructure.Mapper;
 using RetailBay.WebShop.Models.Cart;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
 {
@@ -41,14 +40,20 @@ namespace RetailBay.WebShop.Controllers
                 return View(null);
 
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-            var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            
+            var categoriesTask = _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
+            var cartTask = _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            await Task.WhenAll(categoriesTask, cartTask);
+
+            var categories = await categoriesTask;
+            var cart = await cartTask;
+
             if (cart == null)
                 return View(null);
 
-            var categories = await _lookupServiceFactory.Create<ProductCategory>().GetAllAsync();
             var vm = new IndexViewModel
             {
-                Products = MapDomainCartItemsToProductDTO(cart.CartItems),
+                Products = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
                 Categories = Mapper.Map(categories).ToANew<IEnumerable<Models.Home.CategoryDTO>>()
             };
 
@@ -100,12 +105,6 @@ namespace RetailBay.WebShop.Controllers
 
             Response.Cookies.Append(Constants.CART_COOKIE_NAME, anonymousId.ToString(), cookieOptions);
             return anonymousId;
-        }
-
-        private IEnumerable<CartItemDTO> MapDomainCartItemsToProductDTO(IEnumerable<CartItem> cartItems)
-        {
-            foreach (var cartItem in cartItems)
-                yield return new CartItemDTO { Name = cartItem.Product.Name, Price = cartItem.Product.ProductPrice.Price, Id = cartItem.Id };
         }
     }
 }

@@ -75,6 +75,16 @@ namespace RetailBay.Core.Services
         {
             return _productRepository.GetOneAsync(p => p.Id == id, nameof(Product.ProductPrice));
         }
+        
+        /// <summary>
+        /// Gets the product by slug asynchronous.
+        /// </summary>
+        /// <param name="slug">The slug.</param>
+        /// <returns></returns>
+        public Task<Product> GetProductBySlugAsync(string slug)
+        {
+            return _productRepository.GetOneAsync(p => p.Slug == slug, nameof(Product.ProductPrice));
+        }
 
         /// <summary>
         /// Deletes the product.
