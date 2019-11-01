@@ -1,0 +1,31 @@
+﻿@model RetailBay.WebShop.Models.Checkout.IndexViewModel
+
+<div class="level" style="width:70%;">
+    <div class="level-left">
+        <h6 class="level-item title is-6">Subtotal</h6>
+    </div>
+
+    <div class="level-left">
+        <h6 class="level-item title is-6">$@Model.CartItems.Sum(p => p.Price).ToString("###,###.##")</h6>
+    </div>
+</div>
+
+<div class="level" style="width:70%; padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4;">
+    <div class="level-left">
+        <h6 class="level-item title is-6">Shipping</h6>
+    </div>
+
+    <div class="level-left">
+        <h6 class="level-item title is-6">$@Model.ShippingPrice.ToString("###,###.##")</h6>
+    </div>
+</div>
+
+<div class="level" style="width:70%;">
+    <div class="level-left">
+        <h6 class="level-item title is-6">Total</h6>
+    </div>
+
+    <div class="level-left">
+        <h6 class="level-item title is-4">$@((Model.CartItems.Sum(p => p.Price) + Model.ShippingPrice).ToString("###,###.##"))</h6>
+    </div>
+</div>
