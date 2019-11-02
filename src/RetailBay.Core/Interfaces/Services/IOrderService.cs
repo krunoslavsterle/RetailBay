@@ -36,9 +36,8 @@ namespace RetailBay.Core.Interfaces
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="cartId">The cart identifier.</param>
-        /// <param name="shippingAddressId">The shipping address identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">No cart items found</exception>
-        Task CreateOrderForUserAsync(Guid userId, Guid cartId, Guid shippingAddressId);
+        Task CreateOrderForUserAsync(Guid? userId, Guid cartId);
     }
 }

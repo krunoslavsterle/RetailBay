@@ -72,11 +72,9 @@ namespace RetailBay.WebShop.Controllers
             if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                 return RedirectToAction("Index", "Home");
 
-            var userId = new Guid(_userManager.GetUserId(User));
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-
             var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
-            if (cart == null || cart.UserId != userId)
+            if (cart == null)
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel
@@ -109,16 +107,17 @@ namespace RetailBay.WebShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmOrder(IndexViewModel vm)
+        public async Task<IActionResult> ConfirmOrder()
         {
             if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                 return RedirectToAction("Index", "Home");
 
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
-            var userId = new Guid(_userManager.GetUserId(User));
+            var userId = (Guid?)null;
+            if (User.Identity.IsAuthenticated)
+                userId = new Guid(_userManager.GetUserId(User));
 
-            await _orderService.CreateOrderForUserAsync(userId, cartId, vm.SelectedAddressId);
-
+            await _orderService.CreateOrderForUserAsync(userId, cartId);
             return RedirectToAction("Index", "Home");
         }
     }

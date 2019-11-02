@@ -4,18 +4,18 @@
     <div class="column is-4"></div>
     <div class="column">
         <h1 class="title is-3">Check out</h1>
+            <partial name="Shipping/_ShippingAddress" model="Model" />
+            <partial name="Shipping/_ShippingType" />
 
-        <partial name="Shipping/_ShippingAddress" model="Model" />
-        <partial name="Shipping/_ShippingType" />
-
-        <div class="level" style="margin-top:30px; margin-right:20px;">
-            <div class="level-left">
-                <a class="level-item" asp-controller="cart" asp-action="index">< Return to information</a>
+        <form asp-controller="checkout" asp-action="confirmorder">
+            <div class="level" style="margin-top:30px; margin-right:20px;">
+                <div class="level-left">
+                    <a class="level-item" asp-controller="cart" asp-action="index">< Return to cart</a>
+                </div>
+                <div class="level-right">
+                    <button class="button is-medium is-primary" type="submit">Confirm order</button>
+                </div>
             </div>
-            <div class="level-right">
-                <button class="button is-medium is-primary" type="button">Continue to payment</button>
-            </div>
-        </div>
-
+        </form>
     </div>
 </div>

@@ -15,23 +15,23 @@ namespace RetailBay.Core.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IShippingAddressService _shippingAddressService;
         private readonly ICartItemRepository _cartItemRepository;
         private readonly ICartRepository _cartRepository;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderService"/> class.
+        /// Initializes a new instance of the <see cref="OrderService" /> class.
         /// </summary>
         /// <param name="orderRepository">The Order repository.</param>
-        /// <param name="orderItemRepository">The OrderItem repository.</param>
         /// <param name="cartItemRepository">The CartItem repository.</param>
         /// <param name="cartRepository">The Cart repository.</param>
-        public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, ICartItemRepository cartItemRepository, ICartRepository cartRepository)
+        /// <param name="shippingAddressService">The shipping address service.</param>
+        public OrderService(IOrderRepository orderRepository, ICartItemRepository cartItemRepository, ICartRepository cartRepository, IShippingAddressService shippingAddressService)
         {
             _orderRepository = orderRepository;
-            _orderItemRepository = orderItemRepository;
             _cartItemRepository = cartItemRepository;
             _cartRepository = cartRepository;
+            _shippingAddressService = shippingAddressService;
         }
         
         /// <summary>
@@ -69,12 +69,17 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="cartId">The cart identifier.</param>
-        /// <param name="shippingAddressId">The shipping address identifier.</param>
         /// <returns></returns>
         /// <exception cref="Exception">No cart items found</exception>
-        public async Task CreateOrderForUserAsync(Guid userId, Guid cartId, Guid shippingAddressId)
+        public async Task CreateOrderForUserAsync(Guid? userId, Guid cartId)
         {
-            var cartItems = await _cartItemRepository.GetAsync(p => p.CartId == cartId, null, $"{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            var addressTask = _shippingAddressService.GetShippingAddressForCartAsync(cartId);
+            var cartItemsTask = _cartItemRepository.GetAsync(p => p.CartId == cartId, null, $"{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            await Task.WhenAll(addressTask, cartItemsTask);
+
+            var address = await addressTask;
+            var cartItems = await cartItemsTask;
+
             if (cartItems == null || cartItems.Count() == 0)
                 throw new Exception("No cart items found");
 
@@ -82,7 +87,7 @@ namespace RetailBay.Core.Services
             {
                 Id = Guid.NewGuid(),
                 UserId = userId,
-                ShippingAddressId = shippingAddressId,
+                ShippingAddressId = address.Id,
                 OrderStatus = OrderStatus.New
             };
 

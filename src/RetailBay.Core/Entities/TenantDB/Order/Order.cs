@@ -9,8 +9,7 @@ namespace RetailBay.Core.Entities.TenantDB
     [Table("order")]
     public class Order : EntityBase
     {
-        [Required]
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         [Required]
         public Guid ShippingAddressId { get; set; }
