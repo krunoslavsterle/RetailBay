@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.Core.Interfaces

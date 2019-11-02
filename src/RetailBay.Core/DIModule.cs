@@ -11,6 +11,7 @@ namespace RetailBay.Core
             services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IShippingAddressService, ShippingAddressService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILookupServiceFactory, LookupServiceFactory>();
 

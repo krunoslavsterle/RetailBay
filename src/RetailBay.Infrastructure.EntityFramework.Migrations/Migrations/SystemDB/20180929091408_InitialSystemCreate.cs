@@ -6,7 +6,7 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations.Migrations.SystemD
     public partial class InitialSystemCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        {   
             migrationBuilder.CreateTable(
                 name: "tenant",
                 columns: table => new

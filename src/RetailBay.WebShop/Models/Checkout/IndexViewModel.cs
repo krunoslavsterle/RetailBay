@@ -9,7 +9,7 @@ namespace RetailBay.WebShop.Models.Checkout
     {
         public Guid SelectedAddressId { get; set; }
         public decimal ShippingPrice { get; set; }
-        public IEnumerable<Address> ShippingAddresses { get; set; }
+        public Address ShippingAddress { get; set; }
         public IEnumerable<CartItemDTO> CartItems { get; set; }
     }
 }

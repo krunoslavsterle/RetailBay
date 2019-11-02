@@ -1,4 +1,5 @@
 ﻿using AgileObjects.AgileMapper;
+using AgileObjects.AgileMapper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
 {
-    [Authorize(Roles = "Customer")]
     [Route("checkout")]
     public class CheckoutController : Controller
     {
@@ -21,6 +21,7 @@ namespace RetailBay.WebShop.Controllers
         private readonly IOrderService _orderService;
         private readonly ICartService _cartService;
         private readonly IUserService _userService;
+        private readonly IShippingAddressService _shippingAddressService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckoutController" /> class.
@@ -28,13 +29,15 @@ namespace RetailBay.WebShop.Controllers
         /// <param name="orderService">The order service.</param>
         /// <param name="cartService">The cart service.</param>
         /// <param name="userService">The user service.</param>
+        /// <param name="shippingAddressService">The shipping address service.</param>
         /// <param name="userManager">The user manager.</param>
-        public CheckoutController(IOrderService orderService, ICartService cartService, IUserService userService, UserManager<ApplicationUser> userManager)
+        public CheckoutController(IOrderService orderService, ICartService cartService, IUserService userService, IShippingAddressService shippingAddressService, UserManager<ApplicationUser> userManager)
         {
             _orderService = orderService;
             _cartService = cartService;
             _userService = userService;
             _userManager = userManager;
+            _shippingAddressService = shippingAddressService;
         }
 
         [HttpGet]
@@ -43,24 +46,65 @@ namespace RetailBay.WebShop.Controllers
             if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                 return RedirectToAction("Index", "Home");
 
-            var userId = new Guid(_userManager.GetUserId(User));
             var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
 
             var cartTask = _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
-            var shippingAddressesTask = _userService.GetAddressesForUserAsync(userId, AddressType.Shipping);
-            await Task.WhenAll(cartTask, shippingAddressesTask);
+            var cartShippingAddressTask = _shippingAddressService.GetShippingAddressForCartAsync(cartId);
+            
+            await Task.WhenAll(cartTask, cartShippingAddressTask);
 
             var cart = await cartTask;
+            if (cart == null)
+                return RedirectToAction("Index", "Home");
+
+            var vm = new IndexViewModel
+            {
+                ShippingAddress = await cartShippingAddressTask,
+                CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
+                ShippingPrice = 20
+            };
+            return View(vm);
+        }
+
+        [HttpGet("addaddress")]
+        public async Task<IActionResult> AddAddress()
+        {
+            if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return RedirectToAction("Index", "Home");
+
+            var userId = new Guid(_userManager.GetUserId(User));
+            var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+
+            var cart = await _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
             if (cart == null || cart.UserId != userId)
                 return RedirectToAction("Index", "Home");
 
             var vm = new IndexViewModel
             {
-                ShippingAddresses = await shippingAddressesTask,
                 CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
                 ShippingPrice = 20
             };
+
             return View(vm);
+        }
+
+        [HttpPost("addaddress")]
+        public async Task<IActionResult> AddAddress(NewAddressDTO dto)
+        {
+            if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return RedirectToAction("Index", "Home");
+
+            var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+
+            if (ModelState.IsValid)
+            {
+                var address = Mapper.Map(dto).ToANew<Address>();
+                address.ContactName = $"{dto.FirstName} {dto.LastName}";
+                await _shippingAddressService.InsertShippingAddressForCartAsync(address, cartId);
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("AddAddress");
         }
 
         [HttpPost]

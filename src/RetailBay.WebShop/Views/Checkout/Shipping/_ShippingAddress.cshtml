@@ -1,4 +1,6 @@
-﻿<div style="border: 1px solid #d4d4d4; border-radius:5px; padding-left: 20px; padding-right: 20px; padding-bottom:20px; margin-right:20px; margin-top:40px;">
+﻿@model RetailBay.WebShop.Models.Checkout.IndexViewModel
+
+<div style="border: 1px solid #d4d4d4; border-radius:5px; padding-left: 20px; padding-right: 20px; padding-bottom:20px; margin-right:20px; margin-top:40px;">
     <div class="level" style="border-bottom:1px solid #d4d4d4; padding-top:20px; padding-bottom:20px;">
         <div class="level-left">
             <p class="level-item">Contact</p>
@@ -11,13 +13,23 @@
     </div>
 
     <div class="level" padding-top:10px; padding-bottom:10px;">
-        <div class="level-left">
-            <p class="level-item">Ship to</p>
-            <p class="level-item" style="margin-left:30px;">Street 123, 5000 City, Croatia</p>
-        </div>
+        @if (Model.ShippingAddress != null)
+        {
+            <div class="level-left">
+                <p class="level-item">Ship to</p>
+                <p class="level-item" style="margin-left:30px;">@($"{Model.ShippingAddress.StreetAddress} {Model.ShippingAddress.PostalCode} {Model.ShippingAddress.City}, {Model.ShippingAddress.Country}")</p>
+            </div>
 
-        <div class="level-right">
-            <a href="#" class="level-item">Change</a>
-        </div>
+            <div class="level-right">
+                <a href="#" class="level-item">Change</a>
+            </div>
+        }
+        else
+        {
+            <div class="level-right">
+                <a asp-controller="checkout" asp-action="addAddress" class="level-item">Add Address</a>
+            </div>
+        }
+
     </div>
 </div>

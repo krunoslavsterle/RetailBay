@@ -13,6 +13,10 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
             builder.HasOne(p => p.User)
                 .WithOne(p => p.Cart)
                 .HasForeignKey<Cart>(p => p.UserId);
+
+            builder.HasOne(p => p.ShippingAddress)
+                .WithMany(p => p.Carts)
+                .HasForeignKey(p => p.ShippingAddressId);
         }
     }
 }

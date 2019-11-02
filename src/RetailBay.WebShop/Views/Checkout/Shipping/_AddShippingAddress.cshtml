@@ -1,0 +1,80 @@
+﻿@model RetailBay.WebShop.Models.Checkout.NewAddressDTO
+
+<div class="columns">
+    <div class="column is-4"></div>
+    <div class="column" style="margin-right:40px;">
+        <h1 class="title is-3">Shipping Address</h1>
+
+        <form asp-controller="checkout" asp-action="addaddress">
+            <div class="field">
+                <div class="field-body">
+                    <div class="field">
+                        <label class="label">First Name</label>
+
+                        <div class="control is-expanded">
+                            <input asp-for="FirstName" class="input is-expanded" type="text" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Last Name</label>
+                        <div class="control is-expanded">
+                            <input asp-for="LastName" class="input is-expanded" type="text" placeholder="Last Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Address</label>
+                <div class="control">
+                    <input asp-for="StreetAddress" class="input" type="text" placeholder="Address">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">City</label>
+                <div class="control">
+                    <input asp-for="City" class="input" type="text" placeholder="City">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="field-body">
+                    <div class="field">
+                        <label class="label">Country</label>
+                        <div class="control">
+                            <input asp-for="Country" class="input" type="text" placeholder="Contry">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Postal Code</label>
+                        <div class="control">
+                            <input asp-for="PostalCode" class="input" type="text" placeholder="Postal Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Phone</label>
+                <div class="control">
+                    <input asp-for="Phone" class="input" type="text" placeholder="Phone">
+                </div>
+            </div>
+
+            <div class="level" style="margin-top:30px; margin-right:20px;">
+                <div class="level-left">
+                    <a class="level-item" asp-controller="checkout" asp-action="index">< Return to Check out</a>
+                </div>
+                <div class="level-right">
+                    <button class="button is-medium is-primary" type="submit">Save Address</button>
+                </div>
+            </div>
+        </form>
+
+        
+
+    </div>
+</div>
+
+    

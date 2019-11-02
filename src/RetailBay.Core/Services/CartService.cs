@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using RetailBay.Core.Entities.TenantDB;
+﻿using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.Core.Services
 {
@@ -20,7 +20,7 @@ namespace RetailBay.Core.Services
         /// </summary>
         /// <param name="cartRepository">The Cart repository.</param>
         /// <param name="cartItemRepository">The CartItem repository.</param>
-        public CartService(ICartRepository cartRepository, ICartItemRepository cartItemRepository)
+        public CartService(ICartRepository cartRepository, ICartItemRepository cartItemRepository, IAddressRepository addressRepository)
         {
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;

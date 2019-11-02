@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RetailBay.Core.Entities.TenantDB;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,6 @@ namespace RetailBay.Core.Entities.Identity
         public string Country { get; set; }
 
         public IEnumerable<UserAddress> UserAddresses { get; set; }
+        public IEnumerable<Cart> Carts { get; set; }
     }
 }

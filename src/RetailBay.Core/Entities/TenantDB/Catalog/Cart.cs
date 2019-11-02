@@ -9,8 +9,10 @@ namespace RetailBay.Core.Entities.TenantDB
     public class Cart : EntityBase
     {
         public Guid? UserId { get; set; }
+        public Guid? ShippingAddressId { get; set; }
 
         public ApplicationUser User { get; set; }
+        public Address ShippingAddress { get; set; }
         public IEnumerable<CartItem> CartItems { get; set; }
     }
 }
