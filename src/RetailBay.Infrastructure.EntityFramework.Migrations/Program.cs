@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Core.Entities.SystemDb;
+using System;
 
 namespace RetailBay.Infrastructure.EntityFramework.Migrations
 {
@@ -9,112 +9,82 @@ namespace RetailBay.Infrastructure.EntityFramework.Migrations
     {
         static void Main(string[] args)
         {
-
-            //SeedIdentityDB();
-            SeedProductCategoryTable();
-            //SeedingProductTable();
+            //InitializeDevEnvironment();
             Console.Read();
         }
 
-        private static void SeedProductCategoryTable()
+        private static void InitializeDevEnvironment()
         {
-            Console.WriteLine("Seeding ProductCategory table...");
+            var systemDBContextFactory = new SystemDBContextFactory();
+            var tenantDBContextFactory = new TenantContextFactory();
 
-            var factory = new TenantContextFactory();
-            var context = factory.CreateDbContext(null);
+            Console.WriteLine("Creating SystemDB context...");
+            var systemDBContext = systemDBContextFactory.CreateDbContext(null);
+            Console.WriteLine("SystemDB context created!\n");
 
-            context.ProductCategories.Add(new ProductCategory
-            {
-                Id = Guid.NewGuid(),
-                Abrv = "ELC",
-                Name = "Electronics",
-                Slug = "electronics",
-                DateCreated = DateTime.UtcNow,
-                DateUpdated = DateTime.UtcNow,
-                IsDeleted = false
-            });
+            Console.WriteLine("Creating TenantDB context...");
+            var tenantDBContext = tenantDBContextFactory.CreateDbContext(null);
+            Console.WriteLine("TenantDB context created!\n");
 
-            context.ProductCategories.Add(new ProductCategory
-            {
-                Id = Guid.NewGuid(),
-                Abrv = "FDD",
-                Name = "Food",
-                Slug = "food",
-                DateCreated = DateTime.UtcNow,
-                DateUpdated = DateTime.UtcNow,
-                IsDeleted = false
-            });
+            var tenantConnectionString = tenantDBContext.Database.GetDbConnection().ConnectionString;
+            tenantConnectionString = tenantConnectionString.Replace("localhost", "retailbay_postgres_server");
 
-            try
-            {
-                context.SaveChanges();
+            Console.WriteLine("Applying migrations to SystemDB...");
+            systemDBContext.Database.Migrate();
+            Console.WriteLine("SystemDB migrations applied!\n");
 
-                Console.WriteLine("Success");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Something went wrong: /n{ex.Message}");
-            }
+            Console.WriteLine("Applying migrations to TenantDB...");
+            tenantDBContext.Database.Migrate();
+            Console.WriteLine("TenantDB migrations applied!\n");
+
+            Console.WriteLine("Seeding SystemDB database...");
+            Console.WriteLine("Adding Tenant...");
+            AddTenantToSystemDB(systemDBContext, tenantConnectionString);
+            Console.WriteLine("Tenant added!");
+            Console.WriteLine("SystemDB seed completed!\n");
+
+            Console.WriteLine("Seeding TenantDB database...");
+            Console.WriteLine("Adding Identity Roles to TenantDB database...");
+            AddIdentityRolesToTenantDB(tenantDBContext);
+            Console.WriteLine("Identity Roles added!\n");
+            Console.WriteLine("TenantDB seed completed!\n");
         }
 
-        private static void SeedingProductTable()
+        private static void AddTenantToSystemDB(SystemDBContext systemDBContext, string tenantConnectionString)
         {
-            Console.WriteLine("Seeding Product table...");
-
-            var factory = new TenantContextFactory();
-            var context = factory.CreateDbContext(null);
-
-            //var category = context.ProductCategories.First();
-            //var product = new Product
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Name = "RetailBay Test Product",
-            //    Description = "Some long description",
-            //    ProductCategoryId = category.Id,
-            //    IsPublished = false,
-            //    Slug = "retail_bay_test_product",
-            //    DateCreated = DateTime.UtcNow,
-            //    DateUpdated = DateTime.UtcNow
-            //};
-
-            //var productPrice = new ProductPrice
-            //{
-            //    Id = product.Id,
-            //    Price = 22.99M,
-            //    DateCreated = DateTime.UtcNow,
-            //    DateUpdated = DateTime.UtcNow
-            //};
-
-            //product.ProductPrice = productPrice;
-           // context.Products.Add(product);
-
-            try
+            var tenant = new Tenant
             {
-                context.SaveChanges();
+                Id = Guid.NewGuid(),
+                Name = "Tenant_one",
+                ConnectionString = tenantConnectionString,
+                HostName = "tenant1.localhost:44371;tenant1.localhost:51468;tenant1.localhost:44372",
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow
+            };
 
-                Console.WriteLine("Success");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Something went wrong: /n{ex.Message}");
-            }
+            systemDBContext.Tenants.Add(tenant);
+            systemDBContext.SaveChanges();
         }
 
-        private static void SeedIdentityDB()
+        private static void AddIdentityRolesToTenantDB(TenantDBContext tenantDBContext)
         {
-            var factory = new TenantContextFactory();
-            var ctx = factory.CreateDbContext(null);
+            tenantDBContext.Roles.Add(new ApplicationRole
+            {
+                Id = Guid.NewGuid(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                Name = "Administrator",
+                NormalizedName = "ADMINISTRATOR"
+            });
 
-            var role = new ApplicationRole
+            tenantDBContext.Roles.Add(new ApplicationRole
             {
                 Id = Guid.NewGuid(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
                 Name = "Customer",
                 NormalizedName = "CUSTOMER"
-            };
+            });
 
-            ctx.Roles.Add(role);
-            ctx.SaveChanges();
+            tenantDBContext.SaveChanges();
         }
     }
 }

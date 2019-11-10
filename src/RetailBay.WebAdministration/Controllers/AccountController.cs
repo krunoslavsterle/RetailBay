@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -35,7 +37,29 @@ namespace RetailBay.WebAdministration.Controllers
             //ViewData["ReturnUrl"] = returnUrl;
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            //await Infrastructure.EntityFramework.IdentityDBContext.SeedAsync(_userManager, _roleManager);
+            // Temp solution. 
+            var users = _userManager.Users.ToList();
+            if (users.Count == 0)
+            {
+                var admin = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    Email = "mail@mail.com",
+                    EmailConfirmed = true,
+                    NormalizedUserName = "ADMIN",
+                    UserName = "admin"
+                };
+
+                var result = await _userManager.CreateAsync(admin, "Password1.");
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception($"Failed to create Admin user");
+                    
+                }
+
+                await _userManager.AddToRoleAsync(admin, "Administrator");
+            }
 
             return View();
         }
