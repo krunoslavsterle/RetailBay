@@ -59,7 +59,7 @@ namespace RetailBay.WebShop.Controllers
 
             var vm = new IndexViewModel
             {
-                ShippingAddress = await cartShippingAddressTask,
+                ShippingAddress = Mapper.Map(await cartShippingAddressTask).ToANew<AddressDTO>(),
                 CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
                 ShippingPrice = 20
             };
@@ -87,7 +87,7 @@ namespace RetailBay.WebShop.Controllers
         }
 
         [HttpPost("addaddress")]
-        public async Task<IActionResult> AddAddress(NewAddressDTO dto)
+        public async Task<IActionResult> AddAddress(AddressDTO dto)
         {
             if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
                 return RedirectToAction("Index", "Home");
@@ -97,12 +97,58 @@ namespace RetailBay.WebShop.Controllers
             if (ModelState.IsValid)
             {
                 var address = Mapper.Map(dto).ToANew<Address>();
-                address.ContactName = $"{dto.FirstName} {dto.LastName}";
                 await _shippingAddressService.InsertShippingAddressForCartAsync(address, cartId);
                 return RedirectToAction("Index");
             }
 
             return RedirectToAction("AddAddress");
+        }
+
+        [HttpGet("changeaddress")]
+
+        public async Task<IActionResult> ChangeAddress()
+        {
+            if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return RedirectToAction("Index", "Home");
+
+            var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+            var cartTask = _cartService.GetCartAsync(cartId, $"{nameof(Cart.CartItems)}.{nameof(CartItem.Product)}.{nameof(Product.ProductPrice)}");
+            var cartShippingAddressTask = _shippingAddressService.GetShippingAddressForCartAsync(cartId);
+            await Task.WhenAll(cartTask, cartShippingAddressTask);
+
+            var cart = await cartTask;
+            var shippingAddress = await cartShippingAddressTask;
+            
+            if (cart == null)
+                return RedirectToAction("Index", "Home");
+
+            var vm = new IndexViewModel
+            {
+                CartItems = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
+                ShippingAddress = Mapper.Map(shippingAddress).ToANew<AddressDTO>(),
+                ShippingPrice = 20
+            };
+
+            return View("AddAddress", vm);
+        }
+
+        [HttpPost("changeaddress")]
+        public async Task<IActionResult> ChangeAddress(AddressDTO dto)
+        {
+            if (!Request.Cookies.ContainsKey(Constants.CART_COOKIE_NAME))
+                return RedirectToAction("Index", "Home");
+
+            var cartId = new Guid(Request.Cookies[Constants.CART_COOKIE_NAME]);
+            if (ModelState.IsValid)
+            {
+                var shippingAddress = await _shippingAddressService.GetShippingAddressForCartAsync(cartId);
+                Mapper.Map(dto).Over(shippingAddress);
+
+                await _shippingAddressService.UpdateShippingAddress(shippingAddress);
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("ChangeAddress");
         }
 
         [HttpPost]

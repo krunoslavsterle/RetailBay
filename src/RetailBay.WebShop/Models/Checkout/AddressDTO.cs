@@ -2,13 +2,10 @@
 
 namespace RetailBay.WebShop.Models.Checkout
 {
-    public class NewAddressDTO
+    public class AddressDTO
     {
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
+        public string ContactName { get; set; }
 
         public string Phone { get; set; }
 

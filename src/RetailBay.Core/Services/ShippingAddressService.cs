@@ -57,6 +57,16 @@ namespace RetailBay.Core.Services
         }
 
         /// <summary>
+        /// Updates the shipping address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns></returns>
+        public Task UpdateShippingAddress(Address address)
+        {
+            return _addressRepository.UpdateAsync(address);
+        }
+
+        /// <summary>
         /// Gets the shipping address for cart.
         /// </summary>
         /// <param name="cartId">The cart identifier.</param>

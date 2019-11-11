@@ -30,5 +30,12 @@ namespace RetailBay.Core.Interfaces
         /// <param name="cartId">The cart identifier.</param>
         /// <exception cref="Exception">Cart not found!</exception>
         Task InsertShippingAddressForCartAsync(Address address, Guid cartId);
+
+        /// <summary>
+        /// Updates the shipping address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        /// <returns></returns>
+        Task UpdateShippingAddress(Address address);
     }
 }
