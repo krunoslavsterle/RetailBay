@@ -15,7 +15,7 @@
 
         <div class="column is-6">
             <p class="is-size-4">@Model.Product.Name</p>
-            <p class="is-size-4" style="margin-bottom:100px;">$@Model.Product.ProductPrice.Price.ToString("##,###.##")</p>
+            <p class="is-size-4 product-price">$@Model.Product.ProductPrice.Price.ToString("##,###.##")</p>
             <button type="button" class="button is-medium" onclick="addToCart('@Url.Action("AddToCart", "Cart")', '@Model.Product.Id');">ADD TO CART</button>
             <br />
             <br />

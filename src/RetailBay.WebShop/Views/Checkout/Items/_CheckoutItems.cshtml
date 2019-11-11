@@ -2,13 +2,13 @@
 
 @foreach (var item in Model)
 {
-    <div class="level" style="padding-bottom:1.5rem; border-bottom:1px solid #d4d4d4; width:70%;">
-        <div class="level-left" style="width:4.6em; height: 4.6em;">
-            <img src="https://cdn.shopify.com/s/files/1/0037/5472/products/SGT-1155B_01_100x100.jpg?v=1509388434" style="border: 1px solid #d4d4d4; border-radius: 10px;" />
-            <h6 class="level-item title is-6" style="margin-left:40px;">@item.Name</h6>
+    <div class="level checkout-items-item-container">
+        <div class="level-left checkout-items-item-image-and-title">
+            <img src="https://cdn.shopify.com/s/files/1/0037/5472/products/SGT-1155B_01_100x100.jpg?v=1509388434" class="checkout-items-item-image" />
+            <h6 class="level-item title is-6 checkout-items-item-title">@item.Name</h6>
         </div>
 
-        <div class="level-left" style="margin-left:20px;">
+        <div class="level-left checkout-items-item-price">
             <h6 class="level-item title is-6">$@item.Price.ToString("###,###.##")</h6>
         </div>
     </div>

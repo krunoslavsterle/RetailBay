@@ -5,7 +5,7 @@
     Layout = "_LayoutCheckout";
 }
 
-    <div class="column is-7 container" style="padding-top:80px;">
+    <div class="column is-7 container checkout-shipping-container">
         @if (Model.ShippingAddress == null)
         {
             <partial name="Shipping/_AddShippingAddress" model="new RetailBay.WebShop.Models.Checkout.AddressDTO()" />
@@ -16,7 +16,7 @@
         }
     </div>
 
-<div class="column is-5" style="border-left:solid 1px #d4d4d4; background-color:#fafafa; padding-top:80px; padding-left:40px;">
+<div class="column is-5 checkout-items-container">
     <partial name="Items/_CheckoutItems" model="Model.CartItems" />
     <partial name="Items/_GiftCard" />
     <partial name="Items/_TotalAmount" model="Model" />

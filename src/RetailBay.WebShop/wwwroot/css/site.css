@@ -28,6 +28,114 @@
     opacity: 1;
 }
 
+.product-price {
+    margin-bottom: 100px;
+}
+
+.checkout-shipping-container {
+    padding-top: 80px!important;
+}
+
+.checkout-shipping-container-address-details {
+    margin-left: 30px;
+}
+
+.checkout-shipping-action-buttons-container {
+    margin-top: 30px;
+    margin-right: 20px;
+}
+
+.checkout-shipping-type-container {
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+    margin-top: 40px;
+}
+
+.checkout-shipping-type-item-first {
+    border-bottom:1px solid #d4d4d4; 
+    padding-top:20px; 
+    padding-bottom:20px;
+}
+
+.checkout-shipping-type-radio-label {
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+}
+
+.checkout-edit-shipping-address-container {
+    margin-right: 40px;
+}
+
+.checkout-edit-shipping-address-action-buttons-container {
+    margin-top: 30px;
+    margin-right: 20px;
+}
+
+.checkout-items-container {
+    border-left: solid 1px #d4d4d4!important;
+    background-color: #fafafa!important;
+    padding-top: 80px!important;
+    padding-left: 40px!important;
+}
+
+.checkout-items-item-container {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #d4d4d4;
+    width: 70%;
+}
+
+.checkout-items-item-image-and-title {
+    width: 4.6em;
+}
+
+.checkout-items-item-image {
+    border: 1px solid #d4d4d4;
+    border-radius: 10px;
+}
+
+.checkout-items-item-title {
+    margin-left: 40px;
+}
+
+.checkout-items-item-price {
+    margin-left: 20px;
+}
+
+.checkout-items-gift-card-container {
+    padding-bottom: 1.5rem !important;
+    border-bottom: 1px solid #d4d4d4 !important;
+    width: 70% !important;
+}
+
+.checkout-items-gift-card-input {
+    font-size: 1.25rem !important;
+}
+
+.checkout-items-gift-cart-button {
+    border-radius: 0 !important;
+    border: 0 !important;
+    background-color: #333 !important;
+    color: white !important;
+    padding: 9px 15px !important;
+}
+
+.checkout-items-subtotal-container,
+.checkout-items-total-container {
+    width: 70%!important;
+}
+
+.checkout-items-shipping-price-container {
+    width: 70% !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 1px solid #d4d4d4 !important;
+}
+
+
 .is-bold {
     font-weight:bold;
 }
