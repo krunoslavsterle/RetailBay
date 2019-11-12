@@ -48,14 +48,13 @@ namespace RetailBay.WebShop.Controllers
             var categories = await categoriesTask;
             var cart = await cartTask;
 
-            if (cart == null)
-                return View(null);
-
             var vm = new IndexViewModel
             {
-                Products = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>(),
                 Categories = Mapper.Map(categories).ToANew<IEnumerable<Models.Home.CategoryDTO>>()
             };
+
+            if (cart != null)
+                vm.Products = Mapper.Map(cart.CartItems).ToANew<IEnumerable<Models.Cart.CartItemDTO>>();
 
             return View(vm);
         }

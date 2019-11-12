@@ -6,13 +6,21 @@
 
 <partial name="_SideMenu" model="Model.Categories" />
 <div class="column is-10 container">
-    <partial name="CartItems/_CartItems" model="Model.Products" />
-    <br />
-    <div class="column is-12">
-        <h3 class="title is-5 has-text-right">Subtotal $@Model.Products.Sum(p => p.Price).ToString("###,###.##")</h3>
-        <div class="container fluid">
-            <a asp-controller="checkout" asp-action="index" class="button is-medium is-black is-pulled-right">CHECK OUT</a>
-            <a asp-controller="home" asp-action="index" class="button is-medium is-pulled-right">CONTINUE SHOPPING</a>
+    @if (Model.Products.Any())
+    {
+        <partial name="CartItems/_CartItems" model="Model.Products" />
+        <br />
+        <div class="column is-12">
+            <h3 class="title is-5 has-text-right">Subtotal $@Model.Products.Sum(p => p.Price).ToString("###,###.##")</h3>
+            <div class="container fluid">
+                <a asp-controller="checkout" asp-action="index" class="button is-medium is-black is-pulled-right">CHECK OUT</a>
+                <a asp-controller="home" asp-action="index" class="button is-medium is-pulled-right">CONTINUE SHOPPING</a>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <p class="title is-6">Your cart is currently empty.</p>
+    }
+
 </div>
