@@ -1,5 +1,5 @@
 ﻿using AgileObjects.AgileMapper.Configuration;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.WebAdministration.Infrastructure.Mapper
 {

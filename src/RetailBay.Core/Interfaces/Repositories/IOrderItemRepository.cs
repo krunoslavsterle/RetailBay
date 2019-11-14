@@ -1,4 +1,4 @@
-﻿using RetailBay.Core.Entities.TenantDB;
+﻿using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.Core.Interfaces.Repositories
 {

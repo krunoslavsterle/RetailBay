@@ -1,6 +1,6 @@
-﻿using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Interfaces;
+﻿using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities.Identity;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

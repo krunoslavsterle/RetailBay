@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
 {
@@ -8,11 +8,19 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
     {
         public void Configure(EntityTypeBuilder<ProductPrice> builder)
         {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
+            builder.ToTable("product_price");
+
+            builder.Property(p => p.ProductId)
+                .IsRequired();
+
+            builder.Property(p => p.Price)
+                .IsRequired();
 
             builder.HasOne(p => p.Product)
                 .WithOne(p => p.ProductPrice)
                 .HasForeignKey<ProductPrice>(p => p.ProductId);
+            
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
     }
 }

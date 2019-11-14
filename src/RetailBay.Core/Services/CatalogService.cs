@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Common.Collections;
+using RetailBay.Common.QueryParameters;
 using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
-using RetailBay.Core.SharedKernel.Collections;
-using RetailBay.Core.SharedKernel.QueryParameters;
+using RetailBay.Domain.Entities.TenantDB;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

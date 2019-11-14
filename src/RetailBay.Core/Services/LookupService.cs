@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RetailBay.Core.Interfaces;
+using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities;
-using RetailBay.Core.Interfaces;
-using RetailBay.Core.Interfaces.Repositories;
 
 namespace RetailBay.Core.Services
 {

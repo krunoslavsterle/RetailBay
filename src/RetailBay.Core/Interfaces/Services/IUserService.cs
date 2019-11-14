@@ -1,7 +1,8 @@
-﻿using System;
+﻿using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities.Identity;
 
 namespace RetailBay.Core.Interfaces
 {

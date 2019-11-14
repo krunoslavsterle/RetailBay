@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RetailBay.Core\RetailBay.Core.csproj" />
+    <ProjectReference Include="..\RetailBay.Domain\RetailBay.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

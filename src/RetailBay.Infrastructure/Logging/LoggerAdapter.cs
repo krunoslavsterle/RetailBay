@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.SystemDb;
+﻿using Microsoft.Extensions.Logging;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.SystemDB;
+using System;
 
 namespace RetailBay.Infrastructure.Logging
 {

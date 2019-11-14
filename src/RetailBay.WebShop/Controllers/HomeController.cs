@@ -1,9 +1,9 @@
 ﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Common.QueryParameters;
 using RetailBay.Core.Interfaces;
-using RetailBay.Core.SharedKernel.QueryParameters;
+using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.WebShop.Models.Home;
 using System;
 using System.Collections.Generic;

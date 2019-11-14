@@ -1,10 +1,11 @@
-﻿using System;
+﻿using RetailBay.Core.Interfaces;
+using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities.TenantDB;
+using RetailBay.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities.TenantDB;
-using RetailBay.Core.Interfaces;
-using RetailBay.Core.Interfaces.Repositories;
 
 namespace RetailBay.Core.Services
 {

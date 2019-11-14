@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RetailBay.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities;
 
 namespace RetailBay.Core.Interfaces
 {

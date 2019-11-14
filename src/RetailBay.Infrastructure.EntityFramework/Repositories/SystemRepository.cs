@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using RetailBay.Core.Entities.SystemDb;
+﻿using Microsoft.EntityFrameworkCore;
 using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities.SystemDB;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
 {

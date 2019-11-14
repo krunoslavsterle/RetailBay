@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.TenantDB;
+using RetailBay.WebShop.Common;
 using RetailBay.WebShop.Models.Cart;
 using System;
 using System.Collections.Generic;

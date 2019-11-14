@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.SystemDb;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.SystemDB;
+using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.Infrastructure.EntityFramework.Configurations;
 using RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB;
+using System;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {

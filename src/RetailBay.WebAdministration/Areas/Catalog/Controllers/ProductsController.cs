@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Common.Collections;
+using RetailBay.Common.QueryParameters;
 using RetailBay.Core.Interfaces;
-using RetailBay.Core.SharedKernel.Collections;
-using RetailBay.Core.SharedKernel.QueryParameters;
+using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.WebAdministration.Areas.Catalog.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using static RetailBay.WebAdministration.Areas.Catalog.Models.ProductsViewModel;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
@@ -83,6 +83,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
             {
                 var newProduct = Mapper.Map(vm).ToANew<Product>();
                 newProduct.Id = Guid.NewGuid();
+                newProduct.ProductCategory = null;
 
                 newProduct.ProductPrice = new ProductPrice
                 {

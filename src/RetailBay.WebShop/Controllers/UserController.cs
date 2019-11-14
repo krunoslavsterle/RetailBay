@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Enums;
 using RetailBay.WebShop.Models.User;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
 {

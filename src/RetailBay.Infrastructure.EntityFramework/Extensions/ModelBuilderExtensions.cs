@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RetailBay.Core.SharedKernel.Extensions;
+using RetailBay.Common.Extensions;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {

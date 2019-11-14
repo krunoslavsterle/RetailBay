@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RetailBay.Domain.Entities.SystemDB;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities.SystemDb;
 
 namespace RetailBay.Core.Interfaces.Repositories
 {

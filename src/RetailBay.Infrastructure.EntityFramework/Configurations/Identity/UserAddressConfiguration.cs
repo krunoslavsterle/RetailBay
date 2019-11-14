@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.Identity;
+using RetailBay.Domain.Entities.Identity;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations
 {
@@ -8,7 +8,16 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<UserAddress> builder)
         {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
+            builder.ToTable("user_address");
+
+            builder.Property(p => p.UserId)
+                .IsRequired();
+
+            builder.Property(p => p.AddressId)
+                .IsRequired();
+
+            builder.Property(p => p.AddressType)
+                .IsRequired();
 
             builder.HasOne(p => p.User)
                 .WithMany(p => p.UserAddresses)
@@ -17,6 +26,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations
             builder.HasOne(p => p.Address)
                 .WithMany(p => p.UserAddresses)
                 .HasForeignKey(p => p.AddressId);
+            
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
     }
 }

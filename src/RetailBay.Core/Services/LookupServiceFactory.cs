@@ -1,6 +1,6 @@
-﻿using System;
-using RetailBay.Core.Entities;
-using RetailBay.Core.Interfaces;
+﻿using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities;
+using System;
 
 namespace RetailBay.Core.Services
 {

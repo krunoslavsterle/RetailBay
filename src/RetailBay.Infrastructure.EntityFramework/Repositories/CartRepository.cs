@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
 {

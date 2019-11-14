@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core;
+﻿using Microsoft.AspNetCore.Mvc;
 using RetailBay.Core.Interfaces;
+using RetailBay.WebShop.Common;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.ViewComponents
 {

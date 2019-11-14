@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.SystemDB;
 using System;
 
 namespace RetailBay.Infrastructure.EntityFramework.Migrations

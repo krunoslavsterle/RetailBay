@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
 {
@@ -8,7 +8,13 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
     {
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
-            builder.ForNpgsqlUseXminAsConcurrencyToken();
+            builder.ToTable("cart_item");
+
+            builder.Property(p => p.CartId)
+                .IsRequired();
+
+            builder.Property(p => p.ProductId)
+                .IsRequired();
 
             builder.HasOne(p => p.Cart)
                 .WithMany(c => c.CartItems)
@@ -17,6 +23,9 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
             builder.HasOne(p => p.Product)
                 .WithMany(p => p.CartItems)
                 .HasForeignKey(p => p.ProductId);
+            
+            
+            builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
     }
 }

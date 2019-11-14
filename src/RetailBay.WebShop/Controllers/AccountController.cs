@@ -1,14 +1,13 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.WebShop.Common;
 using RetailBay.WebShop.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebShop.Controllers
 {

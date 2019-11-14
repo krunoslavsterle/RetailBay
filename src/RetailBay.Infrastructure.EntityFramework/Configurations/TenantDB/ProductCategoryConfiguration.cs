@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.TenantDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
 {
@@ -8,6 +8,8 @@ namespace RetailBay.Infrastructure.EntityFramework.Configurations.TenantDB
     {
         public void Configure(EntityTypeBuilder<ProductCategory> builder)
         {
+            builder.ToTable("product_category");
+
             builder.ForNpgsqlUseXminAsConcurrencyToken();
         }
     }

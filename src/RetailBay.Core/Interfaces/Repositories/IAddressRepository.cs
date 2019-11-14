@@ -1,4 +1,4 @@
-﻿using RetailBay.Core.Entities.Identity;
+﻿using RetailBay.Domain.Entities.Identity;
 
 namespace RetailBay.Core.Interfaces.Repositories
 {

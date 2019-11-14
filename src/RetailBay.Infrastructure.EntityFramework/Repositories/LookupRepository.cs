@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities;
 using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities;
 
 namespace RetailBay.Infrastructure.EntityFramework.Repositories
 {

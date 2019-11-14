@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.WebAdministration.Areas.Catalog.Models.Order;
+using System;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 {

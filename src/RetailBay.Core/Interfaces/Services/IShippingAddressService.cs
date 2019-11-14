@@ -1,4 +1,4 @@
-﻿using RetailBay.Core.Entities.Identity;
+﻿using RetailBay.Domain.Entities.Identity;
 using System;
 using System.Threading.Tasks;
 

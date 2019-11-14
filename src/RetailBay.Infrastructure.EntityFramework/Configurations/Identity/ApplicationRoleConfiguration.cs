@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RetailBay.Core.Entities.Identity;
+using RetailBay.Domain.Entities.Identity;
 
 namespace RetailBay.Infrastructure.EntityFramework.Configurations
 {

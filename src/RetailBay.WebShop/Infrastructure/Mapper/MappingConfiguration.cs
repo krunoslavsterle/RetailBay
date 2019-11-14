@@ -1,7 +1,5 @@
 ﻿using AgileObjects.AgileMapper.Configuration;
-using AgileObjects.AgileMapper;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.TenantDB;
+using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.WebShop.Models.Cart;
 
 namespace RetailBay.WebShop.Infrastructure.Mapper

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RetailBay.Common.Collections;
+using System;
 using System.Collections.Generic;
-using RetailBay.Core.SharedKernel.Collections;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Models
 {

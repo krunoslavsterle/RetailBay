@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RetailBay.Common.Collections;
+using RetailBay.Common.QueryParameters;
+using RetailBay.Domain.Entities.TenantDB;
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using RetailBay.Core.Entities.TenantDB;
-using RetailBay.Core.SharedKernel.Collections;
-using RetailBay.Core.SharedKernel.QueryParameters;
 
 namespace RetailBay.Core.Interfaces
 {

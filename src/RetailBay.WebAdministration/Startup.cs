@@ -1,22 +1,22 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AgileObjects.AgileMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using RetailBay.Core.Entities.SystemDb;
-using RetailBay.Infrastructure.EntityFramework;
-using RetailBay.Infrastructure.Multitenancy;
-using RetailBay.Infrastructure;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using System;
-using StackExchange.Profiling.Storage;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using RetailBay.Core;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.SystemDB;
+using RetailBay.Infrastructure;
+using RetailBay.Infrastructure.EntityFramework;
+using RetailBay.Infrastructure.Multitenancy;
+using StackExchange.Profiling.Storage;
+using System;
 using System.Text;
-using AgileObjects.AgileMapper;
 
 namespace RetailBay.WebAdministration
 {

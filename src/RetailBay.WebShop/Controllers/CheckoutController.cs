@@ -1,12 +1,10 @@
 ﻿using AgileObjects.AgileMapper;
-using AgileObjects.AgileMapper.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.TenantDB;
 using RetailBay.Core.Interfaces;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.TenantDB;
+using RetailBay.WebShop.Common;
 using RetailBay.WebShop.Models.Checkout;
 using System;
 using System.Collections.Generic;

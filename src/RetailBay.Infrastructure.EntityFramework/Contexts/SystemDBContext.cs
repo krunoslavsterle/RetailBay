@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Domain.Entities.SystemDB;
 using RetailBay.Infrastructure.EntityFramework.Configurations.SystemDB;
 
 namespace RetailBay.Infrastructure.EntityFramework

@@ -1,6 +1,6 @@
-﻿using RetailBay.Core.Entities.TenantDB;
-using RetailBay.Core.Interfaces;
+﻿using RetailBay.Core.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities.TenantDB;
 using System;
 using System.Threading.Tasks;
 

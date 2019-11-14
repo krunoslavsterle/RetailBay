@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using AgileObjects.AgileMapper;
+﻿using AgileObjects.AgileMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,13 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.SystemDB;
 using RetailBay.Infrastructure;
 using RetailBay.Infrastructure.EntityFramework;
 using RetailBay.Infrastructure.Multitenancy;
 using RetailBay.WebShop.Infrastructure.Logging;
 using StackExchange.Profiling.Storage;
+using System;
+using System.Text;
 
 namespace RetailBay.WebShop
 {

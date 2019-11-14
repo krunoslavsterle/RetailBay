@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core.Entities.Identity;
+using RetailBay.Domain.Entities.Identity;
 using RetailBay.WebAdministration.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RetailBay.WebAdministration.Controllers
 {

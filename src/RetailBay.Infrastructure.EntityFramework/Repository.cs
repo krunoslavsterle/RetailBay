@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using RetailBay.Common.Collections;
+using RetailBay.Common.QueryParameters;
+using RetailBay.Core.Interfaces.Repositories;
+using RetailBay.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using RetailBay.Core.Entities;
-using RetailBay.Core.Interfaces.Repositories;
-using RetailBay.Core.SharedKernel.Collections;
-using RetailBay.Core.SharedKernel.QueryParameters;
 
 namespace RetailBay.Infrastructure.EntityFramework
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RetailBay.Domain.Entities.Identity;
+using RetailBay.Domain.Entities.TenantDB;
+using RetailBay.Domain.Enums;
+using System;
 using System.Collections.Generic;
-using RetailBay.Core;
-using RetailBay.Core.Entities.Identity;
-using RetailBay.Core.Entities.TenantDB;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Models.Order
 {

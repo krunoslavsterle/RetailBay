@@ -1,4 +1,4 @@
-﻿using RetailBay.Core.Entities;
+﻿using RetailBay.Domain.Entities;
 
 namespace RetailBay.Core.Interfaces
 {

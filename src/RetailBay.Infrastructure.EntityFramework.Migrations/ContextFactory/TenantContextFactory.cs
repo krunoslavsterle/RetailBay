@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
-using RetailBay.Core.Entities.SystemDb;
+using RetailBay.Domain.Entities.SystemDB;
 
 namespace RetailBay.Infrastructure.EntityFramework.Migrations
 {
