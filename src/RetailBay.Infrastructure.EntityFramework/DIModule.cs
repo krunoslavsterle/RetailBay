@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RetailBay.Application.Common.Interfaces;
 using RetailBay.Core.Interfaces.Repositories;
 using RetailBay.Infrastructure.EntityFramework.Repositories;
 
@@ -16,6 +17,7 @@ namespace RetailBay.Infrastructure.EntityFramework
             }, ServiceLifetime.Scoped);
 
             services.AddDbContext<TenantDBContext>(ServiceLifetime.Scoped);
+            services.AddScoped<ITenantDBContext>(provider => provider.GetService<TenantDBContext>());
 
             services.AddScoped<ISystemRepository, SystemRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();

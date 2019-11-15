@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RetailBay.Application.Common.Interfaces;
 using RetailBay.Domain.Entities.Identity;
 using RetailBay.Domain.Entities.SystemDB;
 using RetailBay.Domain.Entities.TenantDB;
@@ -13,7 +14,7 @@ namespace RetailBay.Infrastructure.EntityFramework
     /// TenantDBContext implementation.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext{RetailBay.Core.Entities.Identity.ApplicationUser, RetailBay.Core.Entities.Identity.ApplicationRole, System.Guid}" />
-    public class TenantDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public class TenantDBContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, ITenantDBContext
     {
         private readonly string _connectionString;
 

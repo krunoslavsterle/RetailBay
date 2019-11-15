@@ -1,17 +1,16 @@
 ﻿using AgileObjects.AgileMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RetailBay.Common.Collections;
-using RetailBay.Common.QueryParameters;
-using RetailBay.Core.Interfaces;
-using RetailBay.Domain.Entities.TenantDB;
-using RetailBay.WebAdministration.Areas.Catalog.Models;
+using RetailBay.Application.ProductCategories.Queries.GetProductCategories;
+using RetailBay.Application.Products.Commands.DeleteProduct;
+using RetailBay.Application.Products.Commands.EditProduct;
+using RetailBay.Application.Products.Commands.InsertProduct;
+using RetailBay.Application.Products.Queries.GetEditProductVM;
+using RetailBay.Application.Products.Queries.GetProductsPagedList;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using static RetailBay.WebAdministration.Areas.Catalog.Models.ProductsViewModel;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 {
@@ -19,84 +18,39 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     [Authorize(Roles = "Administrator")]
     public class ProductsController : Controller
     {
-        private readonly ICatalogService _catalogService;
-        private readonly ILookupServiceFactory _lookupServiceFactory;
-        private readonly IAppLogger<ProductsController> _logger;
+        private readonly IMediator _mediator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductsController"/> class.
         /// </summary>
-        /// <param name="catalogService">The catalog service.</param>
-        /// <param name="lookupService">The lookup service.</param>
-        /// <param name="logger">The logger.</param>
-        public ProductsController(ICatalogService catalogService, ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
+        /// <param name="mediator">The Mediator instance.</param>
+        public ProductsController(IMediator mediator)
         {
-            _catalogService = catalogService;
-            _lookupServiceFactory = lookupServiceFactory;
-            _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpGet]
         [Route("products")]
         public async Task<IActionResult> Products(int pageNumber = 1, int pageSize = 10, string orderBy = "", bool isAscending = true)
         {
-            _logger.LogInformation("Request received for [{action}] GET action", nameof(ProductsController.Products));
-
-            if (string.IsNullOrWhiteSpace(orderBy))
-                orderBy = nameof(Product.DateCreated);
-            
-            var sortingParameters = new SortingParameters();
-            sortingParameters.Add(orderBy, isAscending);
-            var list = await _catalogService.GetProductsPagedAsync(null, sortingParameters, pageNumber, pageSize);
-
-            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
-            var productCategories = await lkpCategories.GetAllAsync();
-                        
-            var vm = new ProductsViewModel
-            {
-                Products = new PagedCollection<ProductDTO>(Mapper.Map(list).ToANew<IEnumerable<ProductDTO>>(), list.TotalItemCount, list.PageNumber, list.PageSize),
-                Categories = productCategories.ToDictionary(key => key.Id, value => value.Name)
-            };
-
-            return View(vm);
+            return View(await _mediator.Send(new GetProductsPagedListQuery(pageNumber, pageSize)));
         }
 
         [HttpGet]
         [Route("products/create")]
         public async Task<IActionResult> Create()
         {
-            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
-            var productCategories = await lkpCategories.GetAllAsync();
-
-            ViewBag.ProductCategories = new SelectList(productCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name));
+            var categories = await _mediator.Send(new GetProductCategoriesQuery());
+            ViewBag.ProductCategories = new SelectList(categories, nameof(ProductCategoryDTO.Id), nameof(ProductCategoryDTO.Name));
             return View();
         }
 
         [HttpPost]
         [Route("products/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateProductViewModel vm)
+        public async Task<IActionResult> Create(InsertProductCommand command)
         {
-            if (vm == null) throw new ArgumentNullException(nameof(vm));
-
-            if (ModelState.IsValid)
-            {
-                var newProduct = Mapper.Map(vm).ToANew<Product>();
-                newProduct.Id = Guid.NewGuid();
-                newProduct.ProductCategory = null;
-
-                newProduct.ProductPrice = new ProductPrice
-                {
-                    Id = Guid.NewGuid(),
-                    ProductId = newProduct.Id,
-                    Price = vm.Price,
-                    DateCreated = DateTime.UtcNow,
-                    DateUpdated = DateTime.UtcNow
-                };
-
-                await _catalogService.CreateProductAsync(newProduct);
-            }
-
+            await _mediator.Send(command);
             return RedirectToAction(nameof(ProductsController.Products));
         }
 
@@ -104,32 +58,21 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [Route("products/edit")]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var product = await _catalogService.GetProductAsync(id);
-            var vm = Mapper.Map(product).ToANew<EditProductViewModel>();
-            vm.Price = product.ProductPrice.Price;
-
-            var lkpCategories = _lookupServiceFactory.Create<ProductCategory>();
-            var productCategories = await lkpCategories.GetAllAsync();
-            ViewBag.ProductCategories = new SelectList(productCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name));
-            return View(vm);
+            var vm = await _mediator.Send(new GetEditProductVMQuery(id));
+            
+            ViewBag.ProductCategories = new SelectList(vm.Categories, "Key", "Value");
+            return View(vm.Product);
         }
 
         [HttpPost]
         [Route("products/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditProductViewModel vm)
+        public async Task<IActionResult> Edit(ProductDTO product)
         {
-            if (vm == null) throw new ArgumentNullException(nameof(vm));
+            var command = Mapper.Map(product).ToANew<EditProductCommand>();
+            await _mediator.Send(command);
 
-            if (ModelState.IsValid)
-            {
-                var domain = await _catalogService.GetProductAsync(vm.Id);
-                Mapper.Map(vm).Over(domain);
-
-                await _catalogService.EditProductAsync(domain);
-            }
-
-            return RedirectToAction(nameof(ProductsController.Edit), new { id = vm.Id });
+            return RedirectToAction(nameof(ProductsController.Edit), new { id = product.Id });
         }
 
         [HttpPost]
@@ -137,7 +80,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _catalogService.DeleteProductAsync(id);
+            await _mediator.Send(new DeleteProductCommand(id));
             return RedirectToAction(nameof(ProductsController.Products));
         }
     }

@@ -17,6 +17,7 @@ using RetailBay.Infrastructure.Multitenancy;
 using StackExchange.Profiling.Storage;
 using System;
 using System.Text;
+using RetailBay.Application;
 
 namespace RetailBay.WebAdministration
 {
@@ -59,6 +60,7 @@ namespace RetailBay.WebAdministration
             });
 
             services.AddCoreDependencies();
+            services.AddApplication();
             services.AddInfrastructureDependencies();
             services.AddInfrastructureEFDependencies();
             services.AddMultitenancy<Tenant, TenantResolver>();
