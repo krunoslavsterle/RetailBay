@@ -18,6 +18,8 @@ using StackExchange.Profiling.Storage;
 using System;
 using System.Text;
 using RetailBay.Application;
+using RetailBay.Application.Common.Interfaces;
+using FluentValidation.AspNetCore;
 
 namespace RetailBay.WebAdministration
 {
@@ -47,7 +49,7 @@ namespace RetailBay.WebAdministration
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<TenantDBContext>()
                 .AddDefaultTokenProviders();
-            
+
             services.ConfigureApplicationCookie(options =>
             {   
                 options.Cookie.HttpOnly = true;
@@ -75,7 +77,8 @@ namespace RetailBay.WebAdministration
             .AddEntityFramework();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ITenantDBContext>());
 
             _services = services;
         }
