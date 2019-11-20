@@ -1,8 +1,8 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using RetailBay.Application.ProductCategories.Queries;
 using RetailBay.Application.ProductCategories.Queries.GetProductCategories;
 using RetailBay.Application.Products.Commands.DeleteProduct;
 using RetailBay.Application.Products.Commands.EditProduct;
@@ -20,10 +20,6 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     {
         private readonly IMediator _mediator;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProductsController"/> class.
-        /// </summary>
-        /// <param name="mediator">The Mediator instance.</param>
         public ProductsController(IMediator mediator)
         {
             _mediator = mediator;
@@ -50,8 +46,13 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InsertProductCommand command)
         {
-            await _mediator.Send(command);
-            return RedirectToAction(nameof(ProductsController.Products));
+            if (ModelState.IsValid)
+            {
+                await _mediator.Send(command);
+                return RedirectToAction(nameof(ProductsController.Products));
+            }
+
+            return await Create();
         }
 
         [HttpGet]
@@ -67,12 +68,15 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [HttpPost]
         [Route("products/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductDTO product)
+        public async Task<IActionResult> Edit(EditProductCommand command)
         {
-            var command = Mapper.Map(product).ToANew<EditProductCommand>();
-            await _mediator.Send(command);
+            if (ModelState.IsValid)
+            {
+                await _mediator.Send(command);
+                return RedirectToAction(nameof(ProductsController.Edit), new { id = command.Id });
+            }
 
-            return RedirectToAction(nameof(ProductsController.Edit), new { id = product.Id });
+            return await Edit(command.Id);
         }
 
         [HttpPost]

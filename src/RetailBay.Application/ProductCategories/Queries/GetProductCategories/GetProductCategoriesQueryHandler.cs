@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace RetailBay.Application.ProductCategories.Queries.GetProductCategories
 {
-    public class GetProductCategoriesHandler : IRequestHandler<GetProductCategoriesQuery, IEnumerable<ProductCategoryDTO>>
+    public class GetProductCategoriesQueryHandler : IRequestHandler<GetProductCategoriesQuery, IEnumerable<ProductCategoryDTO>>
     {
         private readonly ITenantDBContext _context;
 
-        public GetProductCategoriesHandler(ITenantDBContext tenantDBContext)
+        public GetProductCategoriesQueryHandler(ITenantDBContext tenantDBContext)
         {
             _context = tenantDBContext;
         }
@@ -32,7 +32,9 @@ namespace RetailBay.Application.ProductCategories.Queries.GetProductCategories
                     Abrv = category.Abrv,
                     Name = category.Name,
                     Slug = category.Slug,
-                    IsDeleted = category.IsDeleted
+                    IsDeleted = category.IsDeleted,
+                    DateCreated = category.DateCreated,
+                    DateUpdated = category.DateUpdated
                 };
         }
     }

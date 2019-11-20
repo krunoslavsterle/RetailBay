@@ -1,5 +1,4 @@
-﻿@model ProductCategoriesViewModel
-@using RetailBay.WebAdministration.TagHelpers
+﻿@model IEnumerable<RetailBay.Application.ProductCategories.Queries.ProductCategoryDTO>
 
 @{
     ViewData["Title"] = "Product Categories";
@@ -28,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var pCategory in Model.ProductCategories)
+        @foreach (var pCategory in Model)
         {
             <tr>
                 <td>@pCategory.Name</td>

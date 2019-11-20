@@ -1,11 +1,14 @@
 ﻿using AgileObjects.AgileMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Application.ProductCategories.Commands.InsertProductCategory;
+using RetailBay.Application.ProductCategories.Queries.GetProductCategories;
+using RetailBay.Application.ProductCategories.Queries.GetProductCategory;
 using RetailBay.Core.Interfaces;
 using RetailBay.Domain.Entities.TenantDB;
 using RetailBay.WebAdministration.Areas.Catalog.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
@@ -15,32 +18,24 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     public class CategoriesController : Controller
     {
         private readonly ILookupServiceFactory _lookupServiceFactory;
-        private readonly IAppLogger<ProductsController> _logger;
+        private readonly IMediator _mediator;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoriesController"/> class.
         /// </summary>
         /// <param name="lookupServiceFactory">The lookup service factory.</param>
-        /// <param name="logger">The logger.</param>
-        public CategoriesController(ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
+        public CategoriesController(ILookupServiceFactory lookupServiceFactory, IMediator mediator)
         {
             _lookupServiceFactory = lookupServiceFactory;
-            _logger = logger;
+            _mediator = mediator;
         }
         
         [HttpGet]
         [Route("categories")]
         public async Task<IActionResult> Categories()
         {
-            var lkpService = _lookupServiceFactory.Create<ProductCategory>();
-            var productCategories = await lkpService.GetAllAsync();
-
-            var vm = new ProductCategoriesViewModel()
-            {
-                ProductCategories = Mapper.Map(productCategories).ToANew<IEnumerable<ProductCategoriesViewModel.ProductCategoryDTO>>()
-            };
-
-            return View(vm);
+            return View(await _mediator.Send(new GetProductCategoriesQuery()));
         }
 
         [HttpGet]
@@ -53,17 +48,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [HttpPost]
         [Route("categories/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateProductCategoryViewModel vm)
+        public async Task<IActionResult> Create(InsertProductCategoryCommand command)
         {
-            if (ModelState.IsValid)
-            {
-                var newCategory = Mapper.Map(vm).ToANew<ProductCategory>();
-                newCategory.Id = Guid.NewGuid();
-
-                var lkpService = _lookupServiceFactory.Create<ProductCategory>();
-                await lkpService.InsertAsync(newCategory);
-            }
-
+            await _mediator.Send(command);
             return RedirectToAction(nameof(CategoriesController.Categories));
         }
 
@@ -71,11 +58,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [Route("categories/edit")]
         public async Task<IActionResult> Edit(string slug)
         {
-            var lkpService = _lookupServiceFactory.Create<ProductCategory>();
-            var category = await lkpService.GetOneBySlugAsync(slug);
-
-            var vm = Mapper.Map(category).ToANew<EditProductCategoryViewModel>();
-            return View(vm);
+            return View(await _mediator.Send(new GetProductCategoryQuery { Slug = slug }));
         }
 
         [HttpPost]

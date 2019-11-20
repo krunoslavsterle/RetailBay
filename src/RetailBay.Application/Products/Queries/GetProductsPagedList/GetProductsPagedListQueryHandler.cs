@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace RetailBay.Application.Products.Queries.GetProductsPagedList
 {
-    public class GetProductsPagedListHandler : IRequestHandler<GetProductsPagedListQuery, ProductsVM>
+    public class GetProductsPagedListQueryHandler : IRequestHandler<GetProductsPagedListQuery, ProductsVM>
     {
         private readonly ITenantDBContext _context;
         
-        public GetProductsPagedListHandler(ITenantDBContext tenantDBContext)
+        public GetProductsPagedListQueryHandler(ITenantDBContext tenantDBContext)
         {
             _context = tenantDBContext;
         }

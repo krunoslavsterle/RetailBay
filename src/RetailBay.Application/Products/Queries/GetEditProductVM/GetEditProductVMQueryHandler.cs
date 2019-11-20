@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace RetailBay.Application.Products.Queries.GetEditProductVM
 {
-    public class GetEditProductVMHandler : IRequestHandler<GetEditProductVMQuery, EditProductVM>
+    public class GetEditProductVMQueryHandler : IRequestHandler<GetEditProductVMQuery, EditProductVM>
     {
         private readonly ITenantDBContext _context;
 
-        public GetEditProductVMHandler(ITenantDBContext tenantDBContext)
+        public GetEditProductVMQueryHandler(ITenantDBContext tenantDBContext)
         {
             _context = tenantDBContext;
         }

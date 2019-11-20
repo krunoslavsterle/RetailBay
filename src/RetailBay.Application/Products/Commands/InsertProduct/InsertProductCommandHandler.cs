@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RetailBay.Application.Products.Commands.InsertProduct
 {
-    public class InsertProductHandler : IRequestHandler<InsertProductCommand, int>
+    public class InsertProductCommandHandler : IRequestHandler<InsertProductCommand, int>
     {
         private readonly ITenantDBContext _context;
 
-        public InsertProductHandler(ITenantDBContext tenantDBContext)
+        public InsertProductCommandHandler(ITenantDBContext tenantDBContext)
         {
             _context = tenantDBContext;
         }
