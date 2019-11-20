@@ -46,13 +46,11 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InsertProductCommand command)
         {
-            if (ModelState.IsValid)
-            {
-                await _mediator.Send(command);
-                return RedirectToAction(nameof(ProductsController.Products));
-            }
-
-            return await Create();
+            if (!ModelState.IsValid)
+                return await Create();
+            
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(ProductsController.Products));
         }
 
         [HttpGet]
@@ -70,13 +68,11 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProductCommand command)
         {
-            if (ModelState.IsValid)
-            {
-                await _mediator.Send(command);
-                return RedirectToAction(nameof(ProductsController.Edit), new { id = command.Id });
-            }
-
-            return await Edit(command.Id);
+            if (!ModelState.IsValid)
+                return await Edit(command.Id);
+             
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(ProductsController.Edit), new { id = command.Id });
         }
 
         [HttpPost]

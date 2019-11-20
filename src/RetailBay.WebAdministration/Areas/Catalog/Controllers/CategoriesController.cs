@@ -50,6 +50,9 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InsertProductCategoryCommand command)
         {
+            if (!ModelState.IsValid)
+                return Create();
+
             await _mediator.Send(command);
             return RedirectToAction(nameof(CategoriesController.Categories));
         }
