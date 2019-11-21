@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace RetailBay.Application.Products.Commands.EditProduct
 {
-    public class EditProductHandler : IRequestHandler<EditProductCommand, int>
+    public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, int>
     {
         private readonly ITenantDBContext _context;
 
-        public EditProductHandler(ITenantDBContext tenantDBContext)
+        public UpdateProductCommandHandler(ITenantDBContext tenantDBContext)
         {
             _context = tenantDBContext;
         }
 
-        public async Task<int> Handle(EditProductCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Products
                 .Where(p => p.Id == request.Id)

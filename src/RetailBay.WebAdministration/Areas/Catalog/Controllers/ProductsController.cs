@@ -66,7 +66,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [HttpPost]
         [Route("products/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditProductCommand command)
+        public async Task<IActionResult> Edit(UpdateProductCommand command)
         {
             if (!ModelState.IsValid)
                 return await Edit(command.Id);

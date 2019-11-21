@@ -3,7 +3,7 @@ using System;
 
 namespace RetailBay.Application.Products.Commands.EditProduct
 {
-    public class EditProductCommand : IRequest<int>
+    public class UpdateProductCommand : IRequest<int>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

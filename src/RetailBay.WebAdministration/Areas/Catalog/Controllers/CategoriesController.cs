@@ -1,14 +1,11 @@
-﻿using AgileObjects.AgileMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RetailBay.Application.ProductCategories.Commands.DeleteProductCategory;
 using RetailBay.Application.ProductCategories.Commands.InsertProductCategory;
+using RetailBay.Application.ProductCategories.Commands.UpdateProductCategory;
 using RetailBay.Application.ProductCategories.Queries.GetProductCategories;
 using RetailBay.Application.ProductCategories.Queries.GetProductCategory;
-using RetailBay.Core.Interfaces;
-using RetailBay.Domain.Entities.TenantDB;
-using RetailBay.WebAdministration.Areas.Catalog.Models;
-using System;
 using System.Threading.Tasks;
 
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
@@ -17,17 +14,10 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
-        private readonly ILookupServiceFactory _lookupServiceFactory;
         private readonly IMediator _mediator;
 
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CategoriesController"/> class.
-        /// </summary>
-        /// <param name="lookupServiceFactory">The lookup service factory.</param>
-        public CategoriesController(ILookupServiceFactory lookupServiceFactory, IMediator mediator)
+        public CategoriesController(IMediator mediator)
         {
-            _lookupServiceFactory = lookupServiceFactory;
             _mediator = mediator;
         }
         
@@ -67,27 +57,21 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [HttpPost]
         [Route("categories/edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditProductCategoryViewModel vm)
+        public async Task<IActionResult> Edit(UpdateProductCategoryCommand command)
         {
-            if (ModelState.IsValid)
-            {
-                var lkpService = _lookupServiceFactory.Create<ProductCategory>();
-                var category = await lkpService.GetOneById(vm.Id);
-                Mapper.Map(vm).Over(category);
+            if (!ModelState.IsValid)
+                return await Edit(command.Slug);
 
-                await lkpService.UpdateAsync(category);
-            }
-
-            return RedirectToAction(nameof(CategoriesController.Edit), new { slug = vm.Slug });
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(CategoriesController.Categories));
         }
 
         [HttpPost]
         [Route("categories/delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(DeleteProductCategoryCommand command)
         {
-            var lkpService = _lookupServiceFactory.Create<ProductCategory>();
-            await lkpService.DeleteAsync(id);
+            await _mediator.Send(command);
             return RedirectToAction(nameof(CategoriesController.Categories));
         }
     }
