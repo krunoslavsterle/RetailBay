@@ -1,9 +1,9 @@
-﻿using AgileObjects.AgileMapper;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RetailBay.Core.Interfaces;
+using RetailBay.Application.Orders.Queries.GetOrder;
+using RetailBay.Application.Orders.Queries.GetOrders;
 using RetailBay.Domain.Entities.TenantDB;
-using RetailBay.WebAdministration.Areas.Catalog.Models.Order;
 using System;
 using System.Threading.Tasks;
 
@@ -14,27 +14,17 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
     [Authorize(Roles = "Administrator")]
     public class OrdersController : Controller
     {
-        private readonly IOrderService _orderService;
-        private readonly ILookupServiceFactory _lookupServiceFactory;
-        private readonly IAppLogger<ProductsController> _logger;
+        private readonly IMediator _mediator;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProductsController"/> class.
-        /// </summary>
-        /// <param name="catalogService">The catalog service.</param>
-        /// <param name="lookupService">The lookup service.</param>
-        /// <param name="logger">The logger.</param>
-        public OrdersController(IOrderService orderService, ILookupServiceFactory lookupServiceFactory, IAppLogger<ProductsController> logger)
+        public OrdersController(IMediator mediator)
         {
-            _orderService = orderService;
-            _lookupServiceFactory = lookupServiceFactory;
-            _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var orders = await _orderService.GetAllOrdersAsync();
+            var orders = await _mediator.Send(new GetOrdersQuery());
             return View(orders);
         }
 
@@ -42,11 +32,8 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         [Route("details")]
         public async Task<IActionResult> Details(Guid id)
         {
-            var vm = new DetailsViewModel();
-            var order = await _orderService.GetOrderAsync(id, nameof(Order.ShippingAddress), nameof(Order.OrderItems));
-
-            vm.Order = Mapper.Map(order).ToANew<DetailsViewModel.OrderDTO>();
-            return View(vm);
+            var order = await _mediator.Send(new GetOrderQuery(id, nameof(Order.ShippingAddress), nameof(Order.User), $"{nameof(Order.OrderItems)}.{nameof(OrderItem.Product)}"));
+            return View(order);
         }
     }
 }

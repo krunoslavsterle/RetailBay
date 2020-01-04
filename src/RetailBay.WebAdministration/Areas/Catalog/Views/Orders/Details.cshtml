@@ -1,4 +1,4 @@
-﻿@model RetailBay.WebAdministration.Areas.Catalog.Models.Order.DetailsViewModel
+﻿@model RetailBay.Application.Orders.Queries.OrderDTO
 
 @{
     ViewData["Title"] = "Order Detail";
@@ -11,14 +11,52 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-12">
-        @foreach(var orderItem in Model.Order.OrderItems)
-        {
-            <div>
-                <span>Product: @orderItem.Product.Name</span>
-                <span>Price: @orderItem.ProductPrice</span>
-            </div>
-        }
+        <span><strong>Created on:</strong></span>
+        <span>@Model.DateCreated.ToString()</span>
+    </div>
+
+    <div class="col-md-12">
+        <span><strong>Status:</strong></span>
+        <span>@Model.OrderStatus.ToString()</span>
+    </div>
+
+    <div class="col-md-12">
+        <span><strong>Customer:</strong></span>
+        <span>@Model.ShippingAddress.ContactName.ToString()</span>
+    </div>
+
+    <div class="col-md-12">
+        <span><strong>Total:</strong></span>
+        <span>@Model.OrderTotal.ToString("C")</span>
+    </div>
+
+    <div class="col-md-12">
+        <span><strong>Shipping Address:</strong></span>
+        <span>@($"{Model.ShippingAddress.StreetAddress}, {Model.ShippingAddress.PostalCode} {Model.ShippingAddress.City}, {Model.ShippingAddress.Country}") </span>
     </div>
 </div>
+
+    <br />
+    <h4>Order Items</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Id</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderItem in Model.OrderItems)
+            {
+                <tr>
+                    <td>@orderItem.Product</td>
+                    <td>@orderItem.ProductPrice.ToString("C")</td>
+                    <td>@orderItem.ProductId.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
