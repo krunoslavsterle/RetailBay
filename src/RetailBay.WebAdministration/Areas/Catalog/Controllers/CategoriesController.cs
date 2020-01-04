@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
+    [Route("categories")]
     [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
@@ -22,21 +23,20 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         }
         
         [HttpGet]
-        [Route("categories")]
         public async Task<IActionResult> Categories()
         {
             return View(await _mediator.Send(new GetProductCategoriesQuery()));
         }
 
         [HttpGet]
-        [Route("categories/create")]
+        [Route("create")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("categories/create")]
+        [Route("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InsertProductCategoryCommand command)
         {
@@ -48,14 +48,14 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         }
 
         [HttpGet]
-        [Route("categories/edit")]
+        [Route("edit")]
         public async Task<IActionResult> Edit(string slug)
         {
             return View(await _mediator.Send(new GetProductCategoryQuery { Slug = slug }));
         }
 
         [HttpPost]
-        [Route("categories/edit")]
+        [Route("edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateProductCategoryCommand command)
         {
@@ -67,7 +67,7 @@ namespace RetailBay.WebAdministration.Areas.Catalog.Controllers
         }
 
         [HttpPost]
-        [Route("categories/delete")]
+        [Route("delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DeleteProductCategoryCommand command)
         {
